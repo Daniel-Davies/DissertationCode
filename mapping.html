@@ -1,0 +1,40 @@
+<html><body>
+<input id="fileInput" type="file"/>
+  <div id="mapdiv"></div>
+  <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+  <script>
+    function processData(allText) {
+        map = new OpenLayers.Map("mapdiv");
+        map.addLayer(new OpenLayers.Layer.OSM());
+        var allTextLines = allText.split(/\r\n|\n/);
+        var entries = allTextLines[0].split(',');
+        var lines = [];
+
+        for (var i = 1; i < allTextLines.length; i++) {
+            var entry = allTextLines[i].split(",");
+            lines.push(new OpenLayers.LonLat(entry[20],entry[19]).transform(
+                new OpenLayers.Projection("EPSG:4326"),
+                map.getProjectionObject() ));
+        }
+
+        var element = document.getElementById("fileInput");
+        element.parentNode.removeChild(element);
+
+        var markers = new OpenLayers.Layer.Markers( "Markers" );
+        map.addLayer(markers);
+        var zoom=13;
+
+        for(var i = 0; i < lines.length; i++){
+            markers.addMarker(new OpenLayers.Marker(lines[i]));
+        }
+        map.setCenter (lines[0], zoom);
+    }
+
+    document.getElementById('fileInput').addEventListener('change', function selectedFileChanged() {
+        const reader = new FileReader();
+        reader.onload = function fileReadCompleted() {processData(reader.result);};
+        reader.readAsText(this.files[0]);
+    });
+   
+  </script>
+</body></html>
