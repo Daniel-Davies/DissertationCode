@@ -14,7 +14,8 @@
             var entry = allTextLines[i].split(",");
             lines.push(new OpenLayers.LonLat(entry[20],entry[19]).transform(
                 new OpenLayers.Projection("EPSG:4326"),
-                map.getProjectionObject() ));
+                map.getProjectionObject() 
+            ));
         }
 
         var element = document.getElementById("fileInput");
@@ -24,10 +25,14 @@
         map.addLayer(markers);
         var zoom=13;
 
-        for(var i = 0; i < lines.length; i++){
-            markers.addMarker(new OpenLayers.Marker(lines[i]));
+        var size = new OpenLayers.Size(15,15);
+        var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+        var icon = new OpenLayers.Icon('./marker.png', size, offset);
+        markers.addMarker(new OpenLayers.Marker(lines[0], icon));
+        for(var i = 1; i < lines.length; i++){
+            markers.addMarker(new OpenLayers.Marker(lines[i], icon.clone()));
         }
-        map.setCenter (lines[0], zoom);
+        map.setCenter(lines[0], zoom);
     }
 
     document.getElementById('fileInput').addEventListener('change', function selectedFileChanged() {
