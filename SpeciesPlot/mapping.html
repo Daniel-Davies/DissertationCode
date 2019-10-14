@@ -27,9 +27,9 @@
 
         var size = new OpenLayers.Size(15,15);
         var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-        var icon = new OpenLayers.Icon('./marker.png', size, offset);
+        var icon = new OpenLayers.Icon('./markerOrg.png', size, offset);
         markers.addMarker(new OpenLayers.Marker(lines[0], icon));
-        for(var i = 1; i < lines.length; i++){
+        for(var i = 1; i < 5; i++){
             markers.addMarker(new OpenLayers.Marker(lines[i], icon.clone()));
         }
         map.setCenter(lines[0], zoom);
