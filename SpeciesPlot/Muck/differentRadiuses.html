@@ -1,0 +1,50 @@
+<html><body>
+<input id="fileInput" type="file"/>
+
+<div id="mapdiv"></div>
+  <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.js"></script>
+  <script>
+    function processData(allText) {
+        map = new OpenLayers.Map("mapdiv");
+        map.addLayer(new OpenLayers.Layer.OSM());
+        allText = JSON.parse(allText)
+        locKeys = Object.keys(allText);
+
+        points = locKeys.map(coords => {
+            const [ln, lat] = coords.split(",");
+            return new OpenLayers.LonLat(lat,ln).transform(
+                new OpenLayers.Projection("EPSG:4326"),
+                map.getProjectionObject() 
+            );
+        });
+
+        var element = document.getElementById("fileInput");
+        element.parentNode.removeChild(element);
+
+        var markers = new OpenLayers.Layer.Markers( "Markers" );
+        map.addLayer(markers);
+        var zoom=13;
+
+        for(var p = 0; p < points.length; p++){
+            var score = allText[locKeys[p]];
+            var scaled = 3*Math.log(score) + 5;
+            var size = new OpenLayers.Size(scaled,scaled);
+            var offset = new OpenLayers.Pixel(-size.w, -size.h);
+            var icon = new OpenLayers.Icon('./circularOrg'+'.png', size, offset);
+            markers.addMarker(new OpenLayers.Marker( points[p], icon));
+        }
+        map.setCenter(points[0], zoom);
+    }
+
+    document.getElementById('fileInput').addEventListener('change', function selectedFileChanged() {
+        const reader = new FileReader();
+        Papa.parse(this.files[0], {
+            complete: function(results) {
+                processData(results.data)
+            }
+        });
+    });
+   
+  </script>
+</body></html>
