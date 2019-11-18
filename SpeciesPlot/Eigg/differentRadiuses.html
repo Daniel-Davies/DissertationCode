@@ -26,7 +26,7 @@
         map.addLayer(markers);
         var zoom=13;
 
-        for(var p = 0; p < points.length; p++){
+        for(var p = 0; p < 20; p++){
             var score = allText[locKeys[p]];
             var scaled = 3*Math.log(score) + 5;
             var size = new OpenLayers.Size(scaled,scaled);
@@ -39,8 +39,6 @@
 
     document.getElementById('fileInput').addEventListener('change', function selectedFileChanged() {
         const reader = new FileReader();
-        // reader.onload = function fileReadCompleted() {processData(reader.result);};
-        // reader.readAsText(this.files[0]);
         Papa.parse(this.files[0], {
             complete: function(results) {
                 processData(results.data)
