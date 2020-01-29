@@ -5,36 +5,113 @@
   <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.js"></script>
   <script>
-    function processData(allText) {
-        map = new OpenLayers.Map("mapdiv");
-        map.addLayer(new OpenLayers.Layer.OSM());
-        allText = JSON.parse(allText)
-        locKeys = Object.keys(allText);
 
-        points = locKeys.map(coords => {
+
+    function transformLatLonToMapObj(kz, map){
+        return kz.map(coords => {
             const [ln, lat] = coords.split(",");
             return new OpenLayers.LonLat(lat,ln).transform(
                 new OpenLayers.Projection("EPSG:4326"),
                 map.getProjectionObject() 
             );
         });
+    }
+
+    function initialiseMapObj(){
+        var overlay = new OpenLayers.Layer.Vector('Overlay', {
+            styleMap: new OpenLayers.StyleMap({
+                externalGraphic: './marker1.png',
+                graphicWidth: 20, graphicHeight: 24, graphicYOffset: -24,
+                title: '${tooltip}'
+            })
+        });
+
+        var myLocation = new OpenLayers.Geometry.Point(10.2, 48.9)
+            .transform('EPSG:4326', 'EPSG:3857');
+
+        overlay.addFeatures([
+            new OpenLayers.Feature.Vector(myLocation, {tooltip: 'OpenLayers'})
+        ]);
 
         var element = document.getElementById("fileInput");
         element.parentNode.removeChild(element);
+
+
+        // Finally we create the map
+        map = new OpenLayers.Map({
+            div: "mapdiv", projection: "EPSG:3857",
+            layers: [new OpenLayers.Layer.OSM(), overlay],
+            center: myLocation.getBounds().getCenterLonLat(), zoom: 15
+        });
+
+        return map
+    }
+
+    function addToMapWSize(map, markers, iconIn, kz, allText){
+        var points = transformLatLonToMapObj(kz, map);
+
+        for(var p = 0; p < 30; p++){
+            var score = allText["natural"][kz[p]];
+            var scaled = 3.5*Math.log(score) + 5;
+            var size = new OpenLayers.Size(scaled,scaled);
+            var offset = new OpenLayers.Pixel(-size.w, -size.h);
+            var icon = new OpenLayers.Icon(iconIn, size, offset);
+            markers.addMarker(new OpenLayers.Marker( points[p], icon)); 
+        }
+    }
+
+    function addToMap(map, markers, iconIn, kz, s) {
+        points = transformLatLonToMapObj(kz, map);
+
+        for(var p = 0; p < points.length; p++){
+            var size = new OpenLayers.Size(s,s);
+            var offset = new OpenLayers.Pixel(-size.w, -size.h);
+            var icon = new OpenLayers.Icon(iconIn, size, offset);
+            markers.addMarker(new OpenLayers.Marker( points[p], icon));
+        }
+        map.setCenter(points[0], 13)
+    }
+
+    function addToMapWPopups(map, markers, iconIn, kz, allText){
+        points = transformLatLonToMapObj(kz, map)
+        for(var p = 0; p < points.length; p++){
+            var size = new OpenLayers.Size(50,50);
+            var offset = new OpenLayers.Pixel(-size.w, -size.h);
+            var icon = new OpenLayers.Icon(iconIn, size, offset);
+            markers.addMarker(new OpenLayers.Marker( points[p], icon.clone()));
+            var popup = new OpenLayers.Popup.FramedCloud("Popup", 
+                points[p], new OpenLayers.Size(80,15),
+                "<p style='font-size:10px; margin:0; padding:0'>"+allText["electric"][electricGrid[p]]+"</p>", null,
+                false // 
+            )
+            popup.autoSize = false;
+            map.addPopup(popup)  
+        }
+
+        map.setCenter(points[0], 13)
+    }
+
+    function processData(allText) {
+        var map = initialiseMapObj()
+        allText = JSON.parse(allText)
+
+        locKeys = Object.keys(allText["natural"]);
+        industryKeys = Object.keys(allText["industry"])
+        residentialKeys = Object.keys(allText["residential"])
+        electricGrid = Object.keys(allText["electric"])
+
 
         var markers = new OpenLayers.Layer.Markers( "Markers" );
         map.addLayer(markers);
         var zoom=13;
 
-        for(var p = 0; p < 20; p++){
-            var score = allText[locKeys[p]];
-            var scaled = 3*Math.log(score) + 5;
-            var size = new OpenLayers.Size(scaled,scaled);
-            var offset = new OpenLayers.Pixel(-size.w, -size.h);
-            var icon = new OpenLayers.Icon('./circularOrg'+'.png', size, offset);
-            markers.addMarker(new OpenLayers.Marker( points[p], icon));
-        }
-        map.setCenter(points[0], zoom);
+        addToMapWSize(map, markers, './binoculars/marker6'+'.png', locKeys, allText) //wildlife
+        addToMap(map, markers, './fullColMarkers/marker76'+'.png', residentialKeys,20) //residentials
+        addToMap(map, markers, './colouredMarkers/marker0'+'.png', industryKeys,20) //industry
+        //addToMapWPopups(map, markers,'./marker1'+'.png', electricGrid, allText) //electric
+        addToMap(map, markers, './sparks/marker32'+'.png', electricGrid, 35)
+
+        return;
     }
 
     document.getElementById('fileInput').addEventListener('change', function selectedFileChanged() {
