@@ -89,8 +89,6 @@
             const industryKeys = Object.keys(allText["industry"])
             let residentialKeys = Object.keys(allText["residential"])
             const electricGrid = Object.keys(allText["electric"])
-
-            residentialKeys = [...new Set(residentialKeys)];
             
             map.addLayer(createMapLayer(locKeys.slice(0, 30), './binoculars/marker1.png', 0.015))
             map.addLayer(createMapLayer(residentialKeys.slice(0,10), './fullColMarkers/marker76.png', 0.03))
