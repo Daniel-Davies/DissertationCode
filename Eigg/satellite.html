@@ -85,6 +85,9 @@
             var map = initialiseMapObj()
             var allText = JSON.parse(allText)
 
+            var element = document.getElementById("fileInput");
+            element.parentNode.removeChild(element);
+
             const locKeys = Object.keys(allText["natural"]);
             const industryKeys = Object.keys(allText["industry"])
             let residentialKeys = Object.keys(allText["residential"])
