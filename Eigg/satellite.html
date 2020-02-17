@@ -20,7 +20,7 @@
 </head>
 <body>
     <input id="fileInput" type="file"/>
-    <div id="myMap"></div>
+    <div id="myMap" style="margin:0;padding:0"></div>
     <script type='text/javascript'>
         //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
         var subscriptionKey = 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA';
@@ -76,10 +76,11 @@
                     })
                 })
             });
-
             return pinLayer
-
         }
+
+        const getBaseLog = (x, y) => Math.log(y) / Math.log(x)
+        const scalePoint = (point) => 0.005*getBaseLog(8,point) 
 
         function processData(allText) {
             var map = initialiseMapObj()
@@ -92,15 +93,16 @@
             const industryKeys = Object.keys(allText["industry"])
             let residentialKeys = Object.keys(allText["residential"])
             const electricGrid = Object.keys(allText["electric"])
-            
-            map.addLayer(createMapLayer(locKeys.slice(0, 30), './binoculars/marker1.png', 0.015))
+
+            locKeys.slice(0,30).forEach((x,k) => {
+                map.addLayer(createMapLayer([x], './binoculars/replicated/marker'+k+'.png', scalePoint(allText["natural"][x])))
+            })
+
             map.addLayer(createMapLayer(residentialKeys.slice(0,10), './fullColMarkers/marker76.png', 0.03))
-            map.addLayer(createMapLayer(electricGrid, './sparks/marker32.png', 0.1))
             map.addLayer(createMapLayer(residentialKeys.slice(12,35), './fullColMarkers/marker76.png', 0.03))
             map.addLayer(createMapLayer(industryKeys, './colouredMarkers/marker0.png', 0.03))
-
+            map.addLayer(createMapLayer(electricGrid, './sparks/marker35.png', 0.1))
         }
-
         
         document.getElementById('fileInput').addEventListener('change', function selectedFileChanged() {
             const reader = new FileReader();

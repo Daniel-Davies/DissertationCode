@@ -20,6 +20,62 @@
    sodipodi:docname="original80Cut.svg">
   <defs
      id="defs2">
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;"
+       inkscape:isstock="true">
+      <path
+         id="path908"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#966c03;stroke-width:1pt;stroke-opacity:1;fill:#966c03;fill-opacity:1"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="marker1259"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path1257"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#966c03;stroke-width:1pt;stroke-opacity:1;fill:#966c03;fill-opacity:1"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="marker1225"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path1223"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#966c03;stroke-width:1pt;stroke-opacity:1;fill:#966c03;fill-opacity:1"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lstart"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path905"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#966c03;stroke-width:1pt;stroke-opacity:1;fill:#966c03;fill-opacity:1"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
     <linearGradient
        id="linearGradient4571"
        osb:paint="solid">
@@ -92,7 +148,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.53"
-     inkscape:cx="934.61793"
+     inkscape:cx="912.53027"
      inkscape:cy="711.97686"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -470,7 +526,7 @@
        id="path870-33-5-7"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;stroke:#966c03;stroke-width:1.07962573;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;stroke:#966c03;stroke-width:1.08000009;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2.7;stroke-dasharray:none;stroke-opacity:1;marker-mid:url(#marker1225);marker-end:"
        d="m 294.71703,147.76461 c -57.2721,55.35364 -57.2721,55.35364 -57.2721,55.35364"
        id="path870-33-5-6-2"
        inkscape:connector-curvature="0" />
