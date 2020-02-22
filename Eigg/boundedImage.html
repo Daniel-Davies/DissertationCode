@@ -91,7 +91,7 @@
             return pinLayer
         }
 
-        function addLineToMap(pointsIncoming){
+        function addLineToMap(pointsIncoming, lineColor){
             const points = pointsIncoming.map(x => x.reverse()).map(x => ol.proj.transform(x, 'EPSG:4326', 'EPSG:3857'))
 
             var featureLine = new ol.Feature({
@@ -104,8 +104,8 @@
             var vectorLineLayer = new ol.layer.Vector({
                 source: vectorLine,
                 style: new ol.style.Style({
-                    fill: new ol.style.Fill({ color: '#00FF00', weight: 4 }),
-                    stroke: new ol.style.Stroke({ color: '#00FF00', width: 2 })
+                    fill: new ol.style.Fill({ color: lineColor, weight: 4 }),
+                    stroke: new ol.style.Stroke({ color: lineColor, width: 2 })
                 })
             });
 
@@ -113,7 +113,7 @@
         }
 
         function getDefaultConfigVals(){
-            return {marker: './fullColMarkers/marker76.png'}
+            return {marker: './fullColMarkers/marker76.png', lineColor: "#00FF00"}
         }
 
         const getBaseLog = (x, y) => Math.log(y) / Math.log(x)
@@ -134,10 +134,9 @@
                 var configs = (dataObject["configs"] === undefined) ? getDefaultConfigVals() : dataObject["configs"]
 
                 connections.forEach(x => {
-                    map.addLayer(addLineToMap(x))
+                    map.addLayer(addLineToMap(x, configs["lineColor"]))
                 })
 
-                // Adding data point icons
                 coordsToPlot.forEach((x,k) => {
                     map.addLayer(createMapLayer([x["location"]], configs["marker"], x["size"],x["desc"]))
                 })
