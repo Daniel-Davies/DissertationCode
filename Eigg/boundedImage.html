@@ -62,7 +62,7 @@
             });
         }
 
-        function createMapLayer(kz, icon, scaled){
+        function createMapLayer(kz, icon, scaled, textIn){
             var points = transformLatLonToMapObj(kz)
 
             const pinLayer = new ol.layer.Vector ({
@@ -75,15 +75,15 @@
                         scale: scaled
                     }),
                     text: new ol.style.Text({
-                        text: "Test text",
+                        text: textIn,
                         scale: 1.0,
-                        offsetY : -17,
+                        offsetY : -20,
                         fill: new ol.style.Fill({
-                        color: "#fff"
+                            color: "#fff"
                         }),
                         stroke: new ol.style.Stroke({
-                        color: "0",
-                        width: 3
+                            color: "0",
+                            width: 3
                         })
                     })
                 })
@@ -112,8 +112,8 @@
             return vectorLineLayer
         }
 
-        function selectMarkerForDataType(){
-            return './fullColMarkers/marker76.png'
+        function getDefaultConfigVals(){
+            return {marker: './fullColMarkers/marker76.png'}
         }
 
         const getBaseLog = (x, y) => Math.log(y) / Math.log(x)
@@ -129,8 +129,9 @@
 
             allText.forEach(dataObject => {
                 const coordsToPlot = dataObject["plots"]["locs"]
-                const marker = selectMarkerForDataType(dataObject["plots"]["type"])
                 const connections = dataObject["plots"]["linkMatrix"]
+
+                var configs = (dataObject["configs"] === undefined) ? getDefaultConfigVals() : dataObject["configs"]
 
                 connections.forEach(x => {
                     map.addLayer(addLineToMap(x))
@@ -138,7 +139,7 @@
 
                 // Adding data point icons
                 coordsToPlot.forEach((x,k) => {
-                    map.addLayer(createMapLayer([x["location"]], marker, x["desc"]))
+                    map.addLayer(createMapLayer([x["location"]], configs["marker"], x["size"],x["desc"]))
                 })
 
             });
