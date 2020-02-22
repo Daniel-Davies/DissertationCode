@@ -73,6 +73,17 @@
                     image: new ol.style.Icon({
                         src: icon,
                         scale: scaled
+                    }),
+                    text: new ol.style.Text({
+                        text: "Test text",
+                        scale: 1.2,
+                        fill: new ol.style.Fill({
+                        color: "#fff"
+                        }),
+                        stroke: new ol.style.Stroke({
+                        color: "0",
+                        width: 3
+                        })
                     })
                 })
             });
@@ -120,15 +131,12 @@
                 const marker = selectMarkerForDataType(dataObject["plots"]["type"])
                 const connections = dataObject["plots"]["linkMatrix"]
 
-                //x == [[56.1234,-6.1243],[56.42323, -6.3122]]
                 connections.forEach(x => {
                     map.addLayer(addLineToMap(x))
                 })
 
                 // Adding data point icons
                 coordsToPlot.forEach((x,k) => {
-                    alert(x["location"])
-                    alert(x["desc"])
                     map.addLayer(createMapLayer([x["location"]], marker, x["desc"]))
                 })
 
