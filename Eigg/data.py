@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 # CONTAINS DICTIONARIES OF DOUBLE CHECKED LAT/LON POINTS PER OBS
 
 def listedEiggHotels():
@@ -23,7 +24,7 @@ def listedEiggHotels():
 
     return hotels
 
-def inferrredBusinessLocations():
+def inferredBusinessLocations():
     locs = {}
     ## UNKNOWN LOCATION: Default to the heritage centre
     locs['Heritage Trust'] = '56.9023849,-6.1449937'
@@ -200,10 +201,134 @@ def residentialEntry():
     
     return residentials
 
+def uninferredNamesGraph():
+    relationships = {}
+    
+    relationships["Damian Helliwell"] = ["Heritage Trust"]
+    relationships["Margaret Fyffe"] = ["Clean Planet Now", "Heritage Trust", "Eigg Electric", "Eigg Trading", "Eigg Construction", "The Bothy Cuagach"]
+    relationships["Norah Barnes"] = ["Clean Planet Now", "Heritage Trust", "Eigg Eco Centre"]
+    relationships["Elizabeth Boden"] = ["Eigg Huts", "Heritage Trust", "Eigg Shed", "Eigg Primary School", "Sandavore Farm", "Eigg Trading"]
+    relationships["Lucy Conway"] = ["Heritage Trust", "Lagerona", "Sweeney's Bothy", "Eddie's Eigg Croft", "Eigg Primary School"] #accountant, wife to eddie
+    relationships["Sarah Boden"] = ["Eigg Huts", "Heritage Trust", "Eigg Electric", "Sandavore Farm", "Kildonnan Bay Oysters"]
+    relationships["Mark Alan Foxwell"] = ["Heritage Trust"]
+    relationships["Grey Carr"] = ["Heritage Trust"]
+    relationships["Jacqueline Kirk"] = ["Heritage Trust", "Eigg Shop"]
+    relationships["Ian Leaver"] = ["Heritage Trust"]
+    relationships["Stuart McCarthy"] = ["Glebe Barn","Heritage Trust", "Laig Bay Brewing", "Galmisdale Cafe", "Lagerona", "Eigg Construction"] #supplies restaurants with beer 
+    relationships["Tasha McVarish"] = ["Heritage Trust", "Eigg Primary School", "Equilibrium Eigg Massage Therapy"]
+    
+    relationships["Sue Hollands"] = ["Eigg Organics", "Eigg Electric"]
+    relationships["Neil Robertson"] = ["Eigg Organics", "Roadworks"]
+    
+    relationships["Sue Kirk"] = ["Lagerona", "Kildonnan", "Eigg Shop", "Eigg Construction"] #Kildonnan as they send extra traffic there as is Sister
+    relationships["Alisdair Kirk"] = ["Lagerona", "Eigg Construction"] ##INFERRED Roadworkds => Contruction co 
+    
+    relationships["Charlie Galli"] = ["Taxi Service"]
+    relationships["Libby Galli"] = ["Eigg Crafts"]
+    
+    relationships["Eddie Scott"] = ["Sweeney's Bothy", "Eddie's Eigg Croft", "Eigg Electric"]
+    
+    relationships["Marie Carr"] = ["Kildonnan House"]
+    relationships["Colin Carr"] = ["Kildonnan House", "Eigg Electric", "Eigg Construction"]
+    relationships["Greg Carr"] = ["Kildonnan House", "Eigg Trading"]
+    
+    relationships["Alex Boden"] = ["Eigg Shed", "Sandavore Farm", "Eigg Huts", "Hebnet Cic"]
+    
+    relationships["Katrin Bach"] = ["Eiggy Bread", "Glebe Barn", "Eigg Primary School"] #caterer for Glebe barn
+    
+    relationships["Tamsin McCarthy"] = ["Glebe Barn", "Eigg Primary School", "Eigg Construction"]
+    
+    relationships["Simon Helliwell"] = ["Glebe Barn", "Hebnet Cic"] #previous owner of glebe, along with karen hellwell
+    relationships["Karen Helliwell"] = ["Glebe Barn"] #daughter is now technically owner
+
+    relationships["Louise Taylor"] = ["Eigg Primary School"]
+    relationships["Martin Merrick"] = ["Eigg Primary School"]
+    relationships["Kenneth Kean"] = ["Eigg Primary School"]
+    relationships["Amanda Moult"] = ["Eigg Primary School"]
+    relationships["Annabelle Scott-Moncrieff"] = ["Eigg Primary School"]
+    relationships["Laraine Wyn-Jones"] = ["Eigg Adventures", "Eigg Camping Pods", "Eigg Trading"]
+    relationships["Owain Wyn-Jones"] = ["Eigg Adventures", "Eigg Camping Pods"]
+    
+    #SAME GUY?!?!?!?!!?!?!
+    relationships["John Christopher Lynch"] = ["LOST MAPS RECORDS LTD"]
+    relationships["John Christopher Clare"] = ["Eigg Electric"]
+    relationships["John Booth"] = ["Eigg Electric", "Eigg Construction"]
+    
+    relationships["George Carr"] = ["Laig Farm"] ##SHEEP FARMING
+    relationships["Saira Renny"] = ["Laig Farm"]
+    
+    relationships["Bob Wallace"] = ["Eigg Eco Centre"]
+    
+    relationships["Stuart Millar"] = ["Fishing"]
+    
+    relationships["Jenny Robertson"] = ["A NEAD KNITWEAR", "Eigg Crafts"]
+    
+    relationships["Donna McCulloch"] = ["Refuse Collection", "Eigg Crafts"] #Technically "Creative Eigg"
+    
+    relationships["Celia Bull"] = ["Selkie Explorers"]
+    
+    ##basket making
+    relationships["Catherine Davies"] = ["Eigg Crafts"]
+    relationships["Pascal Carr"] = ["Eigg Crafts"]
+    
+    relationships["Stuart Fergusson"] = ["Eigg Trading", "Galmisdale Cafe"]
+    
+    relationships["Peter Wade-Martins"] = ["Tophouse"]
+    relationships["Susanna Wade-Martins"] = ["Tophouse"]
+    
+    relationships["Jacky"] = ["TIGH AN SITHEAN"]
+    relationships["Mick"] = ["TIGH AN SITHEAN"]
+    
+    relationships["Mairi McKinnon"] = ["Health & Home Care"]
+    relationships["Clare Miller"] = ["Health & Home Care", "Eigg Yurts"]
+    
+    relationships["John"] = ["Craigard Teas"]
+    relationships["Sheila"] = ["Craigard Teas"]
+
+    relationships["Camille Dressler"] = ["Eigg Crafts", "Eigg History"]
+    relationships["Hilda Ibrahim"] = ["Eigg Crafts"]
+    
+    relationships["Ian Alexander James Bolas"] = ["Hebnet Cic"]
+    relationships["David Byres Newton"] = ["Hebnet Cic"]
+    relationships["Marc Allan Smith"] = ["Hebnet Cic"]
+    
+    relationships["Jennifer Leiper"] = ["Clean Planet Now"]
+    relationships["Robert Wallace"] = ["Clean Planet Now"]
+    relationships["Rosemary Jane Acock"] = ["Clean Planet Now"]
+    
+    return relationships
+
+def inferredNamesGraph():
+    relationships = uninferredNamesGraph()
+    
+    #Own a sheep farm ("Laig Farm") 
+    # => Supply Eigg Shop with fresh lamb [heraldscott article]
+    relationships["George Carr"].append("Eigg Shop")
+    relationships["Saira Renny"].append("Eigg Shop")
+    
+    #Fisherman on Isle of Eigg
+    # => Suppose he supplies the restaurants
+    relationships["Stuart Millar"].extend(["Galmisdale Cafe", "Lagerona"])
+    
+    #Crofters on Isle of Eigg
+    # => Suppose they supply the Eigg Shop (e.g. with Eggs & Vegetables)
+    relationships["Lucy Conway"].append("Eigg Shop")
+    relationships["Eddie Scott"].append("Eigg Shop")
+    
+    #Article says that Libby Galli easrns "Most of her income serving tea to toursits" and baking cake
+    # => Presumably she is either a cafe employee or supplies the cafe with cake
+    relationships["Libby Galli"].append("Galmisdale Cafe")
+    
+    #Crofter on Isle of Eigg
+    # => Suppose they supply the Eigg Shop (e.g. with Eggs & Vegetables)
+    relationships["Mairi McKinnon"].append("Eigg Shop")
+
+    return relationships
+
 #default pandas dataframe
 def eiggRawData():
     data = pd.read_csv("eigg.csv") 
-    df = data[['Recorder', 'Latitude (WGS84)', 'Longitude (WGS84)', 'Start date year']]
+    df = data[['Recorder', 'Latitude (WGS84)', 'Longitude (WGS84)', 'Start date year', 'Scientific name', 'Common name']]
 
     df = df.dropna(subset=['Latitude (WGS84)'])
     df = df.dropna(subset=['Longitude (WGS84)'])
@@ -219,4 +344,4 @@ def prettyPrintDict(dict_):
     kz = dict_.keys()
 
     for k in kz:
-        print(dict_[k] + " " + "---" + " " + k)
+        print(str(dict_[k]) + " " + "---" + " " + str(k))
