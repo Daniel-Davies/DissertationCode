@@ -20,15 +20,16 @@
 </head>
 <body>
     <input id="fileInput" type="file"/>
+    <input type="checkbox" id="mapType" name="mapType">
+    <label for="mapType" id="mapTypeLabel"> Use Satellite?</label><br>
+
     <div id="myMap" style="margin:0;padding:0"></div>
     <script type='text/javascript'>
         //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
         var subscriptionKey = 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA';
 
-        var map;
-
-        function initialiseMapObj(){
-            map = new ol.Map({
+        function getSatelliteMap(){
+            return new ol.Map({
                 target: 'myMap',
                 layers: [
                     new ol.layer.Tile({
@@ -45,6 +46,25 @@
                     zoom: 13
                 })
             });
+        }
+
+        function getTraditionalMap(){
+            return new ol.Map({
+                target: 'myMap',
+                layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+                ],
+                view: new ol.View({
+                center: [0,0],
+                zoom: 17
+                })
+            });
+        }
+
+        function initialiseMapObj(){
+            var map = (document.getElementById("mapType").checked) ? getSatelliteMap() : getTraditionalMap()
 
             map.getView().setCenter(ol.proj.transform([-6.1960333,56.907887], 'EPSG:4326', 'EPSG:3857'));
             map.getView().setZoom(13);
@@ -120,12 +140,19 @@
         const scalePoint = (point) => 0.005*getBaseLog(8,point) 
 
         function processData(incomingText) {
+            //X.checked to access state of checkbox 
             var map = initialiseMapObj()
             var text = JSON.parse(incomingText)
             var allText = text["result"]
 
-            var element = document.getElementById("fileInput");
-            element.parentNode.removeChild(element);
+            var fileIn = document.getElementById("fileInput");
+            var checkbox = document.getElementById("mapType");
+            var label = document.getElementById("mapTypeLabel");
+
+            fileIn.parentNode.removeChild(fileIn);
+            checkbox.parentNode.removeChild(checkbox);
+            label.parentNode.removeChild(label);
+
 
             allText.forEach(dataObject => {
                 const coordsToPlot = dataObject["plots"]["locs"]
@@ -140,7 +167,6 @@
                 coordsToPlot.forEach((x,k) => {
                     map.addLayer(createMapLayer([x["location"]], configs["marker"], x["size"],x["desc"]))
                 })
-
             });
         }
         
