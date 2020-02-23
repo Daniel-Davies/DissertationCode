@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Satellite Imagery in OpenLayers - Azure Maps Web SDK Samples</title>
+    <title>Eigg</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -26,7 +26,7 @@
     <div id="myMap" style="margin:0;padding:0"></div>
     <script type='text/javascript'>
         //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
-        var subscriptionKey = 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA';
+        const subscriptionKey = 'tTk1JVEaeNvDkxxnxHm9cYaCvqlOq1u-fXTvyXn2XkA';
 
         function getSatelliteMap(){
             return new ol.Map({
@@ -64,7 +64,7 @@
         }
 
         function initialiseMapObj(){
-            var map = (document.getElementById("mapType").checked) ? getSatelliteMap() : getTraditionalMap()
+            const map = (document.getElementById("mapType").checked) ? getSatelliteMap() : getTraditionalMap()
 
             map.getView().setCenter(ol.proj.transform([-6.1960333,56.907887], 'EPSG:4326', 'EPSG:3857'));
             map.getView().setZoom(13);
@@ -83,7 +83,7 @@
         }
 
         function createMapLayer(kz, icon, scaled, textIn){
-            var points = transformLatLonToMapObj(kz)
+            const points = transformLatLonToMapObj(kz)
 
             const pinLayer = new ol.layer.Vector ({
             source: new ol.source.Vector ({
@@ -114,14 +114,14 @@
         function addLineToMap(pointsIncoming, lineColor){
             const points = pointsIncoming.map(x => x.reverse()).map(x => ol.proj.transform(x, 'EPSG:4326', 'EPSG:3857'))
 
-            var featureLine = new ol.Feature({
+            const featureLine = new ol.Feature({
                 geometry: new ol.geom.LineString(points)
             });
 
-            var vectorLine = new ol.source.Vector({});
+            const vectorLine = new ol.source.Vector({});
             vectorLine.addFeature(featureLine);
 
-            var vectorLineLayer = new ol.layer.Vector({
+            const vectorLineLayer = new ol.layer.Vector({
                 source: vectorLine,
                 style: new ol.style.Style({
                     fill: new ol.style.Fill({ color: lineColor, weight: 4 }),
@@ -141,28 +141,29 @@
 
         function processData(incomingText) {
             //X.checked to access state of checkbox 
-            var map = initialiseMapObj()
-            var text = JSON.parse(incomingText)
-            var allText = text["result"]
+            const map = initialiseMapObj()
+            const text = JSON.parse(incomingText)
+            const allText = text["result"]
 
-            var fileIn = document.getElementById("fileInput");
-            var checkbox = document.getElementById("mapType");
-            var label = document.getElementById("mapTypeLabel");
+            const fileIn = document.getElementById("fileInput");
+            const checkbox = document.getElementById("mapType");
+            const label = document.getElementById("mapTypeLabel");
 
             fileIn.parentNode.removeChild(fileIn);
             checkbox.parentNode.removeChild(checkbox);
             label.parentNode.removeChild(label);
 
-
             allText.forEach(dataObject => {
                 const coordsToPlot = dataObject["plots"]["locs"]
                 const connections = dataObject["plots"]["linkMatrix"]
 
-                var configs = (dataObject["configs"] === undefined) ? getDefaultConfigVals() : dataObject["configs"]
+                const configs = (dataObject["configs"] === undefined) ? getDefaultConfigVals() : dataObject["configs"]
 
-                connections.forEach(x => {
-                    map.addLayer(addLineToMap(x, configs["lineColor"]))
-                })
+                if (connections !== undefined) {
+                    connections.forEach(x => {
+                        map.addLayer(addLineToMap(x, configs["lineColor"]))
+                    })
+                }
 
                 coordsToPlot.forEach((x,k) => {
                     map.addLayer(createMapLayer([x["location"]], configs["marker"], x["size"],x["desc"]))
@@ -171,7 +172,6 @@
         }
         
         document.getElementById('fileInput').addEventListener('change', function selectedFileChanged() {
-            const reader = new FileReader();
             Papa.parse(this.files[0], {
                 complete: function(results) {
                     processData(results.data)
