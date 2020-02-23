@@ -211,7 +211,9 @@ def eiggRawData():
     df["Latitude (WGS84)"] = df["Latitude (WGS84)"].astype(np.float32)
     df["Longitude (WGS84)"] = df["Longitude (WGS84)"].astype(np.float32)
 
-df = df.dropna(subset=['Start date year'])
+    df = df.dropna(subset=['Start date year'])
+
+    return df
     
 
 def prettyPrintDict(dict_):
