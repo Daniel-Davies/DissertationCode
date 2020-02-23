@@ -70,21 +70,19 @@
         }
 
         function transformLatLonToMapObj(kz){
-            return kz.map(coords => {
-                const [ln, lat] = coords.split(",");
-                return new ol.Feature({
-                        geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lat), parseFloat(ln)], 'EPSG:4326',     
-                        'EPSG:3857')),
-                    });
-            });
+            const [ln,lat] = kz
+            return new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lat), parseFloat(ln)], 'EPSG:4326',     
+                    'EPSG:3857')),
+                });
         }
 
         function createMapLayer(kz, icon, scaled, textIn){
-            const points = transformLatLonToMapObj(kz)
+            const point = transformLatLonToMapObj(kz)
 
             const pinLayer = new ol.layer.Vector ({
             source: new ol.source.Vector ({
-                    features: [...points]
+                    features: [point]
                 }),
                 style: new ol.style.Style ({
                     image: new ol.style.Icon({
@@ -141,6 +139,8 @@
             const map = initialiseMapObj()
             const text = JSON.parse(incomingText)
             const allText = text["result"]
+            const markers = allText["plots"]
+            const lines = allText["lines"]
 
             const fileIn = document.getElementById("fileInput");
             const checkbox = document.getElementById("mapType");
@@ -150,20 +150,20 @@
             checkbox.parentNode.removeChild(checkbox);
             label.parentNode.removeChild(label);
 
-            allText.forEach(dataObject => {
-                const coordsToPlot = dataObject["plots"]["locs"]
-                const connections = dataObject["plots"]["linkMatrix"]
+            lines.forEach(dataObject => {
+                const connections = dataObject["lines"]
+                const color = dataObject["lineColor"]
 
-                const configs = (dataObject["configs"] === undefined) ? getDefaultConfigVals() : dataObject["configs"]
-
-                if (connections !== undefined) {
-                    connections.forEach(x => {
-                        map.addLayer(addLineToMap(x, configs["lineColor"]))
-                    })
-                }
-
-                coordsToPlot.forEach((x,k) => {
-                    map.addLayer(createMapLayer([x["location"]], configs["marker"], x["size"],x["desc"]))
+                connections.forEach(x => {
+                    map.addLayer(addLineToMap(x, color))
+                })
+            })
+            
+            markers.forEach(dataObject => {
+                const points = dataObject["points"]
+                const icon = dataObject["marker"]
+                points.forEach((x,k) => {
+                    map.addLayer(createMapLayer(x["location"], icon, x["size"],x["desc"]))
                 })
             });
         }

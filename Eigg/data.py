@@ -1,5 +1,4 @@
 import pandas as pd
-
 # CONTAINS DICTIONARIES OF DOUBLE CHECKED LAT/LON POINTS PER OBS
 
 def listedEiggHotels():
