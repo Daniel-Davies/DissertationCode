@@ -336,10 +336,10 @@ def eiggRawData():
     df["Longitude (WGS84)"] = df["Longitude (WGS84)"].astype(np.float32)
 
     df = df.dropna(subset=['Start date year'])
+    df["Start date year"] = df["Start date year"].astype(np.int32)
 
     return df
     
-
 def prettyPrintDict(dict_):
     kz = dict_.keys()
 
