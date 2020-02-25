@@ -125,8 +125,6 @@ def pointsOfInterest():
     interests['56.9034271,-6.1912247'] = "Peak"
     interests['56.9136453,-6.1311475'] = "Peak"
     interests['56.8911480,-6.1761228'] = "Peak"
-    interests['56.8643159,-6.2062335'] = "Strait"
-    interests['56.9399878,-6.2222024'] = "Strait"
     interests['56.8794302,-6.1776533'] = "Grulin"
     interests['56.8840899,-6.1652639'] = "An Sgurr"
     interests['56.8736995,-6.1455634'] = "Massacre Caves"
