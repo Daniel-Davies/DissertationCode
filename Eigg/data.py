@@ -337,6 +337,11 @@ def eiggRawData():
     df["Start date year"] = df["Start date year"].astype(np.int32)
 
     return df
+
+def convertFrameCoordsToUsableLatLon(df):
+    organised = list(zip(df['Latitude (WGS84)'],df['Longitude (WGS84)']))
+    organised = list(map(lambda x: [float(x[0]),float(x[1])],organised))
+    return organised
     
 def prettyPrintDict(dict_):
     kz = dict_.keys()

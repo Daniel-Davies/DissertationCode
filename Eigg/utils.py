@@ -4,6 +4,20 @@ import numpy as np
 from math import sin, cos, sqrt, atan2, radians,pi
 import json
 
+def graphASetByObservations(buildings,dist=500):
+    G = nx.Graph()
+    for k,r in enumerate(buildings):
+        G.add_node(k)
+
+    for o_index,o in enumerate(buildings):
+        for r_index,r in enumerate(buildings):
+            if o_index != r_index:
+                if seperationInMetres(o,r) < dist:
+                    G.add_edge(o_index,r_index)
+                
+    return G
+
+
 def transformLatLonByXMetres(lat,lon,dn,de):
     R=6378137
     dLat = dn/R
@@ -48,6 +62,12 @@ def toUsableLatLon(coord):
 
 def toUsableLatLonList(coords):
     return list(map(lambda x: toUsableLatLon(x),coords))
+
+def saveGraphToFile(G, filename):
+    file_ = nx.to_numpy_matrix(G)
+    print(file_.shape)
+    print()
+    np.savetxt(filename,file_, "%d")  
 
 
 #markingTuples => (icon,data[]) OR (icon, data[], labels[])
