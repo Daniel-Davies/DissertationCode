@@ -323,20 +323,29 @@ def inferredNamesGraph():
 
     return relationships
 
-#default pandas dataframe
-def eiggRawData():
-    data = pd.read_csv("eigg.csv") 
-    df = data[['Recorder', 'Latitude (WGS84)', 'Longitude (WGS84)', 'Start date year', 'Scientific name', 'Common name']]
+def fetchRawCSVObservationData(filename):
+    data = pd.read_csv(filename) 
+    df = data[['Recorder', 'Latitude (WGS84)', 'Longitude (WGS84)', 'End date year', 'Scientific name', 'Common name']]
 
     df = df.dropna(subset=['Latitude (WGS84)'])
     df = df.dropna(subset=['Longitude (WGS84)'])
     df["Latitude (WGS84)"] = df["Latitude (WGS84)"].astype(np.float32)
     df["Longitude (WGS84)"] = df["Longitude (WGS84)"].astype(np.float32)
 
-    df = df.dropna(subset=['Start date year'])
-    df["Start date year"] = df["Start date year"].astype(np.int32)
+    df = df.dropna(subset=['End date year'])
+    df["End date year"] = df["End date year"].astype(np.int32)
 
     return df
+
+#default pandas dataframe
+def eiggRawData():
+    return fetchRawCSVObservationData("eigg.csv")
+
+def muckRawData():
+    return fetchRawCSVObservationData("muck.csv")
+
+def skyeRawData():
+    return fetchRawCSVObservationData("skye.csv")
 
 def convertFrameCoordsToUsableLatLon(df):
     organised = list(zip(df['Latitude (WGS84)'],df['Longitude (WGS84)']))
