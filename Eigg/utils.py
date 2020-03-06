@@ -95,7 +95,6 @@ def generateMapJSON(markingTuples,graphTuples,filename):
     
     building["result"]["plots"] = markersToDraw
 
-
     for k,item in enumerate(graphTuples):
         if len(item) == 2:
             graphTuples[k] = ("#FF0000",item[0],item[1])

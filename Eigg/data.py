@@ -347,6 +347,9 @@ def muckRawData():
 def skyeRawData():
     return fetchRawCSVObservationData("skye.csv")
 
+def validatedEiggData():
+    return []
+
 def convertFrameCoordsToUsableLatLon(df):
     organised = list(zip(df['Latitude (WGS84)'],df['Longitude (WGS84)']))
     organised = list(map(lambda x: [float(x[0]),float(x[1])],organised))
