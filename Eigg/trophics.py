@@ -10,25 +10,27 @@ def retrieveCollatedFoodWeb():
     return aggregateDataSets(dataSetFunctions)
 
 def readFreshwaterData():
-    return crushAdjListToDict('consumer','resource',basePath+'freshwater.csv')
+    return crushPredatorPreyAdjListToDict('consumer','resource',basePath+'freshwater.csv')
 
 def read2018GlobalDatabaseData():
-    return crushAdjListToDict('con.taxonomy', 'res.taxonomy', basePath+'2018GlobAL.csv')
+    return crushPredatorPreyAdjListToDict('con.taxonomy', 'res.taxonomy', basePath+'2018GlobAL.csv')
 
 def readSantaBarbaraMatrix():
     df = pd.read_csv(basePath+'sbPredatorPreyMatrix.csv') 
     correctColumns = df.iloc[[1]].values.tolist()[0]
     for k,item in enumerate(correctColumns):
         if type(item) is not str:
-            correctColumns[k] = "Unnamed"
+            correctColumns[k] = "Unnamed"+str(k)
     
     df.columns = correctColumns
     new_columns = df.columns.values
     new_columns[1] = 'Species'
     df.columns = new_columns
-    df = df.drop(df.index[0:2])
-    df = df.drop(df.filter(regex="Unnamed"),axis=1)
 
+    df = df.drop(df.index[0:2])
+    df = df.drop(df.columns[130:],axis=1)
+    df = df.drop(df.columns[0],axis=1)
+    
     df["Species"] = df["Species"].str.lower()
     df.columns = [x.lower() for x in df.columns]
 
@@ -171,6 +173,3 @@ def aggregateDataSets(datasets):
 def addAllPreyToDictSet(mainDictionarySubset, listOfAdditions):
     for item in listOfAdditions:
         mainDictionarySubset.add(item)
-
-
-readJanesData()
