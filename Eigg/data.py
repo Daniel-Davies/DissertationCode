@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import pickle
 # CONTAINS DICTIONARIES OF DOUBLE CHECKED LAT/LON POINTS PER OBS
 
 def listedEiggHotels():
@@ -348,7 +349,20 @@ def skyeRawData():
     return fetchRawCSVObservationData("skye.csv")
 
 def validatedEiggData():
-    return []
+    with open("EiggVerifiedSpeciesList", "rb") as f:
+        verifiedSpecies = pickle.load(f)
+
+    df = fetchRawCSVObservationData("eigg.csv")
+    df["Scientific name"] = df["Scientific name"].str.lower()
+    df["Scientific name"] = df["Scientific name"].map(lambda x: mapRawNameToValidated(x,verifiedSpecies))
+    
+    return df
+
+def mapRawNameToValidated(rawName,verifiedSpeciesDict):
+    if rawName in verifiedSpeciesDict:
+        return verifiedSpeciesDict[rawName]
+    
+    return rawName
 
 def convertFrameCoordsToUsableLatLon(df):
     organised = list(zip(df['Latitude (WGS84)'],df['Longitude (WGS84)']))
