@@ -5,9 +5,8 @@ from collections import defaultdict
 basePath = "./RelevantDatasets/"
 
 def retrieveCollatedFoodWeb():
-    dataSetFunctions = [readFreshwaterData, read2018GlobalDatabaseData]
-    results = list(map(lambda x: x(), dataSetFunctions))
-    return aggregateDataSets(results)
+    dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData()]
+    return aggregateDataSets(dataSetFunctions)
 
 def readFreshwaterData():
     return crushPredatorPreyDataToDict('consumer','resource',basePath+'freshwater.csv')
