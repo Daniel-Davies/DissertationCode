@@ -69,6 +69,9 @@ def saveGraphToFile(G, filename):
     print()
     np.savetxt(filename,file_, "%d")  
 
+def constrainRecordsToDateRange(df,dateRangeTuple):
+    from_,to_ = dateRangeTuple
+    return df[(df['End date year'] < to_) & (df['Start date year'] >= from_)]
 
 #markingTuples => (icon,data[]) OR (icon, data[], labels[])
 def generateMapJSON(markingTuples,graphTuples,filename):

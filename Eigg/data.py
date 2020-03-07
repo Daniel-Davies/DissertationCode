@@ -326,27 +326,39 @@ def inferredNamesGraph():
 
 def fetchRawCSVObservationData(filename):
     data = pd.read_csv(filename) 
-    df = data[['Recorder', 'Latitude (WGS84)', 'Longitude (WGS84)', 'End date year', 'Scientific name', 'Common name']]
+    df = data[['Recorder', 'Latitude (WGS84)', 'Longitude (WGS84)', 'Start date year', 'End date year','Scientific name', 'Common name']]
 
     df = df.dropna(subset=['Latitude (WGS84)'])
     df = df.dropna(subset=['Longitude (WGS84)'])
     df["Latitude (WGS84)"] = df["Latitude (WGS84)"].astype(np.float32)
     df["Longitude (WGS84)"] = df["Longitude (WGS84)"].astype(np.float32)
 
-    df = df.dropna(subset=['End date year'])
-    df["End date year"] = df["End date year"].astype(np.int32)
-
     return df
 
 #default pandas dataframe
 def eiggRawData():
-    return fetchRawCSVObservationData("eigg.csv")
+    df = fetchRawCSVObservationData("eigg.csv")
+    
+    df = df.dropna(subset=['Start date year'])
+    df["Start date year"] = df["Start date year"].astype(np.int32)
+
+    return df
 
 def muckRawData():
-    return fetchRawCSVObservationData("muck.csv")
+    df = fetchRawCSVObservationData("muck.csv")
+    
+    df = df.dropna(subset=['Start date year'])
+    df["Start date year"] = df["Start date year"].astype(np.int32)
+
+    return df
 
 def skyeRawData():
-    return fetchRawCSVObservationData("skye.csv")
+    df = fetchRawCSVObservationData("skye.csv")
+    
+    df = df.dropna(subset=['Start date year'])
+    df["Start date year"] = df["Start date year"].astype(np.int32)
+
+    return df
 
 def validatedEiggData():
     with open("EiggVerifiedSpeciesList", "rb") as f:
