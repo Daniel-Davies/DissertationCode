@@ -361,7 +361,7 @@ def skyeRawData():
     return df
 
 def validatedEiggData():
-    with open("EiggVerifiedSpeciesList", "rb") as f:
+    with open("./crushedFoodWebDatasets/EiggVerifiedSpeciesList", "rb") as f:
         verifiedSpecies = pickle.load(f)
 
     df = fetchRawCSVObservationData("eigg.csv")

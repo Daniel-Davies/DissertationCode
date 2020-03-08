@@ -4,31 +4,56 @@
 ##MAKE SURE TO SEARCH OVER ALL VALUES, NOT JUST FIRST?
 ##OR ONLY COUNT FIRST INTERACTIONS?
 
-
 import pandas as pd
 from collections import defaultdict
 from data import validatedEiggData, eiggRawData
 import os 
 import re
 import time
+import pickle
 from io import StringIO
+import requests
 
 basePath = "./RelevantDatasets/"
+crushedDatasets = "./crushedFoodWebDatasets/"
 
 def retrieveCollatedFoodWeb():
     ##NZ SB_DATA + DRYAD DATA GIVE NO IMPROVEMENT!
-    #dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData(), readNZData(), readDryadData(), prnFileReader()]
-    coreDataSets = [read2018GlobalDatabaseData(), readSorensenData(), readJanesData(), prnFileReader()]
+    #dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData(), readNZData(), readDryadData(), readEcoWeb()]
+    coreDataSets = [read2018GlobalDatabaseData(), readSorensenData(), readJanesData(), readEcoWeb()]
     return aggregateDataSets(coreDataSets)
 
 def readFreshwaterData():
     return crushPredatorPreyAdjListToDict('consumer','resource',basePath+'freshwater.csv')
 
 def read2018GlobalDatabaseData():
-    return crushPredatorPreyAdjListToDict('con.taxonomy', 'res.taxonomy', basePath+'2018GlobAL.csv')
+    name = "2018Global"
+    indivFoodWeb = {}
+    if os.path.isfile(crushedDatasets+name):
+        with open(crushedDatasets+name, 'rb') as f:
+            indivFoodWeb = pickle.load(f)
+    else:
+        indivFoodWeb = crushPredatorPreyAdjListToDict('con.taxonomy', 'res.taxonomy', basePath+'2018GlobAL.csv',verify=False)
+        with open(crushedDatasets+name, 'wb') as f:
+            pickle.dump(indivFoodWeb,f)
+    
+    return indivFoodWeb
 
 def getFileID(fileId):
     return standardiseNames(fileId.decode("utf-8")).split(" ")[0]
+
+def readEcoWeb():
+    name = "EcoWeb"
+    indivFoodWeb = {}
+    if os.path.isfile(crushedDatasets+name):
+        with open(crushedDatasets+name, 'rb') as f:
+            indivFoodWeb = pickle.load(f)
+    else:
+        indivFoodWeb = prnFileReader()
+        with open(crushedDatasets+name, 'wb') as f:
+            pickle.dump(indivFoodWeb,f)
+    
+    return indivFoodWeb
 
 def prnFileReader():
     eiggRawData = validatedEiggData()
@@ -39,46 +64,44 @@ def prnFileReader():
     filesToProcess = getECOPath()
     aggregated = []
     for f in filesToProcess:
+        with open("./prnTest/"+f, 'rb') as file_:
+            content = (file_.readlines())
+
+        fileId = getFileID(content[0])
+        content = content[1:]
+        if content[-1].decode("utf-8") == "\x1a":
+            content = content[:-1]
+        content = list(map(lambda x: x.strip().decode("utf-8"),content))
+        content = list(map(lambda x: " ".join(x.split(" ")[1:]), content))
+
+        content = list(map(lambda x: cleanSpeciesName(x,verify=False),content))
+        matrixCorresponding = None
         try:
-            with open("./prnTest/"+f, 'rb') as file:
-                content = (file.readlines())
+            with open("./RelevantDatasets/ECOWeB1.1/ECOWeB1.1/DATFILES/COMMUNITY/WEB"+fileId+".DAT", 'rb') as matrix:
+                matrixCorresponding = matrix.readlines()
+        except Exception as e:
+            continue
 
-            fileId = getFileID(content[0])
-            content = content[1:]
-            if content[-1].decode("utf-8") == "\x1a":
-                content = content[:-1]
-            content = list(map(lambda x: x.strip().decode("utf-8"),content))
-            content = list(map(lambda x: " ".join(x.split(" ")[1:3]), content))
-            content = list(map(lambda x: standardiseNames(x),content))
+        matrixCorresponding = matrixCorresponding[:-1]
+        matrixCorresponding = list(map(lambda x: x.decode("utf-8").strip().split(" "),matrixCorresponding))
+        matrixCorresponding = [list(filter(lambda y: len(y)>0,x)) for x in matrixCorresponding]
+        matrixCorresponding = [list(map(lambda y: int(y),x)) for x in matrixCorresponding]
+        matrixCorresponding = list(filter(lambda x: len(x)>0, matrixCorresponding))
 
-            matrixCorresponding = None
-            try:
-                with open("./RelevantDatasets/ECOWeB1.1/ECOWeB1.1/DATFILES/COMMUNITY/WEB"+fileId+".DAT", 'rb') as matrix:
-                    matrixCorresponding = matrix.readlines()
-            except Exception as e:
-                continue
+        colHeader = matrixCorresponding[0][1:]
+        rowHeader = list(map(lambda x: x[0],matrixCorresponding[1:]))
 
-            matrixCorresponding = matrixCorresponding[:-1]
-            matrixCorresponding = list(map(lambda x: x.decode("utf-8").strip().split(" "),matrixCorresponding))
-            matrixCorresponding = [list(filter(lambda y: len(y)>0,x)) for x in matrixCorresponding]
-            matrixCorresponding = [list(map(lambda y: int(y),x)) for x in matrixCorresponding]
-            matrixCorresponding = list(filter(lambda x: len(x)>0, matrixCorresponding))
+        content = list(map(lambda x: convertCommonNameToScientific[x] if x in convertCommonNameToScientific else x,content))
 
-            colHeader = matrixCorresponding[0][1:]
-            rowHeader = list(map(lambda x: x[0],matrixCorresponding[1:]))
+        colHeader = list(map(lambda x: content[x-1],colHeader))
+        rowHeader = list(map(lambda x: content[x-1],rowHeader))
 
-            content = list(map(lambda x: convertCommonNameToScientific[x] if x in convertCommonNameToScientific else x,content))
+        matrixCorresponding = matrixCorresponding[1:]
 
-            colHeader = list(map(lambda x: content[x-1],colHeader))
-            rowHeader = list(map(lambda x: content[x-1],rowHeader))
-
-            matrixCorresponding = matrixCorresponding[1:]
-
-            data = pd.DataFrame(matrixCorresponding,columns=["species"]+colHeader)
-            data['species'] = data['species'].apply(lambda x: content[int(x)-1])
-            aggregated.append(crushMatrixToDict(data))
-        except:
-            print(f)
+        data = pd.DataFrame(matrixCorresponding,columns=["species"]+colHeader)
+        data['species'] = data['species'].apply(lambda x: content[int(x)-1])
+        aggregated.append(crushMatrixToDict(data))
+    
         
     return aggregateDataSets(aggregated)
 
@@ -207,6 +230,19 @@ def readSorensenData(): #done manually since there were small number of entries
     return data
 
 def readJanesData():
+    name = "janeData"
+    indivFoodWeb = {}
+    if os.path.isfile(crushedDatasets+name):
+        with open(crushedDatasets+name, 'rb') as f:
+            indivFoodWeb = pickle.load(f)
+    else:
+        indivFoodWeb = processJaneData()
+        with open(crushedDatasets+name, 'wb') as f:
+            pickle.dump(indivFoodWeb,f)
+    
+    return indivFoodWeb
+
+def processJaneData():
     eiggData = validatedEiggData()
     speciesCommonNames = eiggData["Common name"]
     speciesScientific = eiggData["Scientific name"]
@@ -238,7 +274,7 @@ def readJanesData():
 
     df = df[df['species'] != '']
 
-    return crushNonReciprocatedAdjList(df)
+    return crushNonReciprocatedAdjList(df, verify=True)
 
 
 def defineNewRowHeadersJaneData(df):
@@ -259,11 +295,14 @@ def defineNewColHeadersJaneData(df):
 
     return combinedToSingleNameCol
 
-def crushNonReciprocatedAdjList(df):
+def crushNonReciprocatedAdjList(df, verify=False):
     predatorPreyDict = defaultdict(list)
 
     predatorSpeciesList = df["species"].values.tolist()
     preySpeciesList = df.columns[1:].values.tolist()
+
+    predatorSpeciesList = list(map(lambda x: cleanSpeciesName(x,verify), predatorSpeciesList))
+    preySpeciesList = list(map(lambda x: cleanSpeciesName(x,verify), preySpeciesList))
     
     df.set_index('species', inplace=True)
 
@@ -296,7 +335,7 @@ def crushMatrixToDict(df):
     
     return predatorPreyDict
 
-def crushPredatorPreyAdjListToDict(predatorColId, preyColId, filename):
+def crushPredatorPreyAdjListToDict(predatorColId, preyColId, filename, verify):
     data = pd.read_csv(filename,encoding = "ISO-8859-1") 
     df = data[[preyColId, predatorColId]]
 
@@ -306,8 +345,8 @@ def crushPredatorPreyAdjListToDict(predatorColId, preyColId, filename):
     predators = df[predatorColId].values.tolist()
     prey = df[preyColId].values.tolist()
 
-    predators = list(map(lambda x: cleanEcologicalName(x), predators))
-    prey = list(map(lambda x: cleanEcologicalName(x), prey))
+    predators = list(map(lambda x: cleanSpeciesName(x,verify), predators))
+    prey = list(map(lambda x: cleanSpeciesName(x,verify), prey))
 
     pairedUp = zip(predators,prey)
 
@@ -334,17 +373,53 @@ def cleanEcologicalName(name):
     if "spp." in name:
         name.remove("spp.")
     
+    if "sp" in name:
+        name.remove("sp")
+
+    if "spp" in name:
+        name.remove("spp")
+    
     if "agg" in name:
         name.remove("agg")
     
     if "agg." in name:
         name.remove("agg.")
 
+    if "indet" in name:
+        name.remove("indet")
+    
+    if "indet." in name:
+        name.remove("indet.")
+
     name = name[:2]
     name = " ".join(name)
 
+    name = name.split("/")
+    name = name[0]
+
+    name = name.replace('"', '')
+    name = name.replace("'",'')
+    name = name.replace("?",'')
+
     return name.strip().lower()
 
+def validateSingleName(name,limit=100):
+    callToValidateName = requests.get('http://resolver.globalnames.org/name_resolvers.json?names='+name)
+    jsonRes = callToValidateName.json()['data'][0]
+    try:
+        if not jsonRes['is_known_name']:
+            return jsonRes['results']['canonical_form']
+        else:
+            return " ".join(name.split(" ")[:limit])
+    except:
+        print("Error occured at "+str(name))
+        return name
+
+def cleanSpeciesName(name, verify=True):
+    name = cleanEcologicalName(name)
+    if verify:
+        name = validateSingleName(name)
+    return name
 
 def aggregateDataSets(datasets):
     totalConsumableAnimalsByPredator = defaultdict(set)
