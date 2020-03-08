@@ -2,11 +2,14 @@
 import pandas as pd
 from collections import defaultdict
 from data import validatedEiggData, eiggRawData
+import os 
+import re
+import time
 
 basePath = "./RelevantDatasets/"
 
 def retrieveCollatedFoodWeb():
-    dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData()]
+    dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData(), readNZData(), readDryadData()]
     return aggregateDataSets(dataSetFunctions)
 
 def readFreshwaterData():
@@ -33,8 +36,56 @@ def readSantaBarbaraMatrix():
     
     df["Species"] = df["Species"].str.lower()
     df.columns = [x.lower() for x in df.columns]
+    
 
     return crushMatrixToDict(df)
+
+def readDryadData():
+    return {}
+
+def readNZData():
+    filesToProcess = getNewZealandFoodWebFiles()
+    aggregated = []
+    total = 0
+    for f in filesToProcess:
+        try:
+            df = pd.read_excel(basePath+'/newZealandAllPredatorPrey/'+f)
+            df.columns.values[0] = "Species"
+            newCols = list(map(lambda x: standardiseNames(x), list(df.columns)))
+            df = df.drop(df.filter(regex="unnamed:"),axis=1)
+            newCols = list(filter(lambda x: "unnamed:" not in x,newCols))
+            df.columns = newCols
+
+            df['species'] = newCols[1:]
+            dict_ = crushMatrixToDict(df)
+            aggregated.append(dict_)
+        except Exception as e:
+            total += 1
+
+
+        #df.columns = list(map(lambda x: standardiseNames(x), df.columns))
+        #time.sleep(2)
+    print("Inconsistent blocks: " + str(total))
+    return aggregateDataSets(aggregated)
+
+
+def standardiseNames(name):
+    name = name.replace('"', '')
+    name = name.replace("'",'')
+    name = name.replace("?",'')
+    name = name.split("/")
+    name = name[0]
+    name = re.sub(r'\([^)]*\)', '', name)
+    name = name.strip()
+    name = name.lower()
+    return name
+
+
+
+
+def getNewZealandFoodWebFiles():
+    return os.listdir('C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/RelevantDatasets/newZealandAllPredatorPrey')
+
 
 def readSorensenData(): #done manually since there were small number of entries
     data = {}
@@ -63,7 +114,6 @@ def readJanesData():
     speciesScientific = speciesScientific.str.lower()
 
     values = dict(list(set(zip(speciesCommonNames,speciesScientific))))
-    print(len(values))
 
     df = pd.read_csv(basePath+'janePollinators.csv')
 
@@ -114,7 +164,7 @@ def crushNonReciprocatedAdjList(df):
 
     predatorSpeciesList = df["species"].values.tolist()
     preySpeciesList = df.columns[1:].values.tolist()
-
+    
     df.set_index('species', inplace=True)
 
     for k, name in enumerate(predatorSpeciesList):
@@ -173,3 +223,5 @@ def aggregateDataSets(datasets):
 def addAllPreyToDictSet(mainDictionarySubset, listOfAdditions):
     for item in listOfAdditions:
         mainDictionarySubset.add(item)
+
+readDryadData()
