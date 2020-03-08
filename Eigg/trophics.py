@@ -11,13 +11,13 @@ from data import validatedEiggData, eiggRawData
 import os 
 import re
 import time
+from io import StringIO
 
 basePath = "./RelevantDatasets/"
 
 def retrieveCollatedFoodWeb():
     ##NZ SB_DATA + DRYAD DATA GIVE NO IMPROVEMENT!
-    #dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData(), readNZData(), readDryadData()]7
-    dataSetFunctions = [readFreshwaterData(),read2018GlobalDatabaseData(),readSorensenData(),readJanesData()]
+    dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData(), readNZData(), readDryadData(), prnFileReader()]
     return aggregateDataSets(dataSetFunctions)
 
 def readFreshwaterData():
@@ -25,6 +25,64 @@ def readFreshwaterData():
 
 def read2018GlobalDatabaseData():
     return crushPredatorPreyAdjListToDict('con.taxonomy', 'res.taxonomy', basePath+'2018GlobAL.csv')
+
+def getFileID(fileId):
+    return standardiseNames(fileId.decode("utf-8")).split(" ")[0]
+
+def prnFileReader():
+    eiggRawData = validatedEiggData()
+    scientificNames = eiggRawData["Scientific name"].str.lower()
+    commonNames = eiggRawData["Common name"].str.lower()
+    convertCommonNameToScientific = dict(zip(commonNames,scientificNames))
+    aggregated = []
+    filesToProcess = getECOPath()
+    aggregated = []
+    for f in filesToProcess:
+        try:
+            with open("./prnTest/"+f, 'rb') as file:
+                content = (file.readlines())
+
+            fileId = getFileID(content[0])
+            content = content[1:]
+            if content[-1].decode("utf-8") == "\x1a":
+                content = content[:-1]
+            content = list(map(lambda x: x.strip().decode("utf-8"),content))
+            content = list(map(lambda x: " ".join(x.split(" ")[1:3]), content))
+            content = list(map(lambda x: standardiseNames(x),content))
+
+            matrixCorresponding = None
+            try:
+                with open("./RelevantDatasets/ECOWeB1.1/ECOWeB1.1/DATFILES/COMMUNITY/WEB"+fileId+".DAT", 'rb') as matrix:
+                    matrixCorresponding = matrix.readlines()
+            except Exception as e:
+                continue
+
+            matrixCorresponding = matrixCorresponding[:-1]
+            matrixCorresponding = list(map(lambda x: x.decode("utf-8").strip().split(" "),matrixCorresponding))
+            matrixCorresponding = [list(filter(lambda y: len(y)>0,x)) for x in matrixCorresponding]
+            matrixCorresponding = [list(map(lambda y: int(y),x)) for x in matrixCorresponding]
+            matrixCorresponding = list(filter(lambda x: len(x)>0, matrixCorresponding))
+
+            colHeader = matrixCorresponding[0][1:]
+            rowHeader = list(map(lambda x: x[0],matrixCorresponding[1:]))
+
+            content = list(map(lambda x: convertCommonNameToScientific[x] if x in convertCommonNameToScientific else x,content))
+
+            colHeader = list(map(lambda x: content[x-1],colHeader))
+            rowHeader = list(map(lambda x: content[x-1],rowHeader))
+
+            matrixCorresponding = matrixCorresponding[1:]
+
+            data = pd.DataFrame(matrixCorresponding,columns=["species"]+colHeader)
+            data['species'] = data['species'].apply(lambda x: content[int(x)-1])
+            aggregated.append(crushMatrixToDict(data))
+        except:
+            print(f)
+        
+    return aggregateDataSets(aggregated)
+
+def getECOPath():
+    return os.listdir('C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/prnTest')  
 
 def readSantaBarbaraMatrix():
     df = pd.read_csv(basePath+'sbPredatorPreyMatrix.csv') 
