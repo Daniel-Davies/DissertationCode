@@ -17,8 +17,9 @@ basePath = "./RelevantDatasets/"
 
 def retrieveCollatedFoodWeb():
     ##NZ SB_DATA + DRYAD DATA GIVE NO IMPROVEMENT!
-    dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData(), readNZData(), readDryadData(), prnFileReader()]
-    return aggregateDataSets(dataSetFunctions)
+    #dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData(), readNZData(), readDryadData(), prnFileReader()]
+    coreDataSets = [read2018GlobalDatabaseData(), readSorensenData(), readJanesData(), prnFileReader()]
+    return aggregateDataSets(coreDataSets)
 
 def readFreshwaterData():
     return crushPredatorPreyAdjListToDict('consumer','resource',basePath+'freshwater.csv')
@@ -302,13 +303,48 @@ def crushPredatorPreyAdjListToDict(predatorColId, preyColId, filename):
     df = df.dropna(subset=[preyColId])
     df = df.dropna(subset=[predatorColId])
 
-    pairedUp = zip(df[predatorColId].str.lower(),df[preyColId].str.lower())
+    predators = df[predatorColId].values.tolist()
+    prey = df[preyColId].values.tolist()
+
+    predators = list(map(lambda x: cleanEcologicalName(x), predators))
+    prey = list(map(lambda x: cleanEcologicalName(x), prey))
+
+    pairedUp = zip(predators,prey)
 
     groupedByPredator = defaultdict(list)
     for predator, prey in pairedUp:
         groupedByPredator[predator].append(prey)
     
     return groupedByPredator
+
+def cleanEcologicalName(name):
+    name = re.sub(r'\{.*\}', '', name)
+    name = re.sub(r'\(.*\)', '', name)
+    name = name.split(" ")
+
+    if "cf" in name:
+        name.remove("cf")
+    
+    if "cf." in name:
+        name.remove("cf.")
+
+    if "sp." in name:
+        name.remove("sp.")
+
+    if "spp." in name:
+        name.remove("spp.")
+    
+    if "agg" in name:
+        name.remove("agg")
+    
+    if "agg." in name:
+        name.remove("agg.")
+
+    name = name[:2]
+    name = " ".join(name)
+
+    return name.strip().lower()
+
 
 def aggregateDataSets(datasets):
     totalConsumableAnimalsByPredator = defaultdict(set)
