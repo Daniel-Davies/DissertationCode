@@ -1,3 +1,9 @@
+###ISSUES PRESENTLY
+
+##SOME INTERACTIONS ARE BEING MISSED DUE TO INCONSISTENCIES
+##MAKE SURE TO SEARCH OVER ALL VALUES, NOT JUST FIRST?
+##OR ONLY COUNT FIRST INTERACTIONS?
+
 
 import pandas as pd
 from collections import defaultdict
@@ -9,7 +15,9 @@ import time
 basePath = "./RelevantDatasets/"
 
 def retrieveCollatedFoodWeb():
-    dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData(), readNZData(), readDryadData()]
+    ##NZ SB_DATA + DRYAD DATA GIVE NO IMPROVEMENT!
+    #dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData(), readNZData(), readDryadData()]7
+    dataSetFunctions = [readFreshwaterData(),read2018GlobalDatabaseData(),readSorensenData(),readJanesData()]
     return aggregateDataSets(dataSetFunctions)
 
 def readFreshwaterData():
@@ -41,7 +49,42 @@ def readSantaBarbaraMatrix():
     return crushMatrixToDict(df)
 
 def readDryadData():
-    return {}
+    filesToProcess = getDryadFoodWebFiles()
+    aggregated = []
+    total = 0
+    for f in filesToProcess:
+        try:
+            df = pd.read_excel(basePath+'/dryad/'+f, header=None)
+            new_header = df.iloc[0] #grab the first row for the header
+            df = df[1:] #take the data less the header row
+            new_header[0] = "Species"
+            df.columns = new_header #set the header row as the df header
+            
+            newCols = list(map(lambda x: standardiseNames(x), list(df.columns)))
+            df = df.drop(df.filter(regex="unnamed:"),axis=1)
+            newCols = list(filter(lambda x: "unnamed:" not in x,newCols))
+            df.columns = newCols
+            inter = list(df['species'])
+            for k,i in enumerate(newCols[1:]):
+                if standardiseNames(inter[k]) == i:
+                    df.ix[k, 'species'] = i
+                else:
+                    df.ix[k, 'species'] ="f2tva25lgxq"
+            df = df[df.species != 'f2tva25lgxq']
+            invalidFollowing = len(df) - len(newCols)
+            if invalidFollowing > 0:
+                df.drop(df.tail(invalidFollowing).index,inplace=True) # drop last n rows
+
+            dict_ = crushMatrixToDict(df)
+            aggregated.append(dict_)
+        except Exception as e:
+            total += 1
+        break
+    
+    return aggregateDataSets(aggregated)
+
+def getDryadFoodWebFiles():
+    return os.listdir('C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/RelevantDatasets/dryad')
 
 def readNZData():
     filesToProcess = getNewZealandFoodWebFiles()
@@ -49,8 +92,12 @@ def readNZData():
     total = 0
     for f in filesToProcess:
         try:
-            df = pd.read_excel(basePath+'/newZealandAllPredatorPrey/'+f)
-            df.columns.values[0] = "Species"
+            df = pd.read_excel(basePath+'/newZealandAllPredatorPrey/'+f, header=None)
+            new_header = df.iloc[0] #grab the first row for the header
+            df = df[1:] #take the data less the header row
+            new_header[0] = "Species"
+            df.columns = new_header #set the header row as the df header
+            
             newCols = list(map(lambda x: standardiseNames(x), list(df.columns)))
             df = df.drop(df.filter(regex="unnamed:"),axis=1)
             newCols = list(filter(lambda x: "unnamed:" not in x,newCols))
@@ -62,9 +109,6 @@ def readNZData():
         except Exception as e:
             total += 1
 
-
-        #df.columns = list(map(lambda x: standardiseNames(x), df.columns))
-        #time.sleep(2)
     print("Inconsistent blocks: " + str(total))
     return aggregateDataSets(aggregated)
 
@@ -79,9 +123,6 @@ def standardiseNames(name):
     name = name.strip()
     name = name.lower()
     return name
-
-
-
 
 def getNewZealandFoodWebFiles():
     return os.listdir('C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/RelevantDatasets/newZealandAllPredatorPrey')
@@ -223,5 +264,3 @@ def aggregateDataSets(datasets):
 def addAllPreyToDictSet(mainDictionarySubset, listOfAdditions):
     for item in listOfAdditions:
         mainDictionarySubset.add(item)
-
-readDryadData()
