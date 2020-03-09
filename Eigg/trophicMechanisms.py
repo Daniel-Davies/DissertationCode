@@ -8,148 +8,74 @@ import pickle
 from io import StringIO
 import requests
 from trophics import *
-
-## Grid Manipulations
-
-def crushNonReciprocatedAdjList(df, verify=False):
-    predatorPreyDict = defaultdict(list)
-
-    predatorSpeciesList = df["species"].values.tolist()
-    preySpeciesList = df.columns[1:].values.tolist()
-
-    predatorSpeciesList = list(map(lambda x: cleanSpeciesName(x,verify), predatorSpeciesList))
-    preySpeciesList = list(map(lambda x: cleanSpeciesName(x,verify), preySpeciesList))
-    
-    df.set_index('species', inplace=True)
-
-    for k, name in enumerate(predatorSpeciesList):
-        animalRow = df.loc[[name]]
-        for k,v in enumerate(preySpeciesList):
-            try:
-                if float(animalRow[v].values.tolist()[0]) > 0:
-                    predatorPreyDict[name].append(v)
-            except:
-                pass #drop the invalid (duplicated) entries
-    
-    return predatorPreyDict
-
-def crushMatrixToDict(df):
-    predatorPreyDict = defaultdict(list)
-
-    speciesList = list(df["species"])
-
-    df.set_index('species', inplace=True)
-
-    for k, name in enumerate(speciesList):
-        animalRow = df.loc[[name]]
-        for k,v in enumerate(speciesList):
-            try:
-                if float(animalRow[v].values.tolist()[0]) > 0:
-                    predatorPreyDict[name].append(v)
-            except:
-                pass #drop the invalid (duplicated) entries
-    
-    return predatorPreyDict
-
-def crushPredatorPreyAdjListToDict(predatorColId, preyColId, filename, verify):
-    data = pd.read_csv(filename,encoding = "ISO-8859-1") 
-    df = data[[preyColId, predatorColId]]
-
-    df = df.dropna(subset=[preyColId])
-    df = df.dropna(subset=[predatorColId])
-
-    predators = df[predatorColId].values.tolist()
-    prey = df[preyColId].values.tolist()
-
-    predators = list(map(lambda x: cleanSpeciesName(x,verify), predators))
-    prey = list(map(lambda x: cleanSpeciesName(x,verify), prey))
-
-    pairedUp = zip(predators,prey)
-
-    groupedByPredator = defaultdict(list)
-    for predator, prey in pairedUp:
-        groupedByPredator[predator].append(prey)
-    
-    return groupedByPredator
-
+from gridManipulations import *
+from ecoNameManipulations import *
 # Support functions
 
-def standardiseNames(name):
-    name = name.replace('"', '')
-    name = name.replace("'",'')
-    name = name.replace("?",'')
-    name = name.split("/")
-    name = name[0]
-    name = re.sub(r'\([^)]*\)', '', name)
-    name = name.strip()
-    name = name.lower()
-    return name
-
-def cleanSpeciesName(name, verify=True):
-    name = cleanEcologicalName(name)
-    if verify:
-        name = validateSingleName(name)
-    return name
-
-def cleanEcologicalName(name):
-    name = re.sub(r'\{.*\}', '', name)
-    name = re.sub(r'\(.*\)', '', name)
-    name = name.split(" ")
-
-    if "cf" in name:
-        name.remove("cf")
+def santaBarbaraReader():
+    df = pd.read_csv(basePath+'sbPredatorPreyMatrix.csv') 
+    correctColumns = df.iloc[[1]].values.tolist()[0]
+    for k,item in enumerate(correctColumns):
+        if type(item) is not str:
+            correctColumns[k] = "Unnamed"+str(k)
     
-    if "cf." in name:
-        name.remove("cf.")
+    df.columns = correctColumns
+    new_columns = df.columns.values
+    new_columns[1] = 'Species'
+    df.columns = new_columns
 
-    if "sp." in name:
-        name.remove("sp.")
-
-    if "spp." in name:
-        name.remove("spp.")
+    df = df.drop(df.index[0:2])
+    df = df.drop(df.columns[130:],axis=1)
+    df = df.drop(df.columns[0],axis=1)
     
-    if "sp" in name:
-        name.remove("sp")
+    df["Species"] = df["Species"].str.lower()
+    df.columns = [x.lower() for x in df.columns]
 
-    if "spp" in name:
-        name.remove("spp")
-    
-    if "agg" in name:
-        name.remove("agg")
-    
-    if "agg." in name:
-        name.remove("agg.")
+    return crushMatrixToDict(df)
 
-    if "indet" in name:
-        name.remove("indet")
-    
-    if "indet." in name:
-        name.remove("indet.")
 
-    name = name[:2]
-    name = " ".join(name)
+def leatherBritain():
+    df = pd.read_excel(basePath+'leatherBritain.xls',header=None)
 
-    name = name.split("/")
-    name = name[0]
+    combinedToSingleNameRow = defineNewRowHeaders(df)[1:]
+    combinedToSingleNameCol = defineNewColHeaders(df,0,1)[1:]
+    df = df.drop(df.columns[0:2],axis=1)
+    df = df.drop(df.index[0:3])
 
-    name = name.replace('"', '')
-    name = name.replace("'",'')
-    name = name.replace("?",'')
+    combinedToSingleNameRow.insert(0,'species')
 
-    return name.strip().lower()
+    df.columns = combinedToSingleNameRow
+    df['species'] = combinedToSingleNameCol
 
-def validateSingleName(name,limit=100):
-    callToValidateName = requests.get('http://resolver.globalnames.org/name_resolvers.json?names='+name)
-    jsonRes = callToValidateName.json()['data'][0]
-    try:
-        if not jsonRes['is_known_name']:
-            return jsonRes['results']['canonical_form']
-        else:
-            return " ".join(name.split(" ")[:limit])
-    except:
-        print("Error occured at "+str(name))
-        return name
+    return crushNonReciprocatedAdjList(df, verify=True)
 
+def leatherFinland():
+    df = pd.read_excel(basePath+'leatherFinland.xls',header=None)
+
+    combinedToSingleNameRow = defineNewRowHeaders(df)[1:]
+    combinedToSingleNameCol = defineNewColHeaders(df,0,1)[1:]
+    df = df.drop(df.columns[0:2],axis=1)
+    df = df.drop(df.index[0:3])
+
+    combinedToSingleNameRow.insert(0,'species')
+
+    df.columns = combinedToSingleNameRow
+    df['species'] = combinedToSingleNameCol
+
+    return crushNonReciprocatedAdjList(df, verify=True)
+
+def readGovPollinator():
+    df = pd.read_csv(basePath+'plantPollinator.csv')
+    dfPollinators = df['POLLINATOR_NAME']
+    dfPlants = df['PLANT_NAME']
+
+    pollinators = list(set(dfPollinators.values.tolist()))
+    pollinators = list(map(lambda x: cleanEcologicalName(x),pollinators))
+
+    plants = list(set(dfPlants.values.tolist()))
+    plants = list(map(lambda x: cleanEcologicalName(x),plants))
+
+    return crushCoupledListToDict(pollinators,plants)
     
 def prnFileReader():
     eiggRawData = validatedEiggData()
@@ -224,8 +150,8 @@ def processJaneData():
 
     df = pd.read_csv(basePath+'janePollinators.csv')
 
-    combinedToSingleNameRow = defineNewRowHeadersJaneData(df)
-    combinedToSingleNameCol = defineNewColHeadersJaneData(df)
+    combinedToSingleNameRow = defineNewRowHeaders(df)
+    combinedToSingleNameCol = defineNewColHeaders(df,2,3)
 
     combinedToSingleNameRow = list(map(lambda x: values[x] if x in values else '', combinedToSingleNameRow))
     combinedToSingleNameCol = list(map(lambda x: values[x] if x in values else '', combinedToSingleNameCol))
@@ -250,7 +176,7 @@ def dropUselessGridPieces(df):
 
     return df
 
-def defineNewRowHeadersJaneData(df):
+def defineNewRowHeaders(df):
     firstNameRow = df.iloc[0].values.tolist()
     secondNameRow = df.iloc[1].values.tolist()
     combinesToTuples = list(zip(firstNameRow,secondNameRow))
@@ -260,8 +186,8 @@ def defineNewRowHeadersJaneData(df):
 
     return combinedToSingleNameRow
 
-def defineNewColHeadersJaneData(df):
-    namedCols = list(zip(df.iloc[:,2].values.tolist(),df.iloc[:,3].values.tolist()))
+def defineNewColHeaders(df,firstIndex,secondIndex):
+    namedCols = list(zip(df.iloc[:,firstIndex].values.tolist(),df.iloc[:,secondIndex].values.tolist()))
     namedCols = namedCols[2:]
     namedCols = list(map(lambda x: (x[0],'') if type(x[1]) is not str else x, namedCols))
     combinedToSingleNameCol = list(map(lambda x: (x[0].lower()+" "+x[1].lower()).strip(), namedCols))

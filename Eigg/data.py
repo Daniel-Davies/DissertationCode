@@ -282,7 +282,7 @@ def uninferredNamesGraph():
     relationships["Clare Miller"] = ["Health & Home Care", "Eigg Yurts"]
     
     relationships["John"] = ["Craigard Teas"]
-    relationships["Sheila"] = ["Craigard Teas"]
+    relationships["Sheila"] = ["Craigard Teas"] #John Clare and Sheila Gunn 
 
     relationships["Camille Dressler"] = ["Eigg Crafts", "Eigg History"]
     relationships["Hilda Ibrahim"] = ["Eigg Crafts"]

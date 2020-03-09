@@ -15,75 +15,56 @@ from io import StringIO
 import requests
 from trophicMechanisms import *
 
-basePath = "./RelevantDatasets/"
+basePath = "./RelevantDatasets/production/"
 crushedDatasets = "./crushedFoodWebDatasets/"
 
 def retrieveCollatedFoodWeb():
     ##NZ SB_DATA + DRYAD DATA GIVE NO IMPROVEMENT!
     #dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData(), readNZData(), readDryadData(), readEcoWeb()]
-    coreDataSets = [readFreshwaterData(), read2018GlobalDatabaseData(), readSorensenData(), readJanesData(), readEcoWeb()]
+    coreDataSets = [readFreshwaterData(), read2018GlobalDatabaseData(), readSorensenData(), readJanesData(), readEcoWeb(), readLeatherBritain(), readLeatherFinland(), readPlantPollinatorsUK()]
     return aggregateDataSets(coreDataSets)
 
-def readFreshwaterData():
-    name = "freshWater"
+def invokeFunctionWithParameters(f,params):
+    return f(*params)
+
+def readCachedIndividualFoodwebs(name,f,params):
     indivFoodWeb = {}
     if os.path.isfile(crushedDatasets+name):
         with open(crushedDatasets+name, 'rb') as f:
             indivFoodWeb = pickle.load(f)
     else:
-        indivFoodWeb = crushPredatorPreyAdjListToDict('consumer','resource',basePath+'freshwater.csv',verify=False)
+        indivFoodWeb = invokeFunctionWithParameters(f,params)
         with open(crushedDatasets+name, 'wb') as f:
             pickle.dump(indivFoodWeb,f)
     
     return indivFoodWeb
+
+def readLeatherBritain():
+    return readCachedIndividualFoodwebs("leatherBritain",leatherBritain,[])
+
+def readLeatherFinland():
+    return readCachedIndividualFoodwebs("leatherFinland",leatherFinland,[])
+    
+def readFreshwaterData():
+    return readCachedIndividualFoodwebs("freshWater",crushPredatorPreyAdjListToDict,['consumer','resource',basePath+'freshwater.csv',False])
+
+def plantPollinatorGovDataset():
+    return readCachedIndividualFoodwebs("govPlantPollinators", readGovPollinator, [])
 
 def read2018GlobalDatabaseData():
-    name = "2018Global"
-    indivFoodWeb = {}
-    if os.path.isfile(crushedDatasets+name):
-        with open(crushedDatasets+name, 'rb') as f:
-            indivFoodWeb = pickle.load(f)
-    else:
-        indivFoodWeb = crushPredatorPreyAdjListToDict('con.taxonomy', 'res.taxonomy', basePath+'2018GlobAL.csv',verify=False)
-        with open(crushedDatasets+name, 'wb') as f:
-            pickle.dump(indivFoodWeb,f)
-    
-    return indivFoodWeb
+    return readCachedIndividualFoodwebs("2018Global", crushPredatorPreyAdjListToDict, ['con.taxonomy', 'res.taxonomy', basePath+'2018GlobAL.csv',False])
 
 def readEcoWeb():
-    name = "EcoWeb"
-    indivFoodWeb = {}
-    if os.path.isfile(crushedDatasets+name):
-        with open(crushedDatasets+name, 'rb') as f:
-            indivFoodWeb = pickle.load(f)
-    else:
-        indivFoodWeb = prnFileReader()
-        with open(crushedDatasets+name, 'wb') as f:
-            pickle.dump(indivFoodWeb,f)
-    
-    return indivFoodWeb
+    return readCachedIndividualFoodwebs("EcoWeb",prnFileReader,[])
+
+def readPlantPollinatorsUK():
+    return readCachedIndividualFoodwebs("plantPollinatorsGov", readGovPollinator, [])
 
 def readSantaBarbaraMatrix():
-    df = pd.read_csv(basePath+'sbPredatorPreyMatrix.csv') 
-    correctColumns = df.iloc[[1]].values.tolist()[0]
-    for k,item in enumerate(correctColumns):
-        if type(item) is not str:
-            correctColumns[k] = "Unnamed"+str(k)
-    
-    df.columns = correctColumns
-    new_columns = df.columns.values
-    new_columns[1] = 'Species'
-    df.columns = new_columns
+    return readCachedIndividualFoodwebs("santaBarbara", santaBarbaraReader, [])
 
-    df = df.drop(df.index[0:2])
-    df = df.drop(df.columns[130:],axis=1)
-    df = df.drop(df.columns[0],axis=1)
-    
-    df["Species"] = df["Species"].str.lower()
-    df.columns = [x.lower() for x in df.columns]
-    
-
-    return crushMatrixToDict(df)
+def readJanesData():
+    return readCachedIndividualFoodwebs("janeData", processJaneData,[])
 
 def readDryadData():
     filesToProcess = getDryadFoodWebFiles()
@@ -165,19 +146,6 @@ def readSorensenData(): #done manually since there were small number of entries
 
     return data
 
-def readJanesData():
-    name = "janeData"
-    indivFoodWeb = {}
-    if os.path.isfile(crushedDatasets+name):
-        with open(crushedDatasets+name, 'rb') as f:
-            indivFoodWeb = pickle.load(f)
-    else:
-        indivFoodWeb = processJaneData()
-        with open(crushedDatasets+name, 'wb') as f:
-            pickle.dump(indivFoodWeb,f)
-    
-    return indivFoodWeb
-
 def aggregateDataSets(datasets):
     totalConsumableAnimalsByPredator = defaultdict(set)
 
@@ -191,6 +159,5 @@ def addAllPreyToDictSet(mainDictionarySubset, listOfAdditions):
     for item in listOfAdditions:
         mainDictionarySubset.add(item)
 
-
-if __name__ == "__main__":
-    print(len(readJanesData()))
+# if __name__ == "__main__":
+#     print(len(retrieveCollatedFoodWeb()))
