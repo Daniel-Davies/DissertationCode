@@ -33,6 +33,21 @@ def santaBarbaraReader():
 
     return crushMatrixToDict(df)
 
+def processGovPlantInteractions():
+    df = pd.read_csv(basePath+"plantInsects.csv")
+    #df.columns.values.tolist()
+    df = df[["Insect species", "Flower Species"]]
+
+    dfPollinators = df["Insect species"]
+    dfPlants = df["Flower Species"]
+
+    pollinators = list(set(dfPollinators.values.tolist()))
+    pollinators = list(map(lambda x: cleanEcologicalName(x),pollinators))
+
+    plants = list(set(dfPlants.values.tolist()))
+    plants = list(map(lambda x: cleanEcologicalName(x),plants))
+
+    return crushCoupledListToDict(pollinators,plants)
 
 def leatherBritain():
     df = pd.read_excel(basePath+'leatherBritain.xls',header=None)

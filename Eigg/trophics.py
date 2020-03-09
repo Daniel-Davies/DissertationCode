@@ -19,9 +19,8 @@ basePath = "./RelevantDatasets/production/"
 crushedDatasets = "./crushedFoodWebDatasets/"
 
 def retrieveCollatedFoodWeb():
-    ##NZ SB_DATA + DRYAD DATA GIVE NO IMPROVEMENT!
     #dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData(), readNZData(), readDryadData(), readEcoWeb()]
-    coreDataSets = [readFreshwaterData(), read2018GlobalDatabaseData(), readSorensenData(), readJanesData(), readEcoWeb(), readLeatherBritain(), readLeatherFinland(), readPlantPollinatorsUK()]
+    coreDataSets = [readFreshwaterData(), read2018GlobalDatabaseData(), readSorensenData(), readJanesData(), readEcoWeb(), readLeatherBritain(), readLeatherFinland(), readPlantPollinatorsUK(), govPlantInteractions()]
     return aggregateDataSets(coreDataSets)
 
 def invokeFunctionWithParameters(f,params):
@@ -65,6 +64,9 @@ def readSantaBarbaraMatrix():
 
 def readJanesData():
     return readCachedIndividualFoodwebs("janeData", processJaneData,[])
+
+def govPlantInteractions():
+    return readCachedIndividualFoodwebs("govPlantsInsects", processGovPlantInteractions,[])
 
 def readDryadData():
     filesToProcess = getDryadFoodWebFiles()
@@ -159,5 +161,5 @@ def addAllPreyToDictSet(mainDictionarySubset, listOfAdditions):
     for item in listOfAdditions:
         mainDictionarySubset.add(item)
 
-# if __name__ == "__main__":
-#     print(len(retrieveCollatedFoodWeb()))
+if __name__ == "__main__":
+    print(len(govPlantInteractions()))
