@@ -48,4 +48,17 @@ def buildEiggTaxonomicIndex():
 
     return taxonomicIndex
 
-print(len(buildEiggTaxonomicIndex()))
+
+def getSpeciesTaxonomicCategorty(name,category):
+    with open("taxonomicIndexEigg", "rb") as f:
+        ctx = pickle.load(f)
+
+    groups,values = ctx[name]
+    groups = groups.lower().split("|") 
+    # ['', 'superkingdom', 'kingdom', 'phylum', 'subphylum', '', '', '', '', '', '', '', '', '', '', '', 'order', 'family', 'subfamily', '', 'genus', 'species']
+    values = values.lower().split("|")
+
+    taxonomy = dict(zip(groups,values))
+
+    if category in taxonomy:
+        return taxonomy[category]
