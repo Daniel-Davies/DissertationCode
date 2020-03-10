@@ -4,7 +4,7 @@ import networkx as nx
 import pickle
 from copy import deepcopy
 
-def graphFoodWeb(dateRange=(1700,2020), isolates=False,  predatorSelector=(None, None), constraint=(None,None)):
+def graphFoodWeb(dateRange=(1700,2020), includeIsolates=False,  predatorSelector=(None, None), constraint=(None,None)):
     dataFrom, dataTo = dateRange
 
     verifiedEiggData = validatedEiggData() 
@@ -24,9 +24,20 @@ def graphFoodWeb(dateRange=(1700,2020), isolates=False,  predatorSelector=(None,
 
     commonNameLabelMapping = dict(zip(allScientificNames,allCommonNames))
 
-    G = createTrophicGraph()
+    G, labels = createTrophicGraph(constrainedEiggData, foodWeb)
+
+    labelMapping = {}
+    for item in labels:
+        if type(commonNameLabelMapping[item]) is not str:
+            labelMapping[item] = item
+        else:
+            labelMapping[item] = commonNameLabelMapping[item]
+
+    if not includeIsolates:
+        remove = [node for node,degree in G.degree() if degree == 0]
+        G.remove_nodes_from(remove)
     
-    return []
+    return G, labelMapping
 
 def constrainByTaxonomy(df, constraint):
 
@@ -70,7 +81,22 @@ def speciesMatchesConstraint(record,constraint,taxonomicTree):
     return constraintClass in indexedTreeCheck and \
            indexedTreeCheck[constraintClass.lower()] == constraintValue.lower()
 
-def createTrophicGraph():
-    return nx.Graph()
+def createTrophicGraph(df,foodWeb):
+    G = nx.Graph()
 
-print(graphFoodWeb())
+    allPossibleSpecies = list(set(df['Scientific name'].values.tolist()))
+    
+    for i in allPossibleSpecies: 
+        G.add_node(i)
+
+    addEdgesToGraph(G,allPossibleSpecies,foodWeb)
+    
+    return G, allPossibleSpecies
+
+def addEdgesToGraph(G,species,foodWeb):
+    for s1 in species:
+        predatorFoodWeb = foodWeb[s1]
+        for s2 in species:
+            if s1 != s2 and s2 in predatorFoodWeb:
+                G.add_edge(s1,s2)
+                
