@@ -46,8 +46,7 @@ def buildEiggTaxonomicIndex():
     with open("taxonomicIndexEigg", "rb") as f:
         print(len(pickle.load(f)))
 
-    return taxonomicIndex
-
+    return taxonomicIndexs
 
 def getSpeciesTaxonomicCategorty(name,category):
     with open("taxonomicIndexEigg", "rb") as f:
@@ -62,3 +61,15 @@ def getSpeciesTaxonomicCategorty(name,category):
 
     if category in taxonomy:
         return taxonomy[category]
+
+
+###TAXONOMY
+
+# Domain => Genetic material, ~ 3 classes
+# Kingdom => Animals, Plants, Fungi..
+# Phylum => Body plan based e.g. "has a spine"
+# Class => Mammals, Aves[birds] etc
+# Order => e.g. Carnivores
+# Family => e.g. Felidae (=Big Cats)
+# Genus => e.g. Puma
+# Species => e.g. Felis Catus (Genus + specific id)
