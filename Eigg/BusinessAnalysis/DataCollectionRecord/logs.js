@@ -69,8 +69,8 @@ export const evidenced = {
     evidenced: {
         "Damian Helliwell": ["https://beta.companieshouse.gov.uk/company/SC170339/officers", "http://isleofeigg.org/creative-eigg/"],
         "Margaret Fyffe": ["https://beta.companieshouse.gov.uk/company/SC544049/officers", "https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://beta.companieshouse.gov.uk/company/SC293992/officers", "https://beta.companieshouse.gov.uk/company/SC177386/officers", "https://beta.companieshouse.gov.uk/company/SC202238/officers", "https://rosestrangartworks.com/tag/cuagach-bothy/"],
-        "Norah Barnes": ["https://beta.companieshouse.gov.uk/company/SC544049/officers", "https://beta.companieshouse.gov.uk/company/SC170339/officers", "Eigg Eco Centre"],
-        "Elizabeth Boden": ["https://beta.companieshouse.gov.uk/company/SC554221/officers", "https://beta.companieshouse.gov.uk/company/SC170339/officers", "Eigg Shed", "https://www.linkedin.com/in/lizzie-boden-64604190/?originalSubdomain=uk", "Sandavore Farm", "https://beta.companieshouse.gov.uk/company/SC177386/officers"],
+        "Norah Barnes": ["https://beta.companieshouse.gov.uk/company/SC544049/officers", "https://beta.companieshouse.gov.uk/company/SC170339/officers", "http://www.earthconnections.co.uk/about-us/about-us"],
+        "Elizabeth Boden": ["https://beta.companieshouse.gov.uk/company/SC554221/officers", "https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://www.airbnb.co.uk/rooms/16893915?source_impression_id=p3_1584047619_kMqrgB81jeyrtIlt", "https://www.linkedin.com/in/lizzie-boden-64604190/?originalSubdomain=uk", "Sandavore Farm", "https://beta.companieshouse.gov.uk/company/SC177386/officers"],
         "Lucy Conway": ["https://beta.companieshouse.gov.uk/company/SC170339/officers", "Lagerona", "Sweeney's Bothy", "Eddie's Eigg Croft", "https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf"],//accountant, wife to eddie
         "Sarah Boden": ["https://beta.companieshouse.gov.uk/company/SC554221/officers", "https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://beta.companieshouse.gov.uk/company/SC293992/officers", "Sandavore Farm", "Kildonnan Bay Oysters"],
         "Mark Alan Foxwell": ["https://beta.companieshouse.gov.uk/company/SC170339/officers"],
@@ -80,7 +80,7 @@ export const evidenced = {
         "Tasha McVarish": ["https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf", "Equilibrium Eigg Massage Therapy"],
         "Sue Hollands": ["Eigg Organics", "https://beta.companieshouse.gov.uk/company/SC293992/officers"],
         "Neil Robertson": ["Eigg Organics", "Roadworks"],
-        "Sue Kirk": ["Lagerona", "Kildonnan House", "Eigg Shop", "https://beta.companieshouse.gov.uk/company/SC202238/officers"],//Kildonnan as they send extra traffic there as is Sister
+        "Sue Kirk": ["Lagerona", "Kildonnan House", "https://www.bbc.co.uk/radio4/today/reports/archive/features/holidayhome.shtml", "https://beta.companieshouse.gov.uk/company/SC202238/officers"],//Kildonnan as they send extra traffic there as is Sister
         "Alisdair Kirk": ["Lagerona", "https://beta.companieshouse.gov.uk/company/SC202238/officers"],////INFERRED Roadworkds => Contruction co 
         "Charlie Galli": ["http://www.eiggtime.com/the-tin-hut-info"],
         "Libby Galli": ["http://www.spanglefish.com/isleofeiggcraftshop/"],
@@ -88,7 +88,7 @@ export const evidenced = {
         "Marie Carr": ["Kildonnan House"],
         "Colin Carr": ["Kildonnan House", "https://beta.companieshouse.gov.uk/company/SC293992/officers", "https://beta.companieshouse.gov.uk/company/SC202238/officers"],
         "Greg Carr": ["Kildonnan House", "https://beta.companieshouse.gov.uk/company/SC177386/officers"],
-        "Alex Boden": ["Eigg Shed", "Sandavore Farm", "https://beta.companieshouse.gov.uk/company/SC554221/officers", "https://beta.companieshouse.gov.uk/company/SC399079/officers"],
+        "Alex Boden": ["https://www.airbnb.co.uk/rooms/16893915?source_impression_id=p3_1584047619_kMqrgB81jeyrtIlt", "Sandavore Farm", "https://beta.companieshouse.gov.uk/company/SC554221/officers", "https://beta.companieshouse.gov.uk/company/SC399079/officers"],
         "Katrin Bach": ["https://www.westword.org.uk/may2018.html", "https://en-gb.facebook.com/EiggyBread/", "https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf"],//caterer for Glebe barn
         "Tamsin McCarthy": ["Glebe Barn", "https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf", "https://beta.companieshouse.gov.uk/company/SC202238/officers"],
         "Simon Helliwell": ["Glebe Barn", "https://beta.companieshouse.gov.uk/company/SC399079/officers"],//previous owner of glebe, along with karen hellwell
@@ -105,11 +105,11 @@ export const evidenced = {
         "John Booth": ["https://beta.companieshouse.gov.uk/company/SC293992/officers", "https://beta.companieshouse.gov.uk/company/SC202238/officers"],
         "George Carr": ["Laig Farm"],////SHEEP FARMING
         "Saira Renny": ["Laig Farm"],
-        "Bob Wallace": ["Eigg Eco Centre"],
+        "Bob Wallace": ["http://www.earthconnections.co.uk/about-us/about-us"],
         "Stuart Millar": ["Fishing Co"],
         "Jenny Robertson": ["A NEAD KNITWEAR", "Eigg Crafts"],
         "Donna McCulloch": ["Refuse Collection", "Eigg Crafts"],//Technically "Creative Eigg"
-        "Celia Bull": ["Selkie Explorers"],
+        "Celia Bull": ["https://www.selkie-explorers.com/"],
         "Catherine Davies": ["Eigg Crafts"],
         "Pascal Carr": ["Eigg Crafts"],
         "Stuart Fergusson": ["https://beta.companieshouse.gov.uk/company/SC177386/officers", "Galmisdale Cafe"],
@@ -139,7 +139,9 @@ export const evidenced = {
         "Sarah Boden": ["https://www.airbnb.co.uk/rooms/16893541?source_impression_id=p3_1584046127_ORBfcbnfwtamWWgY"],
         "Charlie Galli": ["https://twitter.com/i/status/934957139352784896"],
         "Libby Galli": ["http://isleofeigg.org/shops-on-eigg/"],
-        "Katrin Bach": ["","https://www.tripadvisor.co.uk/ShowUserReviews-g1898488-d2176110-r292017245-Glebe_Barn-Isle_of_Eigg_The_Hebrides_Scotland.html",""]
+        "Katrin Bach": ["","https://www.tripadvisor.co.uk/ShowUserReviews-g1898488-d2176110-r292017245-Glebe_Barn-Isle_of_Eigg_The_Hebrides_Scotland.html",""],
+        "Sue Kirk": ["","","https://ec.europa.eu/regional_policy/en/projects/united-kingdom/eigg-goes-green", ""],
+        "Celia Bull": ["https://twitter.com/selkieexplorers?lang=en"]
 
     },
     additionalValidity:{
