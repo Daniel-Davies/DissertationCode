@@ -237,3 +237,107 @@ def exportTags():
     relationships["Rosemary Jane Acock"] = 0
     
     return relationships
+
+def salesTagsCoOwners():
+    relationships = {}
+    
+    relationships["Damian Helliwell"] = 0
+    relationships["Margaret Fyffe"] = 1
+    relationships["Norah Barnes"] = 0
+    relationships["Elizabeth Boden"] = 1
+    relationships["Lucy Conway"] = 1
+    relationships["Sarah Boden"] = 1
+    relationships["Mark Alan Foxwell"] = 0
+    relationships["Jacqueline Kirk"] = 0 #Sue is the owner of the shop => https://vimeo.com/81932195
+    relationships["Ian Leaver"] = 0
+    relationships["Stuart McCarthy"] = 1
+    relationships["Tasha McVarish"] = 1
+    
+    relationships["Sue Hollands"] = 1
+    relationships["Neil Robertson"] = 1
+    
+    relationships["Sue Kirk"] = 1 #Kildonnan as they send extra traffic there as is Sister
+    relationships["Alisdair Kirk"] = 1  #INFERRED Roadworkds => Contruction co 
+    
+    relationships["Charlie Galli"] = 1
+    relationships["Libby Galli"] = 0
+    
+    relationships["Eddie Scott"] = 1
+    
+    relationships["Marie Carr"] = 1
+    relationships["Colin Carr"] = 1
+    relationships["Greg Carr"] = 1
+    
+    relationships["Alex Boden"] = 1
+    
+    relationships["Katrin Bach"] = 0 #caterer for Glebe barn
+    
+    relationships["Tamsin McCarthy"] = 1
+    
+    relationships["Simon Helliwell"] = 1 #previous owner of glebe, along with karen hellwell
+    relationships["Karen Helliwell"] = 1 #daughter is now technically owner
+
+    relationships["Louise Taylor"] = 0
+    relationships["Martin Merrick"] = 0
+    relationships["Kenneth Kean"] = 0
+    relationships["Amanda Moult"] = 0
+    relationships["Annabelle Scott-Moncrieff"] = 0
+    relationships["Laraine Wyn-Jones"] = 1
+    relationships["Owain Wyn-Jones"] = 1
+    
+    #SAME GUY?!?!?!?!!?!?!
+    relationships["John Christopher Lynch"] = 0
+    relationships["John Christopher Clare"] = 0  
+    relationships["John Booth"] = 0
+    
+    relationships["George Carr"] = 0 ##SHEEP FARMING
+    relationships["Saira Renny"] =  0
+    
+    relationships["Bob Wallace"] = 0
+    
+    relationships["Stuart Millar"] = 0
+    
+    relationships["Jenny Robertson"] = 0
+    
+    relationships["Donna McCulloch"] = 0 #Technically "Creative Eigg"
+    
+    relationships["Celia Bull"] = 1
+    
+    ##basket making
+    relationships["Catherine Davies"] = 0
+    relationships["Pascal Carr"] = 0
+    
+    relationships["Stuart Fergusson"] = 1
+    
+    relationships["Peter Wade-Martins"] = 1
+    relationships["Susanna Wade-Martins"] = 1
+    
+    relationships["Jacky"] = 1
+    relationships["Mick"] = 1
+    
+    relationships["Mairi McKinnon"] = 0
+    relationships["Clare Miller"] = 1
+    
+    relationships["John"] = 1
+    relationships["Sheila"] = 1 #John Clare and Sheila Gunn 
+
+    relationships["Camille Dressler"] = 0
+    relationships["Hilda Ibrahim"] = 0
+    
+    relationships["Ian Alexander James Bolas"] = 0
+    relationships["David Byres Newton"] = 0
+    relationships["Marc Allan Smith"] = 0
+    
+    relationships["Jennifer Leiper"] = 0
+    relationships["Robert Wallace"] = 0
+    relationships["Rosemary Jane Acock"] = 0
+    
+    return relationships
+
+
+
+def tourismTags():
+    pass 
+
+def locationTags():
+    pass

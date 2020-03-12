@@ -49,7 +49,7 @@ def seperationInMetres(p1,p2):
     #convert to metres
     return distance * 1000
 
-def outputGraphToFile(filename):
+def outputGraphToFile(G,filename):
     f = nx.to_numpy_matrix(G)
     np.savetxt(filename, f, "%d")  
 
