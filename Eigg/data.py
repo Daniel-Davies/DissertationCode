@@ -60,7 +60,7 @@ def inferredBusinessLocations():
     locs['Eigg Camping Pods'] = '56.8779645,-6.1327783'
     locs['LOST MAPS RECORDS LTD'] = '56.8995081,-6.1392071'
     locs['Laig Farm'] = '56.9131675,-6.1619473'
-    locs['Fishing'] = '56.9269519,-6.1439637' #=howling http://news.bbc.co.uk/1/hi/scotland/highlands_and_islands/6748779.stm
+    locs['Fishing Co'] = '56.9269519,-6.1439637' #=howling http://news.bbc.co.uk/1/hi/scotland/highlands_and_islands/6748779.stm
     locs['A NEAD KNITWEAR'] = '56.9016979,-6.1441872'
     locs['Refuse Collection'] = '56.9023849,-6.1449937'
     locs['Selkie Explorers'] = '56.8771649,-6.1323427'
@@ -203,14 +203,13 @@ def residentialEntry():
 def uninferredNamesGraph():
     relationships = {}
     
-    relationships["Damian Helliwell"] = ["Heritage Trust"]
+    relationships["Damian Helliwell"] = ["Heritage Trust", "Eigg Crafts"]
     relationships["Margaret Fyffe"] = ["Clean Planet Now", "Heritage Trust", "Eigg Electric", "Eigg Trading", "Eigg Construction", "The Bothy Cuagach"]
     relationships["Norah Barnes"] = ["Clean Planet Now", "Heritage Trust", "Eigg Eco Centre"]
     relationships["Elizabeth Boden"] = ["Eigg Huts", "Heritage Trust", "Eigg Shed", "Eigg Primary School", "Sandavore Farm", "Eigg Trading"]
     relationships["Lucy Conway"] = ["Heritage Trust", "Lagerona", "Sweeney's Bothy", "Eddie's Eigg Croft", "Eigg Primary School"] #accountant, wife to eddie
     relationships["Sarah Boden"] = ["Eigg Huts", "Heritage Trust", "Eigg Electric", "Sandavore Farm", "Kildonnan Bay Oysters"]
     relationships["Mark Alan Foxwell"] = ["Heritage Trust"]
-    relationships["Grey Carr"] = ["Heritage Trust"]
     relationships["Jacqueline Kirk"] = ["Heritage Trust", "Eigg Shop"]
     relationships["Ian Leaver"] = ["Heritage Trust"]
     relationships["Stuart McCarthy"] = ["Glebe Barn","Heritage Trust", "Laig Bay Brewing", "Galmisdale Cafe", "Lagerona", "Eigg Construction"] #supplies restaurants with beer 
@@ -219,7 +218,7 @@ def uninferredNamesGraph():
     relationships["Sue Hollands"] = ["Eigg Organics", "Eigg Electric"]
     relationships["Neil Robertson"] = ["Eigg Organics", "Roadworks"]
     
-    relationships["Sue Kirk"] = ["Lagerona", "Kildonnan", "Eigg Shop", "Eigg Construction"] #Kildonnan as they send extra traffic there as is Sister
+    relationships["Sue Kirk"] = ["Lagerona", "Kildonnan House", "Eigg Shop", "Eigg Construction"] #Kildonnan as they send extra traffic there as is Sister
     relationships["Alisdair Kirk"] = ["Lagerona", "Eigg Construction"] ##INFERRED Roadworkds => Contruction co 
     
     relationships["Charlie Galli"] = ["Taxi Service"]
@@ -258,7 +257,7 @@ def uninferredNamesGraph():
     
     relationships["Bob Wallace"] = ["Eigg Eco Centre"]
     
-    relationships["Stuart Millar"] = ["Fishing"]
+    relationships["Stuart Millar"] = ["Fishing Co"]
     
     relationships["Jenny Robertson"] = ["A NEAD KNITWEAR", "Eigg Crafts"]
     
