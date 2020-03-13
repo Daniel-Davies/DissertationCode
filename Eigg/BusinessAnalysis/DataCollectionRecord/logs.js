@@ -4,9 +4,9 @@ export const evidenced = {
         "Damian Helliwell": ["Heritage Trust", "Eigg Crafts"],
         "Margaret Fyffe": ["Clean Planet Now", "Heritage Trust", "Eigg Electric", "Eigg Trading", "Eigg Construction", "The Bothy Cuagach"],
         "Norah Barnes": ["Clean Planet Now", "Heritage Trust", "Eigg Eco Centre"],
-        "Elizabeth Boden": ["Eigg Huts", "Heritage Trust", "Eigg Shed", "Eigg Primary School", "Sandavore Farm", "Eigg Trading"],
+        "Elizabeth Boden": ["Eigg Huts", "Heritage Trust", "Eigg Shed", "Eigg Primary School", "Sandamhor Farming Partnership", "Eigg Trading"],
         "Lucy Conway": ["Heritage Trust", "Lagerona", "Sweeney's Bothy", "Eddie's Eigg Croft", "Eigg Primary School"],//accountant, wife to eddie
-        "Sarah Boden": ["Eigg Huts", "Heritage Trust", "Eigg Electric", "Sandavore Farm", "Kildonnan Bay Oysters"],
+        "Sarah Boden": ["Eigg Huts", "Heritage Trust", "Eigg Electric", "Sandamhor Farming Partnership", "Kildonnan Bay Oysters"],
         "Mark Alan Foxwell": ["Heritage Trust"],
         "Jacqueline Kirk": ["Heritage Trust", "Eigg Shop"],
         "Ian Leaver": ["Heritage Trust"],
@@ -22,7 +22,7 @@ export const evidenced = {
         "Marie Carr": ["Kildonnan House"],
         "Colin Carr": ["Kildonnan House", "Eigg Electric", "Eigg Construction"],
         "Greg Carr": ["Kildonnan House", "Eigg Trading"],
-        "Alex Boden": ["Eigg Shed", "Sandavore Farm", "Eigg Huts", "Hebnet Cic"],
+        "Alex Boden": ["Eigg Shed", "Sandamhor Farming Partnership", "Eigg Huts", "Hebnet Cic"],
         "Katrin Bach": ["Eiggy Bread", "Glebe Barn", "Eigg Primary School"],//caterer for Glebe barn
         "Tamsin McCarthy": ["Glebe Barn", "Eigg Primary School", "Eigg Construction"],
         "Simon Helliwell": ["Glebe Barn", "Hebnet Cic"],//previous owner of glebe, along with karen hellwell
@@ -70,29 +70,29 @@ export const evidenced = {
         "Damian Helliwell": ["https://beta.companieshouse.gov.uk/company/SC170339/officers", "http://isleofeigg.org/creative-eigg/"],
         "Margaret Fyffe": ["https://beta.companieshouse.gov.uk/company/SC544049/officers", "https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://beta.companieshouse.gov.uk/company/SC293992/officers", "https://beta.companieshouse.gov.uk/company/SC177386/officers", "https://beta.companieshouse.gov.uk/company/SC202238/officers", "https://rosestrangartworks.com/tag/cuagach-bothy/"],
         "Norah Barnes": ["https://beta.companieshouse.gov.uk/company/SC544049/officers", "https://beta.companieshouse.gov.uk/company/SC170339/officers", "http://www.earthconnections.co.uk/about-us/about-us"],
-        "Elizabeth Boden": ["https://beta.companieshouse.gov.uk/company/SC554221/officers", "https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://www.airbnb.co.uk/rooms/16893915?source_impression_id=p3_1584047619_kMqrgB81jeyrtIlt", "https://www.linkedin.com/in/lizzie-boden-64604190/?originalSubdomain=uk", "Sandavore Farm", "https://beta.companieshouse.gov.uk/company/SC177386/officers"],
-        "Lucy Conway": ["https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://lageorna.com/author/croftfour/", "https://jennybrownrigg.wordpress.com/tag/sweeneys-bothy/", "Eddie's Eigg Croft", "https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf"],//accountant, wife to eddie
-        "Sarah Boden": ["https://beta.companieshouse.gov.uk/company/SC554221/officers", "https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://beta.companieshouse.gov.uk/company/SC293992/officers", "Sandavore Farm", "Kildonnan Bay Oysters"],
+        "Elizabeth Boden": ["https://beta.companieshouse.gov.uk/company/SC554221/officers", "https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://www.airbnb.co.uk/rooms/16893915?source_impression_id=p3_1584047619_kMqrgB81jeyrtIlt", "https://www.linkedin.com/in/lizzie-boden-64604190/?originalSubdomain=uk", "https://www.westword.org.uk/sept2017.html", "https://beta.companieshouse.gov.uk/company/SC177386/officers"],
+        "Lucy Conway": ["https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://lageorna.com/author/croftfour/", "https://jennybrownrigg.wordpress.com/tag/sweeneys-bothy/", "https://smallisles.wordpress.com/tag/eigg/", "https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf"],//accountant, wife to eddie
+        "Sarah Boden": ["https://beta.companieshouse.gov.uk/company/SC554221/officers", "https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://beta.companieshouse.gov.uk/company/SC293992/officers", "https://www.linkedin.com/in/sarah-boden-02589b14/?originalSubdomain=uk", "http://marine.gov.scot/ml/06775-new-shellfish-farm-poll-nam-partan-isle-eigg"],
         "Mark Alan Foxwell": ["https://beta.companieshouse.gov.uk/company/SC170339/officers"],
-        "Jacqueline Kirk": ["https://beta.companieshouse.gov.uk/company/SC170339/officers", "Eigg Shop"],
+        "Jacqueline Kirk": ["https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://www.tripadvisor.co.uk/ShowUserReviews-g1898488-d10025161-r410785341-Isle_of_Eigg_Shop-Isle_of_Eigg_The_Hebrides_Scotland.html"],
         "Ian Leaver": ["https://beta.companieshouse.gov.uk/company/SC170339/officers"],
-        "Stuart McCarthy": ["Glebe Barn","https://beta.companieshouse.gov.uk/company/SC170339/officers", "Laig Bay Brewing", "https://laigbaybrewingco.wordpress.com/buy-our-beer/", "Lagerona", "https://beta.companieshouse.gov.uk/company/SC202238/officers"],//supplies restaurants with beer 
-        "Tasha McVarish": ["https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf", "Equilibrium Eigg Massage Therapy"],
+        "Stuart McCarthy": ["https://www.tripadvisor.co.uk/ShowUserReviews-g1898488-d2176110-r429590741-Glebe_Barn-Isle_of_Eigg_The_Hebrides_Scotland.html","https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://twitter.com/EiggBrewery", "https://laigbaybrewingco.wordpress.com/buy-our-beer/", "http://www.glebebarn.co.uk/eigginfo/facilities.html", "https://beta.companieshouse.gov.uk/company/SC202238/officers"],//supplies restaurants with beer 
+        "Tasha McVarish": ["https://beta.companieshouse.gov.uk/company/SC170339/officers", "https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf", "http://isleofeigg.org/adventure-eigg/"],
         "Sue Hollands": ["http://www.eiggorganics.co.uk/ganics", "https://beta.companieshouse.gov.uk/company/SC293992/officers"],
-        "Neil Robertson": ["http://www.eiggorganics.co.uk/ganics", "Roadworks"],
+        "Neil Robertson": ["http://www.eiggorganics.co.uk/ganics", "http://isleofeigg.org/wp-content/uploads/2016/12/ResidentsMeeting061216.doc"],
         "Sue Kirk": ["https://www.tripadvisor.co.uk/Hotel_Review-g1898488-d1869961-Reviews-Lageorna-Isle_of_Eigg_The_Hebrides_Scotland.html", "https://www.tripadvisor.co.uk/ShowUserReviews-g1898488-d1869961-r206873768-Lageorna-Isle_of_Eigg_The_Hebrides_Scotland.html", "https://www.bbc.co.uk/radio4/today/reports/archive/features/holidayhome.shtml", "https://beta.companieshouse.gov.uk/company/SC202238/officers"],//Kildonnan as they send extra traffic there as is Sister
         "Alisdair Kirk": ["https://www.tripadvisor.co.uk/Hotel_Review-g1898488-d1869961-Reviews-Lageorna-Isle_of_Eigg_The_Hebrides_Scotland.html", "https://beta.companieshouse.gov.uk/company/SC202238/officers"],////INFERRED Roadworkds => Contruction co 
         "Charlie Galli": ["http://www.eiggtime.com/the-tin-hut-info"],
         "Libby Galli": ["http://www.spanglefish.com/isleofeiggcraftshop/"],
-        "Eddie Scott": ["https://jennybrownrigg.wordpress.com/tag/sweeneys-bothy/", "Eddie's Eigg Croft", "https://beta.companieshouse.gov.uk/company/SC293992/officers"],
+        "Eddie Scott": ["https://jennybrownrigg.wordpress.com/tag/sweeneys-bothy/", "https://www.eddieseiggcroft.com/", "https://beta.companieshouse.gov.uk/company/SC293992/officers"],
         "Marie Carr": ["https://www.tripadvisor.co.uk/ShowUserReviews-g1898488-d3570982-r382784494-Kildonan_House-Isle_of_Eigg_The_Hebrides_Scotland.html"],
         "Colin Carr": ["https://www.tripadvisor.co.uk/ShowUserReviews-g1898488-d3570982-r216244477-Kildonan_House-Isle_of_Eigg_The_Hebrides_Scotland.html", "https://beta.companieshouse.gov.uk/company/SC293992/officers", "https://beta.companieshouse.gov.uk/company/SC202238/officers"],
         "Greg Carr": ["https://www.tripadvisor.co.uk/ShowUserReviews-g1898488-d3570982-r216244477-Kildonan_House-Isle_of_Eigg_The_Hebrides_Scotland.html", "https://beta.companieshouse.gov.uk/company/SC177386/officers"],
-        "Alex Boden": ["https://www.airbnb.co.uk/rooms/16893915?source_impression_id=p3_1584047619_kMqrgB81jeyrtIlt", "Sandavore Farm", "https://beta.companieshouse.gov.uk/company/SC554221/officers", "https://beta.companieshouse.gov.uk/company/SC399079/officers"],
+        "Alex Boden": ["https://www.airbnb.co.uk/rooms/16893915?source_impression_id=p3_1584047619_kMqrgB81jeyrtIlt", "https://www.linkedin.com/in/alex-boden-5a65b855/?originalSubdomain=uk", "https://beta.companieshouse.gov.uk/company/SC554221/officers", "https://beta.companieshouse.gov.uk/company/SC399079/officers"],
         "Katrin Bach": ["https://www.westword.org.uk/may2018.html", "https://en-gb.facebook.com/EiggyBread/", "https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf"],//caterer for Glebe barn
-        "Tamsin McCarthy": ["Glebe Barn", "https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf", "https://beta.companieshouse.gov.uk/company/SC202238/officers"],
-        "Simon Helliwell": ["Glebe Barn", "https://beta.companieshouse.gov.uk/company/SC399079/officers"],//previous owner of glebe, along with karen hellwell
-        "Karen Helliwell": ["Glebe Barn"],//daughter is now technically owner
+        "Tamsin McCarthy": ["https://www.airbnb.co.uk/rooms/15602964", "https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf", "https://beta.companieshouse.gov.uk/company/SC202238/officers"],
+        "Simon Helliwell": ["http://www.phoneebook.co.uk/person.aspx?p=17504918&n=Simon%20Helliwell", "https://beta.companieshouse.gov.uk/company/SC399079/officers"],//previous owner of glebe, along with karen hellwell
+        "Karen Helliwell": ["https://reader.exacteditions.com/issues/45446/spread/63"],//daughter is now technically owner
         "Louise Taylor": ["https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf"],
         "Martin Merrick": ["https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf"],
         "Kenneth Kean": ["https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf"],
@@ -134,7 +134,7 @@ export const evidenced = {
     notes:{
         "Damian Helliwell": ["","Involved in creative arts => Has albums sold at Eigg Crafts/ is connected to members of Eigg Crafts"],
         "Margaret Fyffe": ["","","","","","http://www.spanglefish.com/cuagachbothy/"],
-        "Elizabeth Boden": ["https://www.airbnb.co.uk/rooms/16893541?source_impression_id=p3_1584046127_ORBfcbnfwtamWWgY"],
+        "Elizabeth Boden": ["https://www.airbnb.co.uk/rooms/16893541?source_impression_id=p3_1584046127_ORBfcbnfwtamWWgY", "", "", "", "Inferring a link to sandamhor partnership since is third family member, and presumably just didn't keep active linkedin like sarah and alex", ""],
         "Alex Boden": ["","","https://www.airbnb.co.uk/rooms/16893541?source_impression_id=p3_1584046127_ORBfcbnfwtamWWgY"],
         "Sarah Boden": ["https://www.airbnb.co.uk/rooms/16893541?source_impression_id=p3_1584046127_ORBfcbnfwtamWWgY"],
         "Charlie Galli": ["https://twitter.com/i/status/934957139352784896"],
@@ -149,172 +149,20 @@ export const evidenced = {
         "John Christopher Lynch": ["https://www.theskinny.co.uk/music/interviews/on-the-pictish-trail-of-lost-map-records"],
         "Jenny Robertson": ["http://isleofeigg.org/creative-eigg/"],
         "Laraine Wyn-Jones": ["https://www.theguardian.com/travel/2017/may/29/eigg-island-scotland-cycling-walking-kayaking", "", ""],
-        "Owain Wyn-Jones": ["https://www.theguardian.com/travel/2017/may/29/eigg-island-scotland-cycling-walking-kayaking", ""]
+        "Owain Wyn-Jones": ["https://www.theguardian.com/travel/2017/may/29/eigg-island-scotland-cycling-walking-kayaking", ""],
+        "Simon Helliwell": ["https://www.facebook.com/pg/GlebeBarn/about/", "http://www.spanglefish.com/eigghistorysociety/index.asp?pageid=666853"],
+        "Karen Helliwell": ["https://www.facebook.com/pg/GlebeBarn/about/","http://www.spanglefish.com/eigghistorysociety/index.asp?pageid=666853"],
+        "Neil Robertson": ["https://www.heraldscotland.com/life_style/14680447.the-islanders-who-took-control-and-transformed-beaten-eigg/"] 
     },
     additionalValidity:{
         "Hebnet Cic": ["https://www.hebnet.co.uk/"],
-        "Clean Planet Now": ["http://www.cleanplanetnow.com/index.php/about/who-we-are"]
+        "Clean Planet Now": ["http://www.cleanplanetnow.com/index.php/about/who-we-are"],
+        "Laig Bay Brewing": ["http://www.glebebarn.co.uk/eigginfo/facilities.html"],
+        "Sarah Boden's address": ["https://beta.companieshouse.gov.uk/officers/CdO-mXRnAEQ4p1pbLPJueBUI4Js/appointments", "https://opengovuk.com/company/SC554221"]
     },
     interesting: {
         "100PopOverview": ["https://www.theguardian.com/uk-news/2017/apr/22/eigg-hebrides-scotland-celebrates-hard-won-renewal"],
-        "OffTheGrid": ["https://mashable.com/2017/04/22/eigg-scotland-living-off-the-grid/?europe=true"]
+        "OffTheGrid": ["https://mashable.com/2017/04/22/eigg-scotland-living-off-the-grid/?europe=true"],
+        "StuartMillar":["https://www.express.co.uk/news/uk/173449/Wedding-brawl-ends-island-s-record-of-50-crime-free-years"]
     }
 }
-
----EIGG ORGANICS Sue Hollands => Farmer (Eigg Organics), Hotel Runner (Eigg Organics e.g. Cleadale Bothy) Neil Robertson => Farmer (Eigg Organics), Hotel Runner (Eigg Organics)
-
---LAGERONA Lucy Conway (accountant at Lageorna) http://www.communitypower.scot/case-studies/projects/eigg-electric/ Sue and Alisdair Kirk (Kildonnan = Sister https://www.tripadvisor.co.uk/ShowUserReviews-g1898488-d1869961-r206617147-Lageorna-Isle_of_Eigg_The_Hebrides_Scotland.html (reply from owner))
-
-"Alistair ... he is in charge of roads"
-
---SWEENEY'S BOTHY (ALSO VALIDATED ON FB) Lucy Conway => http://www.thebothyproject.org/bothies/sweeneys-bothy/travel-and-facilities/ Eddie Scott
-
---EDDIES EIGG CROFT Eddie Scott
-
---KILDONNAN HOUSE
-
-(linked with Lagerona- sister) Marie, Colin and Greg Carr
-
---EIGG SHOP (&POST OFFICE)
-
-Jacqueline Kirk (owner/manager) Sue Kirk https://www.bbc.co.uk/radio4/today/reports/archive/features/holidayhome.shtml https://ec.europa.eu/regional_policy/en/projects/united-kingdom/eigg-goes-green
-
---EIGG School
-
-https://eiggprimary.files.wordpress.com/2019/12/eigg-handbook-final.pdf Head Teacher: Louise Taylor Class Teacher: Martin Merrick Early Years Practitioner: Katrin Bach Clerical Assistant: Lucy Conway (Admin assistant) Cleaner: Tasha McVarish Janitor: Kenneth Kean Chair: Tamsin McCarthy (email tamsinmccarthy@hotmail.com) Treasurer: Amanda Moult Secretary: Annabelle Scott-Moncrieff TEacher: Liz Boden
-
---AMAZING EIGG SHED Alex and Liz
-
-
---EIGG ADVENTURES
-
-Laraine Wyn-Jones Owain Wyn-Jones
-
---ROADWORKS
-
-Neil Robertson
-
-https://www.heraldscotland.com/life_style/14680447.the-islanders-who-took-control-and-transformed-beaten-eigg/
---GLEBE BARN
-
-Katrin Bach (Eiggy Bread caters for them) Tamsin McCarthy (Manager) Stuart McCarthy (Manager) Simon Helliwell (Owner? Lives there?) simon@glebebarn.co.uk
-
---Laig Bay Brewing Co
-
-Stuart McCarthy (Founder) SUPPLY: Galmisdale Bay Cafe (on draught), Lageorna (in bottles) https://laigbaybrewingco.wordpress.com/
-
---POWER
-
-https://beta.companieshouse.gov.uk/company/SC293992/officers Eddie Scott FYFFE, Margaret BODEN, Sarah Jennifer CARR, Colin Peter CLARE, John Christopher HOLLANDS, Susan Jane JOHN Booth
-
---CAMPING PODS
-
-Laraine Wyn-Jones Owain Wyn-Jones
-
---LAIG FARM & BEACH BOTHY
-
-George Carr Saira Renny
-
-(Sheep farming)
-
-IMPLY CONNECTION TO THE BNBs&Shops
-
---Earth Connections Sustainability Centre (Ex-Schellenberg residence)
-
-Norah Barnes Bob Wallace
-
---FISHING
-
-Stuart Millar (Lives in Howlin House) https://www.express.co.uk/news/uk/173449/Wedding-brawl-ends-island-s-record-of-50-crime-free-years
-
---A NEAD HAND KNITWEAR
-
-jenny robertson
-
---REFUSE COLLECTION
-
-Donna McCulloch
-
---Selkie Explorers
-
-Celia Bull
-
---SHEPHARDS HUT & EIGG SHED
-
-Liz and Alex Boden
-
---Equilibrium Eigg Massage Therapy
-
-Tasha McVarish
-
---FARMING
-
-Alex Boden & Liz Boden
-
---Basket Making
-
-Catherine Davies and Pascal Carr
-
---Felt Artist
-
-Libbi Galli
-
---EIGG TRADING LTD
-
-Maggie Fyffe Stuart Fergusson
-
---EIGG CONSTRUCTION LTD
-
-FYFFE, Margaret CARR, Colin Peter KIRK, Susan Patricia John Booth STu Mcarthy & Tamsin work on building plans
-
---TOPHOUSE
-
-Peter Wade-Martins Susanna Wade-Martins (both are authors- dude for archeology, susanna for isle of eigg/ visiteigg)
-
--- TIGH AN SITHEAN Jacky and Mick
-
-INCLUDE HERITAGE TRUST & CREATIVE EIGG?? http://isleofeigg.org/creative-eigg/
-
---The Bothy Cuagach
-
-Margaret Fyffe
-
---HEALTH & HOME CARE
-
-Mairi McKinnon Clare Miller
-
---EIGG YURTS
-
-Clare Miller
-
---GALMISDALE BAY CAFE/ TEA ROOM
-
-Stuart Fergusson
-
---KILDONNAN BAY OYSTERS
-
-BODEN, Sarah Jennifer (lives at Brae Cottage)
-
---EIGG HUTS LTD & SHEPHADS BOTHY
-
-Alex, Liz, Sarah Boden
-
---CRAIGARD TEAS
-
-John & Sheila
-
---SANDHAMOR FARM
-
-Sarah boden
-
---CRAFTSHOP
-
-DRESSLER, Camille Lucie (+Community Councillor, she supports Academy programmes in rural and island context) IBRAHIM, Hilda
-
---EIGG HISTORY
-
-Camille Dressler
-
-LIST OF NAMES HERE:
-
-https://opengovuk.com/company/SC177386 Eric Weldon Camille Dressler, Maighread Foxley, Karen Helliwell, Michael Foxely, Michael Hutchison and vintage Talisker
