@@ -20,7 +20,7 @@ crushedDatasets = "C:/Users/davie/Desktop/Masters/Dissertation/Code/Dissertation
 
 def retrieveCollatedFoodWeb():
     #dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData(), readNZData(), readDryadData(), readEcoWeb()]
-    coreDataSets = [readFreshwaterData(), read2018GlobalDatabaseData(), readSorensenData(), readJanesData(), readEcoWeb(), readLeatherBritain(), readLeatherFinland(), readPlantPollinatorsUK(), govPlantInteractions()]
+    coreDataSets = [readCanberraWeb(), readFreshwaterData(), read2018GlobalDatabaseData(), readSorensenData(), readJanesData(), readEcoWeb(), readLeatherBritain(), readLeatherFinland(), readPlantPollinatorsUK(), govPlantInteractions()]
     return aggregateDataSets(coreDataSets)
 
 def invokeFunctionWithParameters(f,params):
@@ -37,6 +37,9 @@ def readCachedIndividualFoodwebs(name,f,params):
             pickle.dump(indivFoodWeb,f)
     
     return indivFoodWeb
+
+def readCanberraWeb():
+    return readCachedIndividualFoodwebs("canberraWeb", canberraWebDataset,[])
 
 def readLeatherBritain():
     return readCachedIndividualFoodwebs("leatherBritain",leatherBritain,[])
@@ -162,4 +165,4 @@ def addAllPreyToDictSet(mainDictionarySubset, listOfAdditions):
         mainDictionarySubset.add(item)
 
 if __name__ == "__main__":
-    print(len(govPlantInteractions()))
+    print(len(readCanberraWeb()))

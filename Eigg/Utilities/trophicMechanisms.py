@@ -12,6 +12,58 @@ from gridManipulations import *
 from ecoNameManipulations import *
 # Support functions
 
+def canberraWebDataset():
+    eiggRawData = validatedEiggData()
+    scientificNames = eiggRawData["Scientific name"].str.lower()
+    commonNames = eiggRawData["Common name"].str.lower()
+    convertCommonNameToScientific = dict(zip(commonNames,scientificNames))
+
+    filePath = getCanberraPath()
+
+    filesToProcess = os.listdir(filePath)
+    aggregated = []
+
+    for f in filesToProcess:
+        try:
+            completeFilePath = filePath+"/"+f
+            if os.path.isdir(completeFilePath): continue
+            matrixCorresponding = None
+            try:
+                with open(completeFilePath, 'rb') as matrix:
+                    matrixCorresponding = pd.read_csv(matrix,header=None)
+            except Exception as e:
+                continue
+            
+            new_header = matrixCorresponding.iloc[1] #grab the first row for the header
+            matrixCorresponding = matrixCorresponding[2:] #take the data less the header row
+            matrixCorresponding.columns = new_header #set the header row as the df header
+            matrixCorresponding = matrixCorresponding.loc[:, matrixCorresponding.columns.notnull()]
+
+            headersNew = matrixCorresponding.columns.values.tolist()
+
+            headersNew = list(map(lambda x: cleanSpeciesName(x,verify=False), headersNew))
+            headersNew = list(map(lambda x: chooseBetweenCommonAndSci(x, convertCommonNameToScientific),headersNew))
+            headersNew[0] = "species"
+            matrixCorresponding.columns = headersNew #set the header row as the df header
+
+            matrixCorresponding = matrixCorresponding.dropna(subset=['species'])
+
+            matrixCorresponding['species'] = matrixCorresponding['species'].apply(lambda x: cleanSpeciesName(x,verify=False))
+            matrixCorresponding['species'] = matrixCorresponding['species'].apply(lambda x: chooseBetweenCommonAndSci(x, convertCommonNameToScientific))
+
+            result = crushNonReciprocatedAdjList(matrixCorresponding)
+            aggregated.append(result)
+        except Exception as e:
+            print(f)
+        
+    return aggregateDataSets(aggregated)
+
+def chooseBetweenCommonAndSci(name, commonNameDict):
+    if name in commonNameDict:
+        return commonNameDict[name]
+    
+    return name
+
 def santaBarbaraReader():
     df = pd.read_csv(basePath+'sbPredatorPreyMatrix.csv') 
     correctColumns = df.iloc[[1]].values.tolist()[0]
@@ -153,6 +205,9 @@ def getDryadFoodWebFiles():
 
 def getNewZealandFoodWebFiles():
     return os.listdir('C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/RelevantDatasets/newZealandAllPredatorPrey')
+
+def getCanberraPath():
+    return 'C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/Utilities/RelevantDatasets/production/FoodsWebsCanberra'
 
 def processJaneData():
     eiggData = validatedEiggData()
