@@ -12,6 +12,57 @@ from gridManipulations import *
 from ecoNameManipulations import *
 # Support functions
 
+def mangalDatasetAPIInterface():
+    print("Beginning job- estimated execution time; 2 hours 50 minutes")
+    interestIds = [943] # retrieveNetworkIds()
+    indivNets = list(map(lambda x: constructGraphForNetworkId(x), interestIds))
+    return aggregateDataSets(indivNets)
+
+def getNodes(id_):
+    return requests.get('https://mangal.io/api/v2/node?network_id='+str(id_), auth=('user','pass')).json()
+
+def createMappingIdToTaxonomy(taxonomy):
+    nodes = {}
+    for item in taxonomy:
+        usableString = "NA"
+        try:
+            if 'taxonomy' in item and item['taxonomy'] is not None:
+                usableString = item['taxonomy']['name']
+            else:
+                usableString = item['original_name']
+        except:
+            pass
+        
+        nodes[item['id']] = cleanEcologicalName(usableString)
+        
+    return nodes
+
+def constructInteractionsNetwork(interactions, nodeAttributes):
+    graphRep = defaultdict(list)
+    taxonomicTable = createMappingIdToTaxonomy(nodeAttributes)
+    
+    for obj in interactions:
+        from_ = obj['node_from']
+        to_ = obj['node_to']
+        try:
+            graphRep[taxonomicTable[from_]].append(taxonomicTable[to_])
+        except:
+            pass
+    
+    return graphRep
+
+def constructGraphForNetworkId(netId):
+    nodes = requests.get('https://mangal.io/api/v2/node?network_id='+str(netId), auth=('user','pass')).json()
+    interactions = requests.get('https://mangal.io/api/v2/interaction?network_id='+str(netId),auth=('auth','pass')).json()
+
+    G = constructInteractionsNetwork(interactions,nodes)
+    return G
+        
+def retrieveNetworkIds():
+    r = requests.get('https://mangal.io/api/v2/network?count=2000', auth=('user', 'pass')).json()
+    parsed = list(map(lambda x: x['id'],r))
+    return parsed
+
 def canberraWebDataset():
     eiggRawData = validatedEiggData()
     scientificNames = eiggRawData["Scientific name"].str.lower()
