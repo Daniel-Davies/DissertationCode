@@ -10,7 +10,6 @@ import requests
 from trophics import *
 from gridManipulations import *
 from ecoNameManipulations import *
-# Support functions
 
 def mangalDatasetAPIInterface():
     print("Beginning job- estimated execution time; 2 hours 50 minutes")
