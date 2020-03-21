@@ -354,9 +354,9 @@ def customByBusiness():
     relationships["Heritage Trust"] = ["Eigg Electric", "Eigg Construction", "Eigg Trading", "Small Isles Medical Centre"]
     relationships["Eigg Crafts"] = ["A Nead Knitwear", "Eddie's Eigg Croft"]
     relationships["Clean Planet Now"] = []
-    #relationships["Eigg Electric"] = allBusinessNames() # EVERYONE?!
+    relationships["Eigg Electric"] = []#allBusinessNames() # EVERYONE?!
     relationships["Eigg Trading"] = ["Eigg Shop", "Craigard Teas", "Eigg Crafts"]    
-    relationships["Eigg Construction"] = [] #no evidence for anything apart from "5 (undocumented) refurbishments" - IEHT.com
+    relationships["Eigg Construction"] = ["Eigg Trading"] #no evidence for anything apart from "5 (undocumented) refurbishments" - IEHT.com
     relationships["The Bothy Cuagach"] = [] #nothing documented
     relationships["Eigg Eco Centre"] = ["Eigg Shop", "Clean Planet Now"] #dining so involved with Eigg Organics lets say for means, and Eigg Shop to plug gap
     relationships["Eigg Huts"] = ["Eigg Shed", "Sweeney's Bothy"]
@@ -371,7 +371,7 @@ def customByBusiness():
     relationships["Laig Bay Brewing"] = ["Galmisdale Cafe", "Lagerona", "Eigg Shop"]
     relationships["Galmisdale Cafe"] = [] #nothing out of the ordinary/ undocumented added
     relationships["Equilibrium Eigg Massage Therapy"] = ["Small Isles Medical Centre"] # https://eiggmassagetherapy.wordpress.com/about/
-    relationships["Eigg Organics"] = ["Eigg Eco Centre", "Eigg Shop"]
+    relationships["Eigg Organics"] = ["Eigg Eco Centre", "Eigg Shop", "Lagerona"]
     relationships["Kildonnan House"] = [] #nothing out of the ordinary documenteds
     relationships["Hebnet Cic"] = ["Lagerona", "Glebe Barn", "Kildonnan House"] #EVERYONE?
     relationships["Eiggy Bread"] = ["Glebe Barn", "Eigg Shop"] #provide the catering them, suppose thye get ingredients from the shop
