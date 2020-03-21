@@ -299,6 +299,94 @@ def uninferredNamesGraph():
     
     return relationships
 
+def allBusinessNames():
+    relationships = {}
+
+    relationships["Heritage Trust"] = []
+    relationships["Eigg Crafts"] = []
+    relationships["Clean Planet Now"] = []
+    relationships["Eigg Electric"] = [] # EVERYONE?!
+    relationships["Eigg Trading"] = []
+    relationships["Eigg Construction"] = []
+    relationships["The Bothy Cuagach"] = []
+    relationships["Eigg Eco Centre"] = []
+    relationships["Eigg Huts"] = []
+    relationships["Eigg Shed"] = []
+    relationships["Sandavore Farm"] = []
+    relationships["Lagerona"] = []
+    relationships["Sweeney's Bothy"] = []
+    relationships["Eddie's Eigg Croft"] = [] 
+    relationships["Kildonnan Bay Oysters"] = []
+    relationships["Eigg Shop"] = []
+    relationships["Glebe Barn"] = []
+    relationships["Laig Bay Brewing"] = []
+    relationships["Galmisdale Cafe"] = []
+    relationships["Equilibrium Eigg Massage Therapy"] = []
+    relationships["Eigg Organics"] = []
+    relationships["Kildonnan House"] = []
+    relationships["Hebnet Cic"] = []
+    relationships["Eiggy Bread"] = []
+    relationships["Eigg Adventures"] = []
+    relationships["Eigg Camping Pods"] = []
+    relationships["A Nead Knitwear"] = []
+    relationships["Eigg Yurts"] = []
+    relationships["Eigg History"] = []
+    relationships["Craigard Teas"] = []
+
+    return list(set(relationships.keys()) - set(["Equilibrium Eigg Massage Therapy", "Eigg Adventures", "Eddie's Eigg Croft"]))
+
+def customByBusiness():
+    relationships = {}
+    #heritage trust + subsidiaries => http://isleofeigg.org/ieht/
+    #Beer in the shop => https://isleofeiggshop.com/our-stock/
+
+    #subsidiary or interaction
+
+    # INFERENCES LIST
+
+    # Sandavore Farm => Lamb => Eigg Shop, Galmisdale Cafe, Lagerona
+
+    # rigg eco centre promoting/ somehow involved in clean planet now => http://www.earthconnections.co.uk/
+    # Eigg organics provides meals to eco centre http://www.earthconnections.co.uk/
+
+    #iheritance on shop: Eigg Organics/ crofters => EIgg Shop => Lagerona/Eigg Bread ...
+
+    relationships["Heritage Trust"] = ["Eigg Electric", "Eigg Construction", "Eigg Trading", "Small Isles Medical Centre"]
+    relationships["Eigg Crafts"] = ["A Nead Knitwear", "Eddie's Eigg Croft"]
+    relationships["Clean Planet Now"] = []
+    #relationships["Eigg Electric"] = allBusinessNames() # EVERYONE?!
+    relationships["Eigg Trading"] = ["Eigg Shop", "Craigard Teas", "Eigg Crafts"]    
+    relationships["Eigg Construction"] = [] #no evidence for anything apart from "5 (undocumented) refurbishments" - IEHT.com
+    relationships["The Bothy Cuagach"] = [] #nothing documented
+    relationships["Eigg Eco Centre"] = ["Eigg Shop", "Clean Planet Now"] #dining so involved with Eigg Organics lets say for means, and Eigg Shop to plug gap
+    relationships["Eigg Huts"] = ["Eigg Shed", "Sweeney's Bothy"]
+    relationships["Eigg Shed"] = ["Sweeney's Bothy"]
+    relationships["Sandavore Farm"] = ["Eigg Shop", "Galmisdale Cafe", "Lagerona"]
+    relationships["Lagerona"] = ["Kildonnan House"]
+    relationships["Sweeney's Bothy"] = ["Eigg Shed"]
+    relationships["Eddie's Eigg Croft"] = [] #bluebell seeds only really 
+    relationships["Kildonnan Bay Oysters"] = ["Lagerona", "Galmisdale Cafe"] #lets say they supply the restaurants 
+    relationships["Eigg Shop"] = ["Galmisdale Cafe", "Lagerona"] #send nonlocal supplies to the restaurants [INCLUDE EVERYONE?]
+    relationships["Glebe Barn"] = [] #no special interactions documented
+    relationships["Laig Bay Brewing"] = ["Galmisdale Cafe", "Lagerona", "Eigg Shop"]
+    relationships["Galmisdale Cafe"] = [] #nothing out of the ordinary/ undocumented added
+    relationships["Equilibrium Eigg Massage Therapy"] = ["Small Isles Medical Centre"] # https://eiggmassagetherapy.wordpress.com/about/
+    relationships["Eigg Organics"] = ["Eigg Eco Centre", "Eigg Shop"]
+    relationships["Kildonnan House"] = [] #nothing out of the ordinary documenteds
+    relationships["Hebnet Cic"] = ["Lagerona", "Glebe Barn", "Kildonnan House"] #EVERYONE?
+    relationships["Eiggy Bread"] = ["Glebe Barn", "Eigg Shop"] #provide the catering them, suppose thye get ingredients from the shop
+    relationships["Eigg Adventures"] = []  
+    relationships["Eigg Camping Pods"] = []
+    relationships["A Nead Knitwear"] = []
+    relationships["Eigg Yurts"] = []
+    relationships["Eigg History"] = []
+    relationships["Craigard Teas"] = ["Eigg Shop"]
+    
+    return relationships
+
+['Taxi Service', 'Hebnet Cic', 'Eiggy Bread', 'LOST MAPS RECORDS LTD', 'Laig Farm', 'Fishing Co', 'A NEAD KNITWEAR', 'Refuse Collection', 'Selkie Explorers', 'Tophouse', 'TIGH AN SITHEAN', 'Health & Home Care', 'Eigg Yurts', 'Craigard Teas', 'Eigg History']
+
+
 def inferredNamesGraph():
     relationships = uninferredNamesGraph()
     
