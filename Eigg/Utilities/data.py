@@ -590,6 +590,27 @@ def dependDirectlyOnNaturalResources():
     
     return relationships
 
+def getSpecificDependanciesFromEnv():
+    relationships = {}
+    
+    relationships['Alex Boden'] = # any kinds of grass, and more widely, anything that produces pollen I suppose
+    relationships['Celia Bull'] = ['Selkie Explorers'] #https://www.tripadvisor.co.uk/Attraction_Review-g1898488-d10759115-Reviews-Selkie_Explorers-Isle_of_Eigg_The_Hebrides_Scotland.html
+    relationships['Eddie Scott'] = ["Sweeney's Bothy","Eddie's Eigg Croft",'Eigg Electric','Eigg Shop']
+    relationships['Elizabeth Boden'] = ['Eigg Huts','Heritage Trust','Eigg Shed','Eigg Primary School','Sandavore Farm','Eigg Trading']
+    relationships['George Carr'] = ['Laig Farm', 'Eigg Shop']
+    relationships['Laraine Wyn-Jones'] = ['Eigg Adventures', 'Eigg Camping Pods', 'Eigg Trading']
+    relationships['Lucy Conway'] = ['Heritage Trust','Lagerona',"Sweeney's Bothy","Eddie's Eigg Croft",'Eigg Primary School','Eigg Shop']
+    relationships['Neil Robertson'] = ['Eigg Organics', 'Roadworks']
+    relationships['Owain Wyn-Jones'] = ['Eigg Adventures', 'Eigg Camping Pods']
+    relationships['Saira Renny'] = ['Laig Farm', 'Eigg Shop']
+    relationships['Sarah Boden'] = ['Eigg Huts','Heritage Trust','Eigg Electric','Sandavore Farm','Kildonnan Bay Oysters']
+    relationships['Stuart Millar'] = ['Fishing Co', 'Galmisdale Cafe', 'Lagerona']
+    relationships['Sue Hollands'] = ['Eigg Organics', 'Eigg Electric']
+
+    return relationships
+
+# FOOD FOR SELKIE IS LOCALLY SOURCED https://www.selkie-explorers.com/selkie-island-explorer-holidays/
+
 def getEnvironmentallyInvolvedPeople():
     relationships = inferredNamesGraph()
     environmentalOrgs = dependDirectlyOnNaturalResources()
