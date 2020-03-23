@@ -2,6 +2,7 @@
 import networkx as nx
 
 def eiggEnvironmentalOrgs():
+    # key organisations with power over environment
     return ["Clean Planet Now", "Eigg Eco Centre", "Heritage Trust", "Eigg Electric", "Eigg Trading"]
 
 def dependDirectlyOnNaturalResources():
@@ -115,21 +116,35 @@ def getSpecificDependanciesFromEnv():
     # relationships["Eigg Adventures"] = []
     # relationships["Eigg Camping Pods"] = []
     
-    relationships = {}
+    relationships = {} # will be FAMILY maps => aka needs to match first part of scientific name on Eigg data
+    # any kinds of grass
+    relationships['Alex Boden'] = ["poaceae"]     
+    relationships['Sarah Boden'] = ["poaceae"]
+    relationships['Elizabeth Boden'] = ["poaceae"]
     
-    relationships['Alex Boden'] = ["Eigg Shed", "Sandavore Farm", "Eigg Huts", "Hebnet Cic"] # any kinds of grass, and more widely, anything that produces pollen I suppose
-    relationships['Celia Bull'] = ["Selkie Explorers"] #https://www.tripadvisor.co.uk/Attraction_Review-g1898488-d10759115-Reviews-Selkie_Explorers-Isle_of_Eigg_The_Hebrides_Scotland.html
-    relationships['Eddie Scott'] = ["Sweeney's Bothy","Eddie's Eigg Croft",'Eigg Electric','Eigg Shop']
-    relationships['Elizabeth Boden'] = ['Eigg Huts','Heritage Trust','Eigg Shed','Eigg Primary School','Sandavore Farm','Eigg Trading']
-    relationships['George Carr'] = ['Laig Farm', 'Eigg Shop']
+                                # [Minkie Whale, seals, porpoise, dolphin, naval eagle, gannets&fish predators, ...sea birds]
+    relationships['Celia Bull'] = ["balaenopteridae", "phocidae", "phocoenidae", "delphinidae", "accipitridae", "sulidae", "laridae", "alcidae", "procellariidae", "scolopacidae", "anatidae", "passerellidae", "phalacrocoracidae"] #https://www.tripadvisor.co.uk/Attraction_Review-g1898488-d10759115-Reviews-Selkie_Explorers-Isle_of_Eigg_The_Hebrides_Scotland.html
+
+    #Many insects reap the benefits of bluebells which flower earlier than many other plants. all feed on their nectar. => https://www.woodlandtrust.org.uk/trees-woods-and-wildlife/plants/wild-flowers/bluebell/
+    relationships['Eddie Scott'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "hedylidae", "hesperiidae", "lycaenidae", "papilionidae", "pieridae", "riodinidae"]
+    relationships['Lucy Conway'] = ["apidae", "vespidae", "syrphidae"]
+
+    # any kinds of grass
+    relationships['George Carr'] = ["poaceae"]
+    relationships['Saira Renny'] = ["poaceae"]
+
+    # seals => http://www.eiggadventures.co.uk/isle-of-eigg-trail-running-camp/
+    # gold or white tailed eagles => http://www.eiggadventures.co.uk/bike-hire-on-eigg/
+    # otters, sea eagles, porpoise, dolphins and minke whales  => http://www.eiggadventures.co.uk/kayaking-on-eigg/
     relationships['Laraine Wyn-Jones'] = ['Eigg Adventures', 'Eigg Camping Pods', 'Eigg Trading']
-    relationships['Lucy Conway'] = ['Heritage Trust','Lagerona',"Sweeney's Bothy","Eddie's Eigg Croft",'Eigg Primary School','Eigg Shop']
-    relationships['Neil Robertson'] = ['Eigg Organics', 'Roadworks']
     relationships['Owain Wyn-Jones'] = ['Eigg Adventures', 'Eigg Camping Pods']
-    relationships['Saira Renny'] = ['Laig Farm', 'Eigg Shop']
-    relationships['Sarah Boden'] = ['Eigg Huts','Heritage Trust','Eigg Electric','Sandavore Farm','Kildonnan Bay Oysters']
-    relationships['Stuart Millar'] = ['Fishing Co', 'Galmisdale Cafe', 'Lagerona']
+
+    # pollinators, protective insects for plants?
+    relationships['Neil Robertson'] = ['Eigg Organics', 'Roadworks']
     relationships['Sue Hollands'] = ['Eigg Organics', 'Eigg Electric']
+
+    # species of edible fish
+    relationships['Stuart Millar'] = ['Fishing Co', 'Galmisdale Cafe', 'Lagerona']
 
     return relationships
 
@@ -150,8 +165,8 @@ def getEnvironmentallyInvolvedPeople():
 def getEnumeratedJobsPerPerson():
     relationships = {}
     
-    relationships['Alex Boden'] = ["Eigg Shed", "Sandavore Farm", "Eigg Huts", "Hebnet Cic"] # any kinds of grass, and more widely, anything that produces pollen I suppose
-    relationships['Celia Bull'] = ["Selkie Explorers"] #https://www.tripadvisor.co.uk/Attraction_Review-g1898488-d10759115-Reviews-Selkie_Explorers-Isle_of_Eigg_The_Hebrides_Scotland.html
+    relationships['Alex Boden'] = ["Eigg Shed", "Sandavore Farm", "Eigg Huts", "Hebnet Cic"] 
+    relationships['Celia Bull'] = ["Selkie Explorers"] 
     relationships['Eddie Scott'] = ["Sweeney's Bothy","Eddie's Eigg Croft",'Eigg Electric','Eigg Shop']
     relationships['Elizabeth Boden'] = ['Eigg Huts','Heritage Trust','Eigg Shed','Eigg Primary School','Sandavore Farm','Eigg Trading']
     relationships['George Carr'] = ['Laig Farm', 'Eigg Shop']

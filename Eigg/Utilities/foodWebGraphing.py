@@ -4,6 +4,8 @@ import networkx as nx
 import pickle
 from copy import deepcopy
 
+basePath = "C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/EcoWebs/"
+
 def graphFoodWeb(dateRange=(1700,2020), includeIsolates=False,  predatorSelector=(None, None), constraint=(None,None)):
     dataFrom, dataTo = dateRange
 
@@ -41,14 +43,14 @@ def graphFoodWeb(dateRange=(1700,2020), includeIsolates=False,  predatorSelector
 
 def constrainByTaxonomy(df, constraint):
 
-    with open("taxonomicIndexEigg", "rb") as f:
+    with open(basePath+"taxonomicIndexEigg", "rb") as f:
         taxonomicTree = pickle.load(f)
     
     return df[df.apply(lambda x: speciesMatchesConstraint(x['Scientific name'], constraint, taxonomicTree), axis=1)]
 
 def constrainByPredators(foodWeb, constraint):
 
-    with open("taxonomicIndexEigg", "rb") as f:
+    with open(basePath+"taxonomicIndexEigg", "rb") as f:
         taxonomicTree = pickle.load(f)
     
     currentPredators = foodWeb.keys()
@@ -66,6 +68,9 @@ def speciesMatchesConstraint(record,constraint,taxonomicTree):
 
     constraintClass, constraintValue = constraint
 
+    constraintClass = constraintClass.lower()
+    constraintValue = constraintValue.lower()
+
     taxonomy = taxonomicTree[record]
     groups,values = taxonomy
 
@@ -79,7 +84,7 @@ def speciesMatchesConstraint(record,constraint,taxonomicTree):
     indexedTreeCheck = dict(zip(groups,values))
 
     return constraintClass in indexedTreeCheck and \
-           indexedTreeCheck[constraintClass.lower()] == constraintValue.lower()
+           indexedTreeCheck[constraintClass] == constraintValue
 
 def createTrophicGraph(df,foodWeb):
     G = nx.Graph()

@@ -158,7 +158,8 @@ export const evidenced = {
         "Hebnet Cic": ["https://www.hebnet.co.uk/"],
         "Clean Planet Now": ["http://www.cleanplanetnow.com/index.php/about/who-we-are"],
         "Laig Bay Brewing": ["http://www.glebebarn.co.uk/eigginfo/facilities.html"],
-        "Sarah Boden's address": ["https://beta.companieshouse.gov.uk/officers/CdO-mXRnAEQ4p1pbLPJueBUI4Js/appointments", "https://opengovuk.com/company/SC554221"]
+        "Sarah Boden's address": ["https://beta.companieshouse.gov.uk/officers/CdO-mXRnAEQ4p1pbLPJueBUI4Js/appointments", "https://opengovuk.com/company/SC554221"],
+        "Laig Farm": ["http://www.eiggtime.com/laig-beach-bothy"]
     },
     interesting: {
         "100PopOverview": ["https://www.theguardian.com/uk-news/2017/apr/22/eigg-hebrides-scotland-celebrates-hard-won-renewal"],
