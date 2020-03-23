@@ -1,5 +1,8 @@
 
 import networkx as nx
+from foodWebGraphing import *
+from collections import defaultdict
+import numpy as np
 
 def eiggEnvironmentalOrgs():
     # key organisations with power over environment
@@ -105,6 +108,24 @@ def dependDirectlyOnNaturalResources():
     
     return relationships
 
+def getSpecificDependanciesFromEnvExtended():
+    relationships = {} # will be FAMILY maps => aka needs to match first part of scientific name on Eigg data
+    relationships['Alex Boden'] = ["poaceae"]     
+    relationships['Sarah Boden'] = ["poaceae"]
+    relationships['Elizabeth Boden'] = ["poaceae"]    
+    relationships['Celia Bull'] = ["balaenopteridae", "phocidae", "phocoenidae", "delphinidae", "accipitridae", "sulidae", "laridae", "alcidae", "procellariidae", "scolopacidae", "anatidae", "passerellidae", "phalacrocoracidae"] 
+    relationships['Eddie Scott'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "hedylidae", "hesperiidae", "lycaenidae", "papilionidae", "pieridae", "riodinidae"]
+    relationships['Lucy Conway'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "hedylidae", "hesperiidae", "lycaenidae", "papilionidae", "pieridae", "riodinidae"]
+    relationships['George Carr'] = ["poaceae"]
+    relationships['Saira Renny'] = ["poaceae"]
+    relationships['Laraine Wyn-Jones'] = ["phocidae", "accipitridae", "phocoenidae", "delphinidae", "balaenopteridae"]
+    relationships['Owain Wyn-Jones'] = ["phocidae", "accipitridae", "phocoenidae", "delphinidae", "balaenopteridae"]
+    relationships['Neil Robertson'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "hedylidae", "hesperiidae", "lycaenidae", "papilionidae", "pieridae", "riodinidae", "Meloidae", "Carabidae", "Chrysomelidae", "Silphidae", "Cantharidae", "Geotrupidae"]
+    relationships['Sue Hollands'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "hedylidae", "hesperiidae", "lycaenidae", "papilionidae", "pieridae", "riodinidae", "Meloidae", "Carabidae", "Chrysomelidae", "Silphidae", "Cantharidae", "Geotrupidae"]
+    relationships['Stuart Millar'] = ['Paralichthyidae', 'Gadidae']
+
+    return relationships
+
 def getSpecificDependanciesFromEnv():
         
     # relationships["Heritage Trust"] = []
@@ -123,11 +144,13 @@ def getSpecificDependanciesFromEnv():
     relationships['Elizabeth Boden'] = ["poaceae"]
     
                                 # [Minkie Whale, seals, porpoise, dolphin, naval eagle, gannets&fish predators, ...sea birds]
-    relationships['Celia Bull'] = ["balaenopteridae", "phocidae", "phocoenidae", "delphinidae", "accipitridae", "sulidae", "laridae", "alcidae", "procellariidae", "scolopacidae", "anatidae", "passerellidae", "phalacrocoracidae"] #https://www.tripadvisor.co.uk/Attraction_Review-g1898488-d10759115-Reviews-Selkie_Explorers-Isle_of_Eigg_The_Hebrides_Scotland.html
+    relationships['Celia Bull'] = ["balaenopteridae", "phocidae", "phocoenidae", "delphinidae", "accipitridae", "sulidae"] #https://www.tripadvisor.co.uk/Attraction_Review-g1898488-d10759115-Reviews-Selkie_Explorers-Isle_of_Eigg_The_Hebrides_Scotland.html
 
     #Many insects reap the benefits of bluebells which flower earlier than many other plants. all feed on their nectar. => https://www.woodlandtrust.org.uk/trees-woods-and-wildlife/plants/wild-flowers/bluebell/
-    relationships['Eddie Scott'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "hedylidae", "hesperiidae", "lycaenidae", "papilionidae", "pieridae", "riodinidae"]
-    relationships['Lucy Conway'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "hedylidae", "hesperiidae", "lycaenidae", "papilionidae", "pieridae", "riodinidae"]
+    
+    # FOR BUTTERFLIES => Reduce to families in North Europe Only (50 => 45) then 
+    relationships['Eddie Scott'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "lycaenidae"]
+    relationships['Lucy Conway'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "lycaenidae"]
 
     # any kinds of grass
     relationships['George Carr'] = ["poaceae"]
@@ -142,11 +165,15 @@ def getSpecificDependanciesFromEnv():
     # pollinators, protective insects for plants?
     # pollinators => https://scottishpollinators.wordpress.com/2018/08/31/pollinators-in-scotland/
     # pollinators => https://www.youtube.com/watch?v=_HdHLsLAb-k
-    relationships['Neil Robertson'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "hedylidae", "hesperiidae", "lycaenidae", "papilionidae", "pieridae", "riodinidae", "Meloidae", "Carabidae", "Chrysomelidae", "Silphidae", "Cantharidae", "Geotrupidae"]
-    relationships['Sue Hollands'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "hedylidae", "hesperiidae", "lycaenidae", "papilionidae", "pieridae", "riodinidae", "Meloidae", "Carabidae", "Chrysomelidae", "Silphidae", "Cantharidae", "Geotrupidae"]
+    # Pollinators; removing beetles => https://www.thoughtco.com/insect-pollinators-that-arent-bees-or-butterflies-1967996
+    # also beetles detroy plants => https://www.goodhousekeeping.com/home/gardening/a20705991/garden-insect-pests/, so assume guided pest control on them
+    # except lady beetles => https://www.organiclesson.com/beneficial-insects-garden-pest-control/
+    
+    relationships['Neil Robertson'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "lycaenidae", "coccinellidae"]
+    relationships['Sue Hollands'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "lycaenidae", "coccinellidae"]
 
     # species of typically consumable fish found in Eigg dataset [flounder, flatfish, cod]
-    relationships['Stuart Millar'] = ['Paralichthyidae', 'Gadidae']
+    relationships['Stuart Millar'] = ['paralichthyidae', 'gadidae']
 
     return relationships
 
@@ -203,3 +230,85 @@ def buildEnvironmentCollaborationsGraph():
                 G.add_edge(person1,person2)
     
     return G 
+
+def buildEnrichedFoodWeb(daterange=(2014,2021)):
+    tempG,tempMapping = graphFoodWeb(dateRange=daterange)
+    edgesToUseLater = tempG.edges()
+
+    middleLayer = getSpecificDependanciesFromEnv()
+    middleLayer = middleLayer.values()
+    middleLayer = list(set([item.lower() for sublist in middleLayer for item in sublist]))
+    
+    G = nx.Graph()
+    currNodeSet = set(G.nodes())
+    additionSet = set()
+
+    df = validatedEiggData()
+    for family in middleLayer:
+        translated = concreteSpeciesInterceptor(df,family)
+        for concreteSpecies in translated:
+            if concreteSpecies not in currNodeSet and concreteSpecies not in additionSet:
+                additionSet.add(concreteSpecies)
+    
+    for item in additionSet:
+        G.add_node(item)
+    
+    finalSet = set(G.nodes())
+    for from_,to_ in edgesToUseLater:
+        if from_ in finalSet and to_ in finalSet:
+            G.add_edge(from_,to_)
+
+    return G
+
+# https://goneoutdoors.com/types-of-grass-for-cattle-grazing-5011427.html
+def concreteSpeciesInterceptor(df,family):
+    if family == "poaceae": return ["phalaris arundinacea", "festuca rubra", "festuca arundinacea"]
+    if family == "accipitridae": return ["haliaeetus albicilla", "aquila chrysaetos"]
+    if family == "delphinidae": return ["delphinus delphis"]
+    if family == "balaenopteridae": return ["balaenoptera acutorostrata"]
+    return list(set(constrainByTaxonomy(df, ("Family", family))['Scientific name']))
+
+def buildIntermediaryLayer():
+    middleLayerLink = defaultdict(set)
+    middleLayer = getSpecificDependanciesFromEnv()
+
+    df = validatedEiggData()
+    for name in middleLayer:
+        dependencyFamilies = middleLayer[name]
+        for family in dependencyFamilies:
+            translated = concreteSpeciesInterceptor(df,family)
+            for specificSpecies in translated:
+                middleLayerLink[name].add(specificSpecies)
+    
+    for name in middleLayerLink:
+        middleLayerLink[name] = list(middleLayerLink[name])
+
+    return middleLayerLink
+
+def buildMetaGraph(socialNodes, ecoNodes):
+    M = np.zeros((len(socialNodes),len(ecoNodes)))    
+
+    dependencies = getSpecificDependanciesFromEnv()
+
+    for kp,person in enumerate(socialNodes):
+        families = dependencies[person]
+        for ke,e in enumerate(ecoNodes):
+            concreteFamily = getTaxonomyForAnimal(e)["family"]
+            M[kp,ke] = int(concreteFamily.lower() in families) 
+    
+    return M
+
+def createEntireMetaNetExperiment():
+    Gs = buildEnvironmentCollaborationsGraph()
+    Ge = buildEnrichedFoodWeb()
+
+    socialNodes = list(Gs.nodes())
+    ecoNodes = list(Ge.nodes())
+
+    M = buildMetaGraph(socialNodes,ecoNodes)
+
+if __name__=="__main__":
+    createEntireMetaNetExperiment()
+ 
+
+

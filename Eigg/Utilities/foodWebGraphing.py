@@ -105,3 +105,15 @@ def addEdgesToGraph(G,species,foodWeb):
             if s1 != s2 and s2 in predatorFoodWeb:
                 G.add_edge(s1,s2)
                 
+def getTaxonomyForAnimal(species):
+    with open(basePath+"taxonomicIndexEigg", "rb") as f:
+        taxonomicTree = pickle.load(f)
+    
+    taxonomy = taxonomicTree[species]
+    groups,values = taxonomy
+
+    groups = groups.lower().split("|")
+    values = values.lower().split("|")
+    indexedTreeCheck = dict(zip(groups,values))
+
+    return indexedTreeCheck
