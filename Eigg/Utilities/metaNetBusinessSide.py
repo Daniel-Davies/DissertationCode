@@ -127,7 +127,7 @@ def getSpecificDependanciesFromEnv():
 
     #Many insects reap the benefits of bluebells which flower earlier than many other plants. all feed on their nectar. => https://www.woodlandtrust.org.uk/trees-woods-and-wildlife/plants/wild-flowers/bluebell/
     relationships['Eddie Scott'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "hedylidae", "hesperiidae", "lycaenidae", "papilionidae", "pieridae", "riodinidae"]
-    relationships['Lucy Conway'] = ["apidae", "vespidae", "syrphidae"]
+    relationships['Lucy Conway'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "hedylidae", "hesperiidae", "lycaenidae", "papilionidae", "pieridae", "riodinidae"]
 
     # any kinds of grass
     relationships['George Carr'] = ["poaceae"]
@@ -136,15 +136,17 @@ def getSpecificDependanciesFromEnv():
     # seals => http://www.eiggadventures.co.uk/isle-of-eigg-trail-running-camp/
     # gold or white tailed eagles => http://www.eiggadventures.co.uk/bike-hire-on-eigg/
     # otters, sea eagles, porpoise, dolphins and minke whales  => http://www.eiggadventures.co.uk/kayaking-on-eigg/
-    relationships['Laraine Wyn-Jones'] = ['Eigg Adventures', 'Eigg Camping Pods', 'Eigg Trading']
-    relationships['Owain Wyn-Jones'] = ['Eigg Adventures', 'Eigg Camping Pods']
+    relationships['Laraine Wyn-Jones'] = ["phocidae", "accipitridae", "phocoenidae", "delphinidae", "balaenopteridae"]
+    relationships['Owain Wyn-Jones'] = ["phocidae", "accipitridae", "phocoenidae", "delphinidae", "balaenopteridae"]
 
     # pollinators, protective insects for plants?
-    relationships['Neil Robertson'] = ['Eigg Organics', 'Roadworks']
-    relationships['Sue Hollands'] = ['Eigg Organics', 'Eigg Electric']
+    # pollinators => https://scottishpollinators.wordpress.com/2018/08/31/pollinators-in-scotland/
+    # pollinators => https://www.youtube.com/watch?v=_HdHLsLAb-k
+    relationships['Neil Robertson'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "hedylidae", "hesperiidae", "lycaenidae", "papilionidae", "pieridae", "riodinidae", "Meloidae", "Carabidae", "Chrysomelidae", "Silphidae", "Cantharidae", "Geotrupidae"]
+    relationships['Sue Hollands'] = ["apidae", "vespidae", "syrphidae", "nymphalidae", "hedylidae", "hesperiidae", "lycaenidae", "papilionidae", "pieridae", "riodinidae", "Meloidae", "Carabidae", "Chrysomelidae", "Silphidae", "Cantharidae", "Geotrupidae"]
 
-    # species of edible fish
-    relationships['Stuart Millar'] = ['Fishing Co', 'Galmisdale Cafe', 'Lagerona']
+    # species of typically consumable fish found in Eigg dataset [flounder, flatfish, cod]
+    relationships['Stuart Millar'] = ['Paralichthyidae', 'Gadidae']
 
     return relationships
 
