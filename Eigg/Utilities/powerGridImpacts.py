@@ -1,6 +1,6 @@
 from data import validatedEiggData
 from collections import defaultdict, Counter
-from foodWebGraphing import constrainByTaxonomy, graphFoodWeb
+from foodWebGraphing import constrainByTaxonomy, graphFoodWeb,getTaxonomyForAnimal
 
 lowerYearBound = 1998
 conversionYear = 2007
@@ -47,7 +47,29 @@ def preGridData():
     return data
 
 def getFamiliesLikelyAffectedByGrid():
-    return ["delphinidae"]
+    # DONT ADD TOO MUCH TO DILUTE RESULTS
+
+    # solar => https://infrastructure.planninginspectorate.gov.uk/wp-content/ipc/uploads/projects/EN010085/EN010085-000610-Appendix%204%20-%20Potential%20Ecological%20Impacts%20of%20Ground-Mounted%20Solar%20Panels.pdf
+    # solar => http://publications.naturalengland.org.uk/file/6000213410447360
+    # solar => http://migratorysoaringbirds.undp.birdlife.org/sites/default/files/RSPB%20Solar%20panel%20briefing.pdf    
+
+    # wind => https://www.rspb.org.uk/our-work/our-positions-and-casework/our-positions/climate-change/action-to-tackle-climate-change/uk-energy-policy/wind-farms/
+    # wind => https://en.wikipedia.org/wiki/Environmental_impact_of_wind_power#Impact_on_wildlife (shows tiny impact- 0.03 birds/ turbine killed)
+    # wind => again tiny impact evidence (55mil to cats vs 106,000 to turbines) https://www.bbc.co.uk/news/science-environment-48936941
+
+    # hydro => http://isleofeigg.org/eigg-electric/ (its a small hydro plant)
+    # hydro => https://www.renewableenergyhub.co.uk/main/hydroelectricity-information/environmental-impact-of-hydroelectricity/ (doesnt look like much impact)
+    # hydro => https://www.bbc.com/future/article/20170329-the-extraordinary-electricity-of-the-scottish-island-of-eigg (run of water plant)
+    # hydro => it's a weir (https://www.youtube.com/watch?v=l3n-6YHquno) aka low dam
+
+    # hydro => So it's really freshwater fish 
+    # hydro => Doesn't look like there is going to be any fish there; but let's try anyway
+    # hydro => check here for some https://www.nature.scot/plants-animals-and-fungi/fish/freshwater-fish
+    # hydro => trout, salmon, sparling, arctic charr, allis shad
+    
+    # ref1 => provides names of the birds at risk that we use below (converted to family)
+    # [ref1,ref1,ref1, then x2 wildlochaber.com/the-small-isles/wildlife/isle-of-eigg, bat on eigg, eagle (ref1 wind)]
+    return ["anatidae", "hirundinidae", "accipitridae","muscicapidae", "scolopacidae", "vespertilionidae", "accipitridae", "salmonidae", "osmeridae", "clupeidae", "gasterosteidae"]
 
 def convertFamilyListToSpecies(familiesList):
     df = validatedEiggData()
@@ -118,11 +140,12 @@ def aggregatedDataByYear(dataset):
                 aggregated[year].append(dataset[animal][year])
             else:
                 aggregated[year].append(0)
+
+    # plug in re-translation to family here
     
     return aggregated, list(labels)
 
 
 if __name__=="__main__":
     print(splitBetweenMiddle(getRawOccurencesPerAnimalByYear()))
-
     
