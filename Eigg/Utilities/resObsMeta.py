@@ -50,11 +50,12 @@ def buildObsResMetaNetwork():
     
     locationSet = locationsPerPerson()
     observationsKeyedOnRecorder = retrieveRecorderLocations(validatedEiggData())
-    print(observationsKeyedOnRecorder)
 
     G = nx.Graph()
     names = locationSet.keys()
     animalLabels = createMeaningfulLabels(names, observationsKeyedOnRecorder)
+
+    print(observationsKeyedOnRecorder)
 
     for name in names:
         G.add_node(name)
@@ -109,7 +110,7 @@ def createMeaningfulLabels(nameList, keyedObs):
                     if newLabel not in seen:
                         seen.add(newLabel)
                         labelList.append(newLabel)
-                        entries[k] = (entry[0],entry[1],newLabel)
+                        keyedObs[name][k] = (entry[0],entry[1],newLabel)
                         break 
                     iterator += 1
         
