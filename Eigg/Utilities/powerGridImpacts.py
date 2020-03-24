@@ -146,6 +146,10 @@ def aggregatedDataByYear(dataset):
     return aggregated, list(labels)
 
 
+# BOX PLOT ON THE pairedOffDifferencesByYear function
+# coloured bar charts with the splitBetweenMiddle function
+
 if __name__=="__main__":
-    print(splitBetweenMiddle(getRawOccurencesPerAnimalByYear()))
+    res1, res2, labs = splitBetweenMiddle(getRawOccurencesPerAnimalByYear())
+    print(len(labs))
     
