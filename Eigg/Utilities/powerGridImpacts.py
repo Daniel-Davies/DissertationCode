@@ -1,6 +1,6 @@
 from data import validatedEiggData
-from collections import defaultdict
-from foodWebGraphing import constrainByTaxonomy 
+from collections import defaultdict, Counter
+from foodWebGraphing import constrainByTaxonomy
 
 lowerYearBound = 1998
 conversionYear = 2007
@@ -14,7 +14,7 @@ def getDataSamplesPerClass():
     familiesOfInterest = getFamiliesLikelyAffectedByGrid()
     animalsOfInterest = convertFamilyListToSpecies(familiesOfInterest)
 
-    preGridCounts, postGridCounts = measureEachAnimalNumbersByYear(animalsOfInterest)
+    animalStatistics = measureEachAnimalNumbersByYear(animalsOfInterest)
 
     print("<>")
 
@@ -43,25 +43,16 @@ def convertFamilyListToSpecies(familiesList):
     return animalsList
 
 def measureEachAnimalNumbersByYear(animals):
-    beforeGridSummary = defaultdict(dict)
-    afterGridSummary = defaultdict(dict)
+    animalByYearSummary = {}
 
-    for year in range(lowerYearBound, conversionYear+2):
-        for animal in animals:
-            beforeGridSummary[year][animal] = countAnimalOccurencesByYearInFrame(animal,year)
-    
-    for year in range(conversionYear+2, 2020):
-        for animal in animals:
-            afterGridSummary[year][animal] = countAnimalOccurencesByYearInFrame(animal,year)
-    
-    return beforeGridSummary, afterGridSummary
-    
-def countAnimalOccurencesByYearInFrame(animal,year):
     data = validatedEiggData()
-    data = data[data['Start date year'] == year]
-    data = data[data['Scientific name'] == animal]
-    return len(data)
 
+    for animal in animals:
+        filteredByAnimal = data[data['Scientific name'] == animal]
+        yearsOfOccurence = Counter(filteredByAnimal['Start date year'])
+        animalByYearSummary[animal] = yearsOfOccurence
+
+    return animalByYearSummary
 
 if __name__=="__main__":
     getDataSamplesPerClass()
