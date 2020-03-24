@@ -1,13 +1,31 @@
 from data import validatedEiggData
 from collections import defaultdict, Counter
-from foodWebGraphing import constrainByTaxonomy
+from foodWebGraphing import constrainByTaxonomy, graphFoodWeb
 
 lowerYearBound = 1998
 conversionYear = 2007
 
-def getDataSamplesPerClass():
-    beforeGrid = preGridData()
-    afterGrid = postGridData()
+def getInteractivityPerAnimal(granularity=1):
+    familiesOfInterest = getFamiliesLikelyAffectedByGrid()
+    animalsOfInterest = convertFamilyListToSpecies(familiesOfInterest)
+
+    degreeByAnimalByYear = defaultdict(dict)
+
+    for year in range(lowerYearBound, 2021, granularity):
+        G,mapping = graphFoodWeb(dateRange=(year,year+granularity))
+        degreeMap = dict(G.degree())
+        for animal in animalsOfInterest:
+            if animal in degreeMap:
+                degreeByAnimalByYear[animal][year] = degreeMap[animal]
+            else:
+                degreeByAnimalByYear[animal][year] = 0
+
+ 
+    return degreeByAnimalByYear
+
+def getRawOccurencesPerAnimalByYear():
+    # beforeGrid = preGridData()
+    # afterGrid = postGridData()
 
     # print(len(beforeGrid), len(afterGrid)) => 12891 13864, so roughly equivalent
 
@@ -16,7 +34,7 @@ def getDataSamplesPerClass():
 
     animalStatistics = measureEachAnimalNumbersByYear(animalsOfInterest)
 
-    print("<>")
+    return animalStatistics
 
 def postGridData():
     data = validatedEiggData()
@@ -53,6 +71,3 @@ def measureEachAnimalNumbersByYear(animals):
         animalByYearSummary[animal] = yearsOfOccurence
 
     return animalByYearSummary
-
-if __name__=="__main__":
-    getDataSamplesPerClass()
