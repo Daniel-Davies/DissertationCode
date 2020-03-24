@@ -13,7 +13,7 @@ def listedEiggHotels():
     hotels['56.9252864,-6.1471206'] = "Tophouse"
     hotels['56.888082, -6.137512'] = "Amazing Eigg Shed" #ref, Airbnb https://www.airbnb.co.uk/rooms/16893915?source_impression_id=p3_1582112234_GzrTX7%2FlFXGr%2FdFV
     hotels['56.922044,-6.1446842'] = "Eigg Organics"
-    hotels['56.8889489,-6.1250917'] = "Kildonnan house"
+    hotels['56.8889489,-6.1250917'] = "Kildonnan house" 
     hotels['56.9182625,-6.1554283'] = "Laig Caravan"
     hotels['56.8902145,-6.1343823'] = "Glebe Barn"
     hotels['56.8775889,-6.1337773'] = "The Smiddy"
@@ -383,9 +383,6 @@ def customByBusiness():
     relationships["Craigard Teas"] = ["Eigg Shop"]
     
     return relationships
-
-['Taxi Service', 'Hebnet Cic', 'Eiggy Bread', 'LOST MAPS RECORDS LTD', 'Laig Farm', 'Fishing Co', 'A NEAD KNITWEAR', 'Refuse Collection', 'Selkie Explorers', 'Tophouse', 'TIGH AN SITHEAN', 'Health & Home Care', 'Eigg Yurts', 'Craigard Teas', 'Eigg History']
-
 
 def inferredNamesGraph():
     relationships = uninferredNamesGraph()
