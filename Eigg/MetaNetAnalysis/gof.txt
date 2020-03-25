@@ -1,0 +1,37 @@
+Statistics	Observed	Mean	StdDev	t-ratio
+EdgeA	7.0000	9.0760	2.714	-0.765	
+EdgeB	2.0000	3.8040	1.179	-1.530	
+XEdge	161.0000	157.3180	9.382	0.392	
+TriangleXAX	32.0000	34.5700	11.958	-0.215	
+L3XAX	1251.0000	1456.9480	482.825	-0.427	
+stddev_degreeA	1.1152	1.0288	0.191	0.452	
+skew_degreeA	0.5739	0.3375	0.341	0.694	
+clusteringA	0.0000	0.0935	0.143	-0.653	
+stddev_degreeX_A	12.5300	12.9714	0.751	-0.588	
+skew_degreeX_A	-0.9289	-0.9551	0.023	1.143	
+stddev_degreeX_B	3.6475	3.7336	0.203	-0.424	
+skew_degreeX_B	-1.1742	-1.1831	0.023	0.391	
+clusteringX	0.2317	0.2482	0.021	-0.781	
+stddev_degreeB	0.3799	0.3650	0.053	0.280	
+skew_degreeB	1.7363	1.9500	0.675	-0.317	
+clusteringB	0.0000	0.0000	0.000	NaN	
+Mahalanobis distance = 7603
+Maximum qasi-autocorrelation in absolute value = 639192174.910
+
+
+
+MODEL ON: EdgesA, EDGESB, EDGESX, TraiangleXAX, L3XAX
+
+Converges most of the time, but will sometimes fail
+
+Edges only for now in A =>  we want to capture any other triangles in the meta net
+Edges only is enough for B =>  it has like 2 edges, which will be captured by probability
+Meta =>  throw in triangles (lucky that net is sparse)
+
+DOESN'T CONVERGE :(
+
+What if we add in XYZ to the meta net to explain stuff?
+
+CONVERGES :)
+
+Mention that only 50% though so we aren't capturing everything in the network
