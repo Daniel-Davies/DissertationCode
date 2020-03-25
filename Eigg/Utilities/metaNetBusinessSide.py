@@ -3,6 +3,7 @@ import networkx as nx
 from foodWebGraphing import *
 from collections import defaultdict
 import numpy as np
+from utils import saveGraphToFile
 
 def eiggEnvironmentalOrgs():
     # key organisations with power over environment
@@ -306,6 +307,8 @@ def createEntireMetaNetExperiment():
     ecoNodes = list(Ge.nodes())
 
     M = buildMetaGraph(socialNodes,ecoNodes)
+
+    return Gs,Ge,M
 
 if __name__=="__main__":
     createEntireMetaNetExperiment()

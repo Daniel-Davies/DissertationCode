@@ -55,8 +55,6 @@ def buildObsResMetaNetwork():
     names = locationSet.keys()
     animalLabels = createMeaningfulLabels(names, observationsKeyedOnRecorder)
 
-    print(observationsKeyedOnRecorder)
-
     for name in names:
         G.add_node(name)
     
