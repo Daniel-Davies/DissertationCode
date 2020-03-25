@@ -301,7 +301,7 @@ def buildMetaGraph(socialNodes, ecoNodes):
 
 def createEntireMetaNetExperiment():
     Gs = buildEnvironmentCollaborationsGraph()
-    Ge = buildEnrichedFoodWeb()
+    Ge = buildEnrichedFoodWeb(daterange=(2010,2020))
 
     socialNodes = list(Gs.nodes())
     ecoNodes = list(Ge.nodes())
