@@ -454,8 +454,17 @@ def validatedEiggData():
     df = fetchRawCSVObservationData(islandDatasets+"eigg.csv")
     df["Scientific name"] = df["Scientific name"].str.lower()
     df["Scientific name"] = df["Scientific name"].map(lambda x: mapRawNameToValidated(x,verifiedSpecies))
+
+    # inferStartDateFromEndDate(df) => Decided not to use in production calling, for consistency purposes
     
     return df
+
+def inferStartDateFromEndDate(df):
+    try:
+        if (not (row['End date year'].isnull())) and row['Start date year'].isnull():
+            row['Start date year'] = row['End date year']
+    except:
+        pass
 
 def mapRawNameToValidated(rawName,verifiedSpeciesDict):
     if rawName in verifiedSpeciesDict:
