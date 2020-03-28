@@ -447,6 +447,14 @@ def skyeRawData():
 
     return df
 
+def rumRawData():
+    df = fetchRawCSVObservationData(islandDatasets+"rum.csv")
+    
+    df = df.dropna(subset=['Start date year'])
+    df["Start date year"] = df["Start date year"].astype(np.int32)
+
+    return df
+
 def validatedEiggData():
     with open(basedir+"crushedFoodWebDatasets/EiggVerifiedSpeciesList", "rb") as f:
         verifiedSpecies = pickle.load(f)
