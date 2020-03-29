@@ -111,19 +111,10 @@ def addEdgesToGraph(G, species, foodWeb):
                 G.add_edge(s1,s2)
 
 def addEdgesToGraphAbstracted(G, species, foodWeb, specificity):
-    with open(basePath+"taxonomicIndexEigg", "rb") as f:
-        taxonomicTree = pickle.load(f)
-    
     specifics = {}
     for item in species:
         try:
-            taxonomy = taxonomicTree[item]
-            groups,values = taxonomy
-
-            groups = groups.lower().split("|")
-            values = values.lower().split("|")
-            indexedTreeCheck = dict(zip(groups,values))
-            specifics[item] = indexedTreeCheck[specificity]
+            specifics[item] = getTaxonomyForAnimal(item)[specificity]
         except:
             specifics[item] = ""
 
@@ -175,6 +166,3 @@ def getTaxonomyForAnimal(species):
     indexedTreeCheck = dict(zip(groups,values))
 
     return indexedTreeCheck
-
-if __name__=="__main__":
-    graphFoodWeb(dateRange=(2015,2021),specificity="genus")
