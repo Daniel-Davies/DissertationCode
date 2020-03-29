@@ -6,7 +6,7 @@ from copy import deepcopy
 
 basePath = "C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/EcoWebs/"
 
-def graphFoodWeb(dateRange=(1700,2020), includeIsolates=False,  predatorSelector=(None, None), constraint=(None,None)):
+def graphFoodWeb(dateRange=(1700,2020), includeIsolates=False,  predatorSelectors=[(None, None)], constraints=[(None,None)], specificity=None):
     dataFrom, dataTo = dateRange
 
     verifiedEiggData = validatedEiggData() 
@@ -15,18 +15,20 @@ def graphFoodWeb(dateRange=(1700,2020), includeIsolates=False,  predatorSelector
 
     foodWeb = retrieveCollatedFoodWeb()
 
-    if constraint[0] is not None:
-        constrainedEiggData = constrainByTaxonomy(constrainedEiggData,constraint)
+    for constraint in constraints:
+        if constraint[0] is not None:
+            constrainedEiggData = constrainByTaxonomy(constrainedEiggData,constraint)
 
-    if predatorSelector[0] is not None:
-        foodWeb = constrainByPredators(foodWeb,predatorSelector)
+    for predatorSelector in predatorSelectors:
+        if predatorSelector[0] is not None:
+            foodWeb = constrainByPredators(foodWeb,predatorSelector)
     
     allScientificNames = constrainedEiggData['Scientific name'].values.tolist()
     allCommonNames = constrainedEiggData['Common name'].values.tolist()
 
     commonNameLabelMapping = dict(zip(allScientificNames,allCommonNames))
 
-    G, labels = createTrophicGraph(constrainedEiggData, foodWeb)
+    G, labels = createTrophicGraph(constrainedEiggData, foodWeb, specificity)
 
     labelMapping = {}
     for item in labels:
@@ -86,7 +88,7 @@ def speciesMatchesConstraint(record,constraint,taxonomicTree):
     return constraintClass in indexedTreeCheck and \
            indexedTreeCheck[constraintClass] == constraintValue
 
-def createTrophicGraph(df,foodWeb):
+def createTrophicGraph(df,foodWeb, specificity):
     G = nx.Graph()
 
     allPossibleSpecies = list(set(df['Scientific name'].values.tolist()))
@@ -94,16 +96,72 @@ def createTrophicGraph(df,foodWeb):
     for i in allPossibleSpecies: 
         G.add_node(i)
 
-    addEdgesToGraph(G,allPossibleSpecies,foodWeb)
+    if specificity is None:
+        addEdgesToGraph(G, allPossibleSpecies, foodWeb)
+    else:
+        addEdgesToGraphAbstracted(G, allPossibleSpecies, foodWeb, specificity)
     
     return G, allPossibleSpecies
 
-def addEdgesToGraph(G,species,foodWeb):
+def addEdgesToGraph(G, species, foodWeb):
     for s1 in species:
         predatorFoodWeb = foodWeb[s1]
         for s2 in species:
             if s1 != s2 and s2 in predatorFoodWeb:
                 G.add_edge(s1,s2)
+
+def addEdgesToGraphAbstracted(G, species, foodWeb, specificity):
+    with open(basePath+"taxonomicIndexEigg", "rb") as f:
+        taxonomicTree = pickle.load(f)
+    
+    specifics = {}
+    for item in species:
+        try:
+            taxonomy = taxonomicTree[item]
+            groups,values = taxonomy
+
+            groups = groups.lower().split("|")
+            values = values.lower().split("|")
+            indexedTreeCheck = dict(zip(groups,values))
+            specifics[item] = indexedTreeCheck[specificity]
+        except:
+            specifics[item] = ""
+
+    mapping = {}
+    for item in species:
+        mapping[item] = set(mapToSpecifics(list(foodWeb[item]),specificity)) - set([""])
+    
+    for s1 in species:
+        predatorFoodWebSpecified = mapping[s1]
+        for s2 in species:
+            if s1 != s2:
+                val = specifics[s2]
+                if val in predatorFoodWebSpecified:
+                    G.add_edge(s1,s2)
+
+
+def mapToSpecifics(species, specificity):
+    with open(basePath+"taxonomicIndexEigg", "rb") as f:
+        taxonomicTree = pickle.load(f)
+
+    res = []
+    for item in species:
+        if item in taxonomicTree:
+            taxonomy = taxonomicTree[item]
+            groups,values = taxonomy
+
+            groups = groups.lower().split("|")
+            values = values.lower().split("|")
+            indexedTreeCheck = dict(zip(groups,values))
+            try:
+                val = indexedTreeCheck[specificity]
+                res.append(val)
+            except:
+                res.append("")
+        else:
+            res.append("")
+    
+    return res
                 
 def getTaxonomyForAnimal(species):
     with open(basePath+"taxonomicIndexEigg", "rb") as f:
@@ -117,3 +175,6 @@ def getTaxonomyForAnimal(species):
     indexedTreeCheck = dict(zip(groups,values))
 
     return indexedTreeCheck
+
+if __name__=="__main__":
+    graphFoodWeb(dateRange=(2015,2021),specificity="genus")

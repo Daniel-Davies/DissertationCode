@@ -21,6 +21,7 @@ crushedDatasets = "C:/Users/davie/Desktop/Masters/Dissertation/Code/Dissertation
 def retrieveCollatedFoodWeb():
     #dataSetFunctions = [readFreshwaterData(), read2018GlobalDatabaseData(), readSantaBarbaraMatrix(), readSorensenData(), readJanesData(), readNZData(), readDryadData(), readEcoWeb()]
     coreDataSets = [readMangalDataset(), readCanberraWeb(), readFreshwaterData(), read2018GlobalDatabaseData(), readSorensenData(), readJanesData(), readEcoWeb(), readLeatherBritain(), readLeatherFinland(), readPlantPollinatorsUK(), govPlantInteractions()]
+    # pickle.dump(aggregateDateSets(coreDataSets), open("aggregatedTrophics","wb"))
     return aggregateDataSets(coreDataSets)
 
 def invokeFunctionWithParameters(f,params):
