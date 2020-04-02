@@ -2,25 +2,73 @@ from data import *
 import networkx as nx
 from utils import seperationInMetres, toUsableLatLon
 
-def retrieveRecorders(df):
-    return list(filter(lambda x: type(x) == str,list(df['Recorder'].unique())))
+def buildObsResMetaNetwork():
+    observationsKeyedOnRecorder = getIntersectionBetweenNBNAndNames()
+    locationSet = locationsPerPerson()
+    G = nx.Graph()
+    names = locationSet.keys()
+    animalLabels = createMeaningfulLabels(observationsKeyedOnRecorder)
 
-def retrieveRecorderLocations(df):
-    recorders = getKnownPeople()
-    locs = {}
-    df['Recorder'] = df['Recorder'].str.lower()
-    for recorder in recorders:
-        entries = df[df['Recorder'] == recorder]
-        locations = list(zip(entries['Latitude (WGS84)'], entries['Longitude (WGS84)'], entries["Scientific name"]))
-        locs[recorder] = locations
+    for name in names:
+        G.add_node(name)
     
-    return locs
+    print("First " + str(len(names)) + " nodes are group 1")
+    
+    for speciesLabel in animalLabels:
+        G.add_node(speciesLabel)
+        
+    for nameKey in observationsKeyedOnRecorder:
+        if nameKey not in names: continue # I don't have the addresses for some of the people in the observation set. skip these.
+        entries = observationsKeyedOnRecorder[nameKey]
+        for locationTuple in entries:
+            G.add_edge(nameKey, locationTuple[2])
+    
+    locationTuplePerSpecies = convertTripleToLocationKeys(observationsKeyedOnRecorder)
+    M = np.zeros((len(names),len(animalLabels)))
+
+    for kName,name in enumerate(names):
+        for kSpec, spec in enumerate(animalLabels):
+            loc1 = toUsableLatLon(locationSet[name][0][0])
+            loc2 = locationTuplePerSpecies[spec]
+            M[kName,kSpec] = seperationInMetres(loc1,loc2)
+
+    return G, M
+
+def getIntersectionBetweenNBNAndNames():
+    df = validatedEiggData() 
+    df['Recorder'] = df['Recorder'].str.lower()
+    observers = df.dropna(subset=['Recorder'])
+    observers = observers["Recorder"]
+    observers = list(observers)
+    observers = set(list(map(lambda x: x.lower(), observers)))
+    
+    people = inferredNamesGraph()
+    people = people.keys()
+    people = set(list(map(lambda x: x.lower(), people))) - set(['john'])
+
+    matching = []
+    for p in people:
+        for o in observers:
+            if p in o:
+                matching.append((p,o))
+    
+    locsIncluded = dict()
+    uniqueNames = list(map(lambda x: x[0], matching))
+    for u in uniqueNames:
+        locsIncluded[u] = []
+    
+    for personOfInterest, actualEntry in matching:
+        entries = df[df['Recorder'] == actualEntry]
+        locations = list(zip(entries['Latitude (WGS84)'], entries['Longitude (WGS84)'], entries["Scientific name"]))
+        locsIncluded[personOfInterest] += locations
+
+    return locsIncluded
 
 def getKnownPeople():
     observers = lowerSet(set(retrieveRecorders(validatedEiggData())))
     allPeopleOnEigg = lowerSet(set(uninferredNamesGraph().keys()))
 
-    observationPeople = observers.intersection(allPeopleOnEigg)
+    observationPeople = observers.intersection(allPeopleOnEigg) ##########
     return observationPeople
 
 def locationsPerPerson():
@@ -36,7 +84,14 @@ def locationsPerPerson():
     residences['eddie scott'] = [('56.9222615,-6.1420233', "Eddie's Eigg Croft")]
     residences['pascal carr'] = [('56.918268, -6.154348', "Shore Cottage")]
     residences['stuart millar'] = [('56.9269519,-6.1439637', "Howlin House")]
-    residences['colin carr'] = [('56.8889489,-6.1250917', "Kildonnan house")] 
+    residences['colin carr'] = [('56.8889489,-6.1250917', "Kildonnan house")]
+    residences['marie carr'] = [('56.8889489,-6.1250917', "Kildonnan house")]
+    residences['simon helliwell'] = [('56.8902145,-6.1343823', "Glebe Barn")] #ok technically they USED to live here, but thats fine since thats when a lot of observations will overlap anyway
+    residences['karen helliwell'] = [('56.8902145,-6.1343823', "Glebe Barn")]
+    residences['katrin bach'] = [('56.9113759,-6.1654777', "Laig")] # https://en-gb.facebook.com/EiggyBread/
+
+    # residences['stuart fergusson'] #couldn't get address
+    # residences['jenny robertson'] #couldn't get address
 
     return residences
 
@@ -44,40 +99,6 @@ def lowerSet(setOfStrings):
     mutable = list(setOfStrings)
     mutable = list(map(lambda x: x.lower(),mutable))
     return set(mutable)
-
-def buildObsResMetaNetwork():
-    # peopleNameLocTuple = getKnownPeopleLocations() => Util only
-    
-    locationSet = locationsPerPerson()
-    observationsKeyedOnRecorder = retrieveRecorderLocations(validatedEiggData())
-
-    G = nx.Graph()
-    names = locationSet.keys()
-    animalLabels = createMeaningfulLabels(names, observationsKeyedOnRecorder)
-
-    for name in names:
-        G.add_node(name)
-    
-    print("First " + str(len(names)) + " nodes are group 1")
-    
-    for speciesLabel in animalLabels:
-        G.add_node(speciesLabel)
-    
-    for nameKey in observationsKeyedOnRecorder:
-        entries = observationsKeyedOnRecorder[nameKey]
-        for locationTuple in entries:
-            G.add_edge(nameKey, locationTuple[2])
-    
-    locationTuplePerSpecies = convertTripleToLocationKeys(observationsKeyedOnRecorder)
-    M = np.zeros((len(names),len(animalLabels)))
-    
-    for kName,name in enumerate(names):
-        for kSpec, spec in enumerate(animalLabels):
-            loc1 = toUsableLatLon(locationSet[name][0][0])
-            loc2 = locationTuplePerSpecies[spec]
-            M[kName,kSpec] = seperationInMetres(loc1,loc2)
-
-    return G, M
 
 def convertTripleToLocationKeys(keyedObs):
     locationKey = {}
@@ -87,13 +108,13 @@ def convertTripleToLocationKeys(keyedObs):
     
     return locationKey
 
-
     # get observation nodes & cross check against listed people
     # get residential nodes per person
     # link the two as a bipartite network
-def createMeaningfulLabels(nameList, keyedObs):
+def createMeaningfulLabels(keyedObs):
     labelList = []
     seen = set()
+    nameList = keyedObs.keys()
     for name in nameList:
         entries = keyedObs[name]
         for k,entry in enumerate(entries):
@@ -115,5 +136,5 @@ def createMeaningfulLabels(nameList, keyedObs):
     return labelList
 
 if __name__=="__main__":
-    G = buildObsResMetaNetwork()
+    G, M = buildObsResMetaNetwork()
     #print(G.edges())

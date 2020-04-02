@@ -94,6 +94,28 @@ def uninferredExchangeNets():
     
     return relationships
 
+def exchangesByBusiness():
+    relationships = {}
+
+    relationships["Eiggy Bread"] = ["Glebe Barn"]
+    relationships["Massage Theraphy"] = ["Lagerona", "Glebe Barn", "Kildonnan House"] #suppose she services the main residences with a massage
+    relationships["Sandavore Farm"] = ["Eigg Shop"]
+    relationships["Stuart Millar Fishing"] = ["Eigg Shop", "Galmisdale Cafe"]
+    relationships["Laig Bay Brewing"] = ["Galmisdale Cafe", "Lagerona"]
+    relationships["Eddie's Eigg Croft"] = ["Eigg Crafts"]
+    relationships["Kildonnan Bay Oysters"] = ["Eigg Shop", "Galmisdale Cafe"]
+    relationships["Eigg Organics"] = ["Eigg Shop"]
+    relationships["Libby Galli Felt"] = ["Eigg Crafts"]
+    relationships["Kildonnan House"] = ["Lagerona"]
+    relationships["Lost Map Records"] = ["Eigg Crafts"]
+    relationships["Laig Farm"] = ["Eigg Shop", "Galmisdale Cafe"]
+    relationships["Anead hand knitwear"] = ["Eigg Crafts"]
+    relationships["Lagerona"] = ["Kildonnan House"]
+    relationships["Hebnet Cic"] = ["Lagerona", "Kildonnan House", "Glebe Barn"]
+    relationships["Scottish Willow Baskets"] = ["Eigg Crafts"]
+
+    return relationships
+
 def inferredExchangeNets():
     relationships = {}
 
@@ -129,7 +151,7 @@ def inferredExchangeNets():
     relationships["Jacqueline Kirk"] = []
     relationships["Ian Leaver"] = []
     relationships["Stuart McCarthy"] = ["Galmisdale Cafe", "Lagerona"] 
-    relationships["Sue Kirk"] = ["Kildonnan House"]
+    relationships["Sue Kirk"] = ["Kildonnan House"] #send overlf
     relationships["Alisdair Kirk"] = [] 
     relationships["Charlie Galli"] = []        
     
