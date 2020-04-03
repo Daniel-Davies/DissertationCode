@@ -7,6 +7,7 @@ from utils import saveGraphToFile
 
 def eiggEnvironmentalOrgs():
     # key organisations with power over environment
+    ## 0 entries on the starting 2
     return ["Clean Planet Now", "Eigg Eco Centre", "Heritage Trust", "Eigg Electric", "Eigg Trading"]
 
 def dependDirectlyOnNaturalResources():
@@ -216,7 +217,10 @@ def buildEnvironmentCollaborationsGraph():
     environmentalOrgsOfInterst = set(eiggEnvironmentalOrgs())
 
     G = nx.Graph()
-    for person in list(nodes.keys()): G.add_node(person)
+    labs = []
+    for person in list(nodes.keys()): 
+        labs.append(person)
+        G.add_node(person)
 
     # clean for environmental nodes only
 
@@ -230,7 +234,7 @@ def buildEnvironmentCollaborationsGraph():
             if person1 != person2 and len(list(person1Orgs.intersection(person2Orgs))) > 0:
                 G.add_edge(person1,person2)
     
-    return G 
+    return G, labs
 
 def buildEnrichedFoodWeb(daterange=(2014,2021)):
     tempG,tempMapping = graphFoodWeb(dateRange=daterange)
@@ -251,6 +255,7 @@ def buildEnrichedFoodWeb(daterange=(2014,2021)):
             if concreteSpecies not in currNodeSet and concreteSpecies not in additionSet:
                 additionSet.add(concreteSpecies)
     
+    additionSet = list(additionSet)
     for item in additionSet:
         G.add_node(item)
     
@@ -259,7 +264,7 @@ def buildEnrichedFoodWeb(daterange=(2014,2021)):
         if from_ in finalSet and to_ in finalSet:
             G.add_edge(from_,to_)
 
-    return G
+    return G, additionSet
 
 # https://goneoutdoors.com/types-of-grass-for-cattle-grazing-5011427.html
 def concreteSpeciesInterceptor(df,family):
@@ -299,19 +304,16 @@ def buildMetaGraph(socialNodes, ecoNodes):
     
     return M
 
-def createEntireMetaNetExperiment():
-    Gs = buildEnvironmentCollaborationsGraph()
-    Ge = buildEnrichedFoodWeb(daterange=(2010,2020))
+def createEntireMetaNetExperiment(labels=False):
+    Gs, labsS = buildEnvironmentCollaborationsGraph()
+    Ge, labsE = buildEnrichedFoodWeb(daterange=(2010,2020))
 
     socialNodes = list(Gs.nodes())
     ecoNodes = list(Ge.nodes())
 
     M = buildMetaGraph(socialNodes,ecoNodes)
 
-    return Gs,Ge,M
-
-if __name__=="__main__":
-    createEntireMetaNetExperiment()
- 
-
-
+    if labels:
+        return [(Gs,labsS), (Ge, labsE), M]
+    else:
+        return Gs,Ge,M
