@@ -4,6 +4,7 @@ import pickle
 from collections import Counter
 import pandas as pd
 import numpy as np
+from ecoNameManipulations import *
 
 basedir = "C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/Utilities/"
 islandDatasets = "C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/IslandDatasets/"
@@ -73,7 +74,7 @@ def mapToValid(rawName,verifiedSpeciesDict):
     if rawName in verifiedSpeciesDict:
         return verifiedSpeciesDict[rawName]
     
-    return rawName
+    return rawName 
 
 def fetchCustomDataWithTaxonomy():
     with open(basedir+"crushedFoodWebDatasets/EiggVerifiedSpeciesList", "rb") as f:
@@ -115,6 +116,9 @@ def measureDiffBetweenSources(taxonomicLevel):
     df = fetchCustomDataWithTaxonomy()
     df.columns = df.columns.str.lower()
 
+    df = df.dropna(subset=[taxonomicLevel])
+    df[taxonomicLevel] = df[taxonomicLevel].map(lambda x: cleanEcologicalName(x))
+
     missingFromAPI = 0
     mismatchedWithFile = 0
     missingFromFile = 0
@@ -150,7 +154,7 @@ def measureDiffBetweenSources(taxonomicLevel):
                         missingFromFile += 1
                     else:
                         mismatchedWithFile += 1
-                        print(taxonomy[taxonomicLevel] + " ---- " + fileConsensus)
+                        # print(taxonomy[taxonomicLevel] + " ---- " + fileConsensus)
                         failures.add((taxonomy[taxonomicLevel], fileConsensus))
                     #print(taxonomy[taxonomicLevel] + " ---- " + consensusSelector(specific,taxonomicLevel))
         except Exception as e:
@@ -166,11 +170,21 @@ def measureDiffBetweenSources(taxonomicLevel):
     print("Missing from both: " + str(missingFromBoth))
     print("Fail Cases: " + str(len(failures)))
 
+    i = 0
+    print(failures)
+    print("Sample fail case data: ") #latex format
+    for item in failures:
+        if item [0] == "": continue
+        print(item[0].replace("'","") + " & " + item[1].replace("'",""))
+        print("\hline")
+        i += 1
+        if i == 5: break
+
 def enrichTaxonomicLevelData(taxonomicLevel):
     pass
 
 if __name__=="__main__":
-    measureDiffBetweenSources("genus")
+    measureDiffBetweenSources("kingdom")
 ###TAXONOMY
 
 # Domain => Genetic material, ~ 3 classes

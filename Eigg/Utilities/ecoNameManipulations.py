@@ -21,6 +21,7 @@ def cleanSpeciesName(name, verify=True):
 def cleanEcologicalName(name):
     name = re.sub(r'\{.*\}', '', name)
     name = re.sub(r'\(.*\)', '', name)
+    name = re.sub(r'\[.*\]', '', name)
     name = name.split(" ")
 
     if "cf" in name:
