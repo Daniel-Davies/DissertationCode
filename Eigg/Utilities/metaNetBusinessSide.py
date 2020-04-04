@@ -1,9 +1,11 @@
 
 import networkx as nx
+import multinetx as mx
 from foodWebGraphing import *
 from collections import defaultdict
 import numpy as np
 from utils import saveGraphToFile
+import matplotlib.pyplot as plt
 
 def eiggEnvironmentalOrgs():
     # key organisations with power over environment
@@ -317,3 +319,52 @@ def createEntireMetaNetExperiment(labels=False):
         return [(Gs,labsS), (Ge, labsE), M]
     else:
         return Gs,Ge,M
+
+if __name__=="__main__":
+    N = 30
+    g1 = mx.erdos_renyi_graph(N,0.07,seed=218)
+    g2 = mx.erdos_renyi_graph(N,0.0,seed=211)
+
+    adj_block = mx.lil_matrix(np.zeros((N*2,N*2)))
+
+    # adj_block = mx.lil_matrix(np.zeros((N*4,N*4)))
+
+
+    adj_block[0:N, N:2*N] = np.random.poisson(0.009,size=(N,N))  # L_12
+    adj_block += adj_block.T
+    adj_block[adj_block>1] = 1
+
+
+    mg = mx.MultilayerGraph(list_of_layers=[g1,g1], 
+						inter_adjacency_matrix=adj_block)
+
+    mg.set_edges_weights(inter_layer_edges_weight=100)
+
+    mg.set_intra_edges_weights(layer=0,weight=30)
+    mg.set_intra_edges_weights(layer=1,weight=30)
+
+    fig = plt.figure(figsize=(15,5))
+    ax1 = fig.add_subplot(121)
+
+    ax2 = fig.add_subplot(122)
+    ax2.axis('off')
+    ax2.set_title('general multiplex network')
+    pos = mx.get_position(mg,mx.fruchterman_reingold_layout(mg.get_layer(0)),
+					  layer_vertical_shift=.3,
+					  layer_horizontal_shift=0.9,
+					  proj_angle=2)
+    
+    def colorMap(x):
+        if x == 30:
+            return 'green'
+        
+        return 'red'
+
+
+    ecs = [mg[a][b]['weight'] for a,b in mg.edges()]
+    ecs = list(map(lambda x: colorMap(x),ecs))
+    mx.draw_networkx(mg,pos=pos,ax=ax2,node_size=40,with_labels=False,
+				 edge_color=ecs,
+				 edge_cmap=plt.cm.jet_r)
+    print([mg[a][b]['weight'] for a,b in mg.edges()])
+    plt.show()

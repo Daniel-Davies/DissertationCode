@@ -5,7 +5,7 @@
 ##OR ONLY COUNT FIRST INTERACTIONS?
 
 import pandas as pd
-from collections import defaultdict
+from collections import defaultdict,Counter
 from data import validatedEiggData, eiggRawData
 import os 
 import re
@@ -15,6 +15,7 @@ from io import StringIO
 import requests
 from trophicMechanisms import *
 
+measured = []
 basePath = "C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/Utilities/RelevantDatasets/production/"
 crushedDatasets = "C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/Utilities/crushedFoodWebDatasets/"
 
@@ -23,6 +24,7 @@ def retrieveCollatedFoodWeb():
     coreDataSets = [readMangalDataset(), readCanberraWeb(), readFreshwaterData(), read2018GlobalDatabaseData(), readSorensenData(), readJanesData(), readEcoWeb(), readLeatherBritain(), readLeatherFinland(), readPlantPollinatorsUK(), govPlantInteractions()]
     # pickle.dump(aggregateDateSets(coreDataSets), open("aggregatedTrophics","wb"))
     return aggregateDataSets(coreDataSets)
+    # return aggregateDataSetsAndMeasureReplicated(coreDataSets)
 
 def invokeFunctionWithParameters(f,params):
     return f(*params)
@@ -155,6 +157,21 @@ def readSorensenData(): #done manually since there were small number of entries
 
     return data
 
+def aggregateDataSetsAndMeasureReplicated(datasets):
+    totalConsumableAnimalsByPredator = defaultdict(set)
+
+    for crushedDataset in datasets:
+        for predator in crushedDataset:
+            addAllPreyToDictSetMeasured(predator,totalConsumableAnimalsByPredator[predator],crushedDataset[predator])    
+
+    return totalConsumableAnimalsByPredator
+
+def addAllPreyToDictSetMeasured(predator,mainDictionarySubset, listOfAdditions):
+    global measured 
+    for item in listOfAdditions:
+        measured.append((predator,item))
+        mainDictionarySubset.add(item)
+
 def aggregateDataSets(datasets):
     totalConsumableAnimalsByPredator = defaultdict(set)
 
@@ -169,4 +186,9 @@ def addAllPreyToDictSet(mainDictionarySubset, listOfAdditions):
         mainDictionarySubset.add(item)
 
 if __name__ == "__main__":
-    print(len(readMangalDataset()))
+    retrieveCollatedFoodWeb()
+
+    #### COUNT THE NUMBER OF ONE TIME MEASURED INTERACTIONS
+    ######################
+    # print(len(list(filter(lambda x: x[1] < 3,Counter(measured).items()))))
+    ############################

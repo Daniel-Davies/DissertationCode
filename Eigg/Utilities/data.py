@@ -335,6 +335,9 @@ def allBusinessNames():
 
     return list(set(relationships.keys()) - set(["Equilibrium Eigg Massage Therapy", "Eigg Adventures", "Eddie's Eigg Croft"]))
 
+
+# A LIST OF ALL POSSIBLE INTERACTIONS BY BUSINESSES
+# AKA MANUALLY INPUT, NOT INFERRED BY THE EMPLOYEES
 def customByBusiness():
     relationships = {}
     #heritage trust + subsidiaries => http://isleofeigg.org/ieht/
