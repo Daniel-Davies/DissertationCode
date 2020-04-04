@@ -156,7 +156,8 @@ def measureDiffBetweenSources(taxonomicLevel):
                         mismatchedWithFile += 1
                         # print(taxonomy[taxonomicLevel] + " ---- " + fileConsensus)
                         failures.add((taxonomy[taxonomicLevel], fileConsensus))
-                    #print(taxonomy[taxonomicLevel] + " ---- " + consensusSelector(specific,taxonomicLevel))
+                        # if taxonomy[taxonomicLevel] == "gyalectaceae":
+                        #     print(taxonomy[taxonomicLevel] + " ---- " + consensusSelector(specific,taxonomicLevel) + " ----- " + key)
         except Exception as e:
             missingFromAPI += 1
             errorCount += 1
@@ -171,7 +172,6 @@ def measureDiffBetweenSources(taxonomicLevel):
     print("Fail Cases: " + str(len(failures)))
 
     i = 0
-    print(failures)
     print("Sample fail case data: ") #latex format
     for item in failures:
         if item [0] == "": continue
@@ -180,11 +180,49 @@ def measureDiffBetweenSources(taxonomicLevel):
         i += 1
         if i == 5: break
 
-def enrichTaxonomicLevelData(taxonomicLevel):
-    pass
+def enrichTaxonomicLevelData(df, taxonomicLevel):
+    with open("taxonomicIndexEigg", "rb") as f:
+        ctx = pickle.load(f)
+    
+    df.columns = df.columns.str.lower()
+
+    df = df.dropna(subset=[taxonomicLevel])
+    df[taxonomicLevel] = df[taxonomicLevel].map(lambda x: cleanEcologicalName(x))
+
+    for key in ctx:
+        groups,values = ctx[key]
+
+        if groups is None or values is None:
+            specific = df[df["scientific name"]==key]
+            fileConsensus = consensusSelector(specific,taxonomicLevel)
+
+            ctx[key] = [taxonomicLevel,fileConsensus]
+            continue  
+
+        groups = groups.lower().split("|") 
+        values = values.lower().split("|")
+
+        taxonomy = dict(zip(groups,values))
+
+        if taxonomicLevel not in taxonomy:
+            specific = df[df["scientific name"]==key]
+            fileConsensus = consensusSelector(specific,taxonomicLevel)
+            taxonomy[taxonomicLevel] = fileConsensus
+        
+        crushed = taxonomy.items()
+        groups = "|".join(list(map(lambda x: x[0], crushed)))
+        values = "|".join(list(map(lambda x: x[1], crushed)))
+
+        ctx[key] = [groups,values]
+    
+    with open("taxonomicIndexEigg", "wb") as f:
+        pickle.dump(ctx,f)
 
 if __name__=="__main__":
     measureDiffBetweenSources("kingdom")
+    
+
+
 ###TAXONOMY
 
 # Domain => Genetic material, ~ 3 classes
