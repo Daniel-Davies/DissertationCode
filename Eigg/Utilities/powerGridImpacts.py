@@ -1,6 +1,18 @@
 from data import validatedEiggData
 from collections import defaultdict, Counter
 from foodWebGraphing import constrainByTaxonomy, graphFoodWeb,getTaxonomyForAnimal
+import pandas as pd  
+import matplotlib.pylab as pylab
+import matplotlib.pyplot as plt
+from collections import Counter
+import numpy as np
+import pandas as pd
+import networkx as nx
+from math import sin, cos, sqrt, atan2, radians
+from utils import *
+from data import *
+from resObsMeta import *
+import seaborn as sns
 
 lowerYearBound = 1998
 conversionYear = 2007
@@ -37,7 +49,7 @@ def getRawOccurencesPerAnimalByYear():
 
 def postGridData():
     data = validatedEiggData()
-    data = data[data['Start date year'] >= conversionYear+1] # it was finished in february so just assume start of 2008 start => https://www.taylorhopkinson.com/eigg-ten-years-energy-independence/
+    data = data[data['Start date year'] > conversionYear+1] # it was finished in february so just assume start of 2008 start => https://www.taylorhopkinson.com/eigg-ten-years-energy-independence/
     return data
 
 def preGridData():
@@ -69,7 +81,21 @@ def getFamiliesLikelyAffectedByGrid():
     
     # ref1 => provides names of the birds at risk that we use below (converted to family)
     # [ref1,ref1,ref1, then x2 wildlochaber.com/the-small-isles/wildlife/isle-of-eigg, bat on eigg, eagle (ref1 wind)]
-    return ["anatidae", "hirundinidae", "accipitridae","muscicapidae", "scolopacidae", "vespertilionidae", "accipitridae", "salmonidae", "osmeridae", "clupeidae", "gasterosteidae"]
+
+    df = pd.read_csv("C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/IslandDatasets/eigg.csv")
+    df = df.dropna(subset=['Start date year'])
+    df = df.dropna(subset=['Family'])
+
+    df = df[df["Start date year"]==2008]
+    # df = df[df["Start date year"]>1895]
+    df = df[df["Dataset ID"]=="dr528"]
+    only = set(df['Family'].values.tolist())
+    # rec = list(map(lambda x: (x, len(df[df['Dataset ID']==x])),list(only)))
+    # rec[0]
+
+    extrasOfResearch = set(["anatidae", "hirundinidae", "accipitridae","muscicapidae", "scolopacidae", "vespertilionidae", "accipitridae", "salmonidae", "osmeridae", "clupeidae", "gasterosteidae"])
+
+    return list(only.union(extrasOfResearch))
 
 def convertFamilyListToSpecies(familiesList):
     df = validatedEiggData()
@@ -101,7 +127,7 @@ def pairedOffDifferencesByYear(dataset):
     aggregated, labels = aggregatedDataByYear(dataset)
 
     back = 1998
-    forward = 2017
+    forward = 2018
 
     differences = {}
 
@@ -113,6 +139,9 @@ def pairedOffDifferencesByYear(dataset):
         back += 1
         forward -= 1
 
+        if back == 2008: back += 1
+        if forward == 2008: forward -= 1
+
 
     return differences, labels
 
@@ -120,7 +149,7 @@ def splitBetweenMiddle(dataset):
     aggregated, labels = aggregatedDataByYear(dataset)
 
     group1Crushable = list(map(lambda x: aggregated[x],range(1998,2008)))
-    group2Crushable = list(map(lambda x: aggregated[x],range(2008,2018)))
+    group2Crushable = list(map(lambda x: aggregated[x],range(2009,2019)))
 
     grp1crushed = [sum(list(x)) for x in zip(*group1Crushable)]
     grp2crushed = [sum(list(x)) for x in zip(*group2Crushable)]
@@ -130,7 +159,8 @@ def splitBetweenMiddle(dataset):
 def aggregatedDataByYear(dataset):
     aggregated = defaultdict(list)
 
-    yearRange = range(1998,2018)
+    yearRange = list(range(1998,2019)) 
+    yearRange.remove(2008)
 
     labels = dataset.keys()
     for animal in labels:
@@ -150,6 +180,17 @@ def aggregatedDataByYear(dataset):
 # coloured bar charts with the splitBetweenMiddle function
 
 if __name__=="__main__":
-    res1, res2, labs = splitBetweenMiddle(getRawOccurencesPerAnimalByYear())
-    print(len(labs))
-    
+    grp1, grp2, labels = splitBetweenMiddle(getInteractivityPerAnimal())
+    df = pd.DataFrame(columns=['Species name', 'Species count for range', 'Before installation?'])
+    for i in range(len(grp1)):
+        df.loc[i] = [labels[i],grp1[i],"False"]
+
+    for i in range(len(grp2)):
+        df.loc[i+len(grp1)] = [labels[i],grp2[i],"True"]
+
+    pylab.rcParams['figure.figsize'] = (60.0, 45.0)
+
+    g = sns.barplot(x="Species name", y="Species count for range", hue="Before installation?", data=df)
+    g.set_xticklabels(g.get_xticklabels(),rotation=90,fontsize=8)
+    g.set_yticklabels(g.get_yticklabels(),rotation=0,fontsize=8)
+    plt.show()
