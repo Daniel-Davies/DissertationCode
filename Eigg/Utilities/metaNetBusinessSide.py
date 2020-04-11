@@ -6,13 +6,14 @@ from collections import defaultdict
 import numpy as np
 from utils import saveGraphToFile
 import matplotlib.pyplot as plt
+from anonymisationTools import *
 
 def eiggEnvironmentalOrgs():
     # key organisations with power over environment
     ## 0 entries on the starting 2
     return ["Clean Planet Now", "Eigg Eco Centre", "Heritage Trust", "Eigg Electric", "Eigg Trading"]
 
-def dependDirectlyOnNaturalResources():
+def dependDirectlyOnNaturalResourcesRaw():
     relationships = {}
 
     # In other words
@@ -112,7 +113,11 @@ def dependDirectlyOnNaturalResources():
     
     return relationships
 
-def getSpecificDependanciesFromEnvExtended():
+def dependDirectlyOnNaturalResources():
+    rawData = dependDirectlyOnNaturalResourcesRaw()
+    return anonymiseDataDict(rawData)
+
+def getSpecificDependanciesFromEnvExtendedRaw():
     relationships = {} # will be FAMILY maps => aka needs to match first part of scientific name on Eigg data
     relationships['Alex Boden'] = ["poaceae"]     
     relationships['Sarah Boden'] = ["poaceae"]
@@ -130,7 +135,11 @@ def getSpecificDependanciesFromEnvExtended():
 
     return relationships
 
-def getSpecificDependanciesFromEnv():
+def getSpecificDependanciesFromEnvExtended():
+    rawData = getSpecificDependanciesFromEnvExtendedRaw()
+    return anonymiseDataDict(rawData)
+
+def getSpecificDependanciesFromEnvRaw():
         
     # relationships["Heritage Trust"] = []
     # relationships["Clean Planet Now"] = []
@@ -183,6 +192,10 @@ def getSpecificDependanciesFromEnv():
 
 # FOOD FOR SELKIE IS LOCALLY SOURCED https://www.selkie-explorers.com/selkie-island-explorer-holidays/
 
+def getSpecificDependanciesFromEnv():
+    rawData = getSpecificDependanciesFromEnvRaw()
+    return anonymiseDataDict(rawData)
+
 def getEnvironmentallyInvolvedPeople():
     relationships = inferredNamesGraph()
     environmentalOrgs = dependDirectlyOnNaturalResources()
@@ -195,7 +208,7 @@ def getEnvironmentallyInvolvedPeople():
 
     return dependanciesOnEnvironment
 
-def getEnumeratedJobsPerPerson():
+def getEnumeratedJobsPerPersonRaw():
     relationships = {}
     
     relationships['Alex Boden'] = ["Eigg Shed", "Sandavore Farm", "Eigg Huts", "Hebnet Cic"] 
@@ -213,6 +226,10 @@ def getEnumeratedJobsPerPerson():
     relationships['Sue Hollands'] = ['Eigg Organics', 'Eigg Electric']
 
     return relationships
+
+def getEnumeratedJobsPerPerson():
+    rawData = getEnumeratedJobsPerPersonRaw()
+    return anonymiseDataDict(rawData)
 
 def buildEnvironmentCollaborationsGraph():
     nodes = getEnumeratedJobsPerPerson()

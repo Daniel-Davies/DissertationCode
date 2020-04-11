@@ -1,4 +1,5 @@
 from data import *
+from anonymisationTools import *
 
 def exchangeNetwork():
     #crafts and primary fr, sue kirk exchnage with kildonnan, breqing guy to lagerona and cafe, katrin back for glebe barn
@@ -42,7 +43,7 @@ def involvedInPolitics():
     
     return relationships
 
-def coOwnerNetwork():
+def coOwnerNetworkRaw():
     relationships = {}
     
     relationships["Damian Helliwell"] = ["Heritage Trust"]
@@ -138,7 +139,11 @@ def coOwnerNetwork():
     
     return relationships
 
-def salesTagsCoOwners():
+def coOwnerNetwork():
+    rawData = coOwnerNetworkRaw()
+    return anonymiseDataDict(rawData)
+
+def salesTagsCoOwnersRaw():
     relationships = {}
     
     relationships["Damian Helliwell"] = 0
@@ -234,7 +239,9 @@ def salesTagsCoOwners():
     
     return relationships
 
-
+def salesTagsCoOwners():
+    rawData = salesTagsCoOwnersRaw()
+    return anonymiseDataDict(rawData)
 
 def tourismTags():
     pass 

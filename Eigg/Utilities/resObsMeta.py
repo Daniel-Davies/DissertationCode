@@ -1,6 +1,7 @@
 from data import *
 import networkx as nx
 from utils import seperationInMetres, toUsableLatLon
+from anonymisationTools import *
 
 def buildObsResMetaNetwork():
     observationsKeyedOnRecorder = getIntersectionBetweenNBNAndNames()
@@ -74,21 +75,21 @@ def getKnownPeople():
 def locationsPerPerson():
     residences = {}
 
-    residences['mairi mckinnon'] = [('56.9018832,-6.1449375', "Maranatha (7 Cleadale)")] # https://sjsa.wordpress.com/tag/eigg/s
-    residences['neil robertson'] = [('56.922044,-6.1446842', "Eigg Organics")]
-    residences['kenneth kean'] = [('56.8778059,-6.1337137','Pier Cottage')] # https://beta.companieshouse.gov.uk/company/SC554221/officers, http://isleofeigg.org/accommodation/the-smiddy/
-    residences['bob wallace'] = [('56.8804647,-6.1417635', "Earth Connections Eco Centre")] # PROBABLY NOT REAL ADDRESS => https://beta.companieshouse.gov.uk/officers/x-151T1pEie2etTsFQ-zjg9LejI/appointments
-    residences['george carr'] = [('56.9131675,-6.1619473', "Laig Farm")]
-    residences['john booth'] = [('56.878903, -6.146895', "Galmisdale House")] #https://beta.companieshouse.gov.uk/company/SC170339/officers => I presume it means Galmisdale House
-    residences['alex boden'] = [('56.8849159,-6.1415287', "Sandavore Farm")]
-    residences['eddie scott'] = [('56.9222615,-6.1420233', "Eddie's Eigg Croft")]
-    residences['pascal carr'] = [('56.918268, -6.154348', "Shore Cottage")]
-    residences['stuart millar'] = [('56.9269519,-6.1439637', "Howlin House")]
-    residences['colin carr'] = [('56.8889489,-6.1250917', "Kildonnan house")]
-    residences['marie carr'] = [('56.8889489,-6.1250917', "Kildonnan house")]
-    residences['simon helliwell'] = [('56.8902145,-6.1343823', "Glebe Barn")] #ok technically they USED to live here, but thats fine since thats when a lot of observations will overlap anyway
-    residences['karen helliwell'] = [('56.8902145,-6.1343823', "Glebe Barn")]
-    residences['katrin bach'] = [('56.9113759,-6.1654777', "Laig")] # https://en-gb.facebook.com/EiggyBread/
+    residences['Mairi McKinnon'] = [('56.9018832,-6.1449375', "Maranatha (7 Cleadale)")] # https://sjsa.wordpress.com/tag/eigg/s
+    residences['Neil Robertson'] = [('56.922044,-6.1446842', "Eigg Organics")]
+    residences['Kenneth Kean'] = [('56.8778059,-6.1337137','Pier Cottage')] # https://beta.companieshouse.gov.uk/company/SC554221/officers, http://isleofeigg.org/accommodation/the-smiddy/
+    residences['Bob Wallace'] = [('56.8804647,-6.1417635', "Earth Connections Eco Centre")] # PROBABLY NOT REAL ADDRESS => https://beta.companieshouse.gov.uk/officers/x-151T1pEie2etTsFQ-zjg9LejI/appointments
+    residences['George Carr'] = [('56.9131675,-6.1619473', "Laig Farm")]
+    residences['John Booth'] = [('56.878903, -6.146895', "Galmisdale House")] #https://beta.companieshouse.gov.uk/company/SC170339/officers => I presume it means Galmisdale House
+    residences['Alex Boden'] = [('56.8849159,-6.1415287', "Sandavore Farm")]
+    residences['Eddie Scott'] = [('56.9222615,-6.1420233', "Eddie's Eigg Croft")]
+    residences['Pascal Carr'] = [('56.918268, -6.154348', "Shore Cottage")]
+    residences['stuart Millar'] = [('56.9269519,-6.1439637', "Howlin House")]
+    residences['Colin Carr'] = [('56.8889489,-6.1250917', "Kildonnan house")]
+    residences['Marie Carr'] = [('56.8889489,-6.1250917', "Kildonnan house")]
+    residences['Simon Helliwell'] = [('56.8902145,-6.1343823', "Glebe Barn")] #ok technically they USED to live here, but thats fine since thats when a lot of observations will overlap anyway
+    residences['Karen Helliwell'] = [('56.8902145,-6.1343823', "Glebe Barn")]
+    residences['Katrin Bach'] = [('56.9113759,-6.1654777', "Laig")] # https://en-gb.facebook.com/EiggyBread/
 
     # residences['stuart fergusson'] #couldn't get address
     # residences['jenny robertson'] #couldn't get address

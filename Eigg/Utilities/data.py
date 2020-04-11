@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import pickle
+from anonymisationTools import anonymiseDataDict
 # CONTAINS DICTIONARIES OF DOUBLE CHECKED LAT/LON POINTS PER OBS
 
 basedir = "C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/Utilities/"
@@ -203,7 +204,7 @@ def residentialEntry():
     
     return residentials
 
-def uninferredNamesGraph():
+def uninferredNamesGraphRaw():
     relationships = {}
     
     relationships["Damian Helliwell"] = ["Heritage Trust", "Eigg Crafts"]
@@ -299,6 +300,10 @@ def uninferredNamesGraph():
     
     return relationships
 
+def uninferredNamesGraph():
+    rawData = uninferredNamesGraphRaw()
+    return anonymiseDataDict(rawData)
+
 def allBusinessNames():
     relationships = {}
 
@@ -387,8 +392,8 @@ def customByBusiness():
     
     return relationships
 
-def inferredNamesGraph():
-    relationships = uninferredNamesGraph()
+def inferredNamesGraphRaw():
+    relationships = uninferredNamesGraphRaw()
     
     #Own a sheep farm ("Laig Farm") 
     # => Supply Eigg Shop with fresh lamb [heraldscott article]
@@ -413,6 +418,10 @@ def inferredNamesGraph():
     relationships["Mairi McKinnon"].append("Eigg Shop")
 
     return relationships
+
+def inferredNamesGraph():
+    rawData = inferredNamesGraphRaw()
+    return anonymiseDataDict(rawData)
 
 def fetchRawCSVObservationData(filename):
     data = pd.read_csv(filename) 
@@ -493,3 +502,9 @@ def prettyPrintDict(dict_):
 
     for k in kz:
         print(str(dict_[k]) + " " + "---" + " " + str(k))
+
+if __name__=="__main__":
+    data = uninferredNamesGraph()
+    for name in data:
+        print(name)
+    
