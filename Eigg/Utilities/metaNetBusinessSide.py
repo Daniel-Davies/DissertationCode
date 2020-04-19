@@ -1,6 +1,6 @@
 
 import networkx as nx
-import multinetx as mx
+# import multinetx as mx
 from foodWebGraphing import *
 from collections import defaultdict
 import numpy as np

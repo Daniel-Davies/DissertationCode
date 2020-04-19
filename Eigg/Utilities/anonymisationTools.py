@@ -7,6 +7,14 @@ import sensitiveData
 basedir = "C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/Utilities/AnonymisedDatasets/"
 
 
+def fakeListOfNames(data):
+    fakeNameGen  = Factory.create()
+    fakeNames  = defaultdict(fakeNameGen.name)
+    for name in data:
+        newName = fakeNames[name]
+    
+    return dict(fakeNames)
+
 def anonymiseDataDict(rawData, inMemNameMapping):
     anonNames = inMemNameMapping
 

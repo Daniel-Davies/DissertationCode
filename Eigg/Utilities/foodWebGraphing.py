@@ -6,7 +6,7 @@ from copy import deepcopy
 
 basePath = "C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/EcoWebs/"
 
-def graphFoodWeb(dateRange=(1700,2020), includeIsolates=False,  predatorSelectors=[(None, None)], constraints=[(None,None)], specificity=None):
+def graphFoodWeb(dateRange=(1700,2020), includeIsolates=False,  predatorSelectors=[(None, None)], constraints=[(None,None)], specificity=None, directed=False):
     dataFrom, dataTo = dateRange
 
     verifiedEiggData = validatedEiggData() 
@@ -28,7 +28,7 @@ def graphFoodWeb(dateRange=(1700,2020), includeIsolates=False,  predatorSelector
 
     commonNameLabelMapping = dict(zip(allScientificNames,allCommonNames))
 
-    G, labels = createTrophicGraph(constrainedEiggData, foodWeb, specificity)
+    G, labels = createTrophicGraph(constrainedEiggData, foodWeb, specificity, directed)
 
     labelMapping = {}
     for item in labels:
@@ -88,8 +88,10 @@ def speciesMatchesConstraint(record,constraint,taxonomicTree):
     return constraintClass in indexedTreeCheck and \
            indexedTreeCheck[constraintClass] == constraintValue
 
-def createTrophicGraph(df,foodWeb, specificity):
+def createTrophicGraph(df,foodWeb, specificity, directed):
     G = nx.Graph()
+    if directed:
+        G = nx.DiGraph()
 
     allPossibleSpecies = list(set(df['Scientific name'].values.tolist()))
     
