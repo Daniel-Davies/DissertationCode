@@ -1,0 +1,36 @@
+*vertices 13
+1 "" box ic Blue bc Black
+2 "" box ic Blue bc Black
+3 "" box ic Blue bc Black
+4 "" box ic Blue bc Black
+5 "" box ic Blue bc Black
+6 "" box ic Blue bc Black
+7 "" box ic Blue bc Black
+8 "" box ic Blue bc Black
+9 "" box ic Blue bc Black
+10 "" box ic Blue bc Black
+11 "" box ic Blue bc Black
+12 "" box ic Blue bc Black
+13 "" box ic Blue bc Black
+*matrix
+0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 1 0 1 
+0 0 0 0 0 1 1 0 0 0 1 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 1 0 0 0 0 0 0 1 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 1 1 0 0 1 0 0 0 0 0 1 
+0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 1 0 0 0 0 0 0 0 1 0 0 
+
+Density	0.0897
+Degree Distribution(s)
+Mean degree	0.5385
+Stddev	1.4914
+Skewness	1.6268
+Clustering coefficent(s)
+Global	0.5000

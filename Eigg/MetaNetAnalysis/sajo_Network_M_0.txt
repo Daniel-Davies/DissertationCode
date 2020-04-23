@@ -1,0 +1,71 @@
+*vertices 60
+1 "" box ic Blue bc Black
+2 "" box ic Blue bc Black
+3 "" box ic Blue bc Black
+4 "" box ic Blue bc Black
+5 "" box ic Blue bc Black
+6 "" box ic Blue bc Black
+7 "" box ic Blue bc Black
+8 "" box ic Blue bc Black
+9 "" box ic Blue bc Black
+10 "" box ic Blue bc Black
+11 "" box ic Blue bc Black
+12 "" box ic Blue bc Black
+13 "" box ic Blue bc Black
+14 "" ellipse ic Red bc Black
+15 "" ellipse ic Red bc Black
+16 "" ellipse ic Red bc Black
+17 "" ellipse ic Red bc Black
+18 "" ellipse ic Red bc Black
+19 "" ellipse ic Red bc Black
+20 "" ellipse ic Red bc Black
+21 "" ellipse ic Red bc Black
+22 "" ellipse ic Red bc Black
+23 "" ellipse ic Red bc Black
+24 "" ellipse ic Red bc Black
+25 "" ellipse ic Red bc Black
+26 "" ellipse ic Red bc Black
+27 "" ellipse ic Red bc Black
+28 "" ellipse ic Red bc Black
+29 "" ellipse ic Red bc Black
+30 "" ellipse ic Red bc Black
+31 "" ellipse ic Red bc Black
+32 "" ellipse ic Red bc Black
+33 "" ellipse ic Red bc Black
+34 "" ellipse ic Red bc Black
+35 "" ellipse ic Red bc Black
+36 "" ellipse ic Red bc Black
+37 "" ellipse ic Red bc Black
+38 "" ellipse ic Red bc Black
+39 "" ellipse ic Red bc Black
+40 "" ellipse ic Red bc Black
+41 "" ellipse ic Red bc Black
+42 "" ellipse ic Red bc Black
+43 "" ellipse ic Red bc Black
+44 "" ellipse ic Red bc Black
+45 "" ellipse ic Red bc Black
+46 "" ellipse ic Red bc Black
+47 "" ellipse ic Red bc Black
+48 "" ellipse ic Red bc Black
+49 "" ellipse ic Red bc Black
+50 "" ellipse ic Red bc Black
+51 "" ellipse ic Red bc Black
+52 "" ellipse ic Red bc Black
+53 "" ellipse ic Red bc Black
+54 "" ellipse ic Red bc Black
+55 "" ellipse ic Red bc Black
+56 "" ellipse ic Red bc Black
+57 "" ellipse ic Red bc Black
+58 "" ellipse ic Red bc Black
+59 "" ellipse ic Red bc Black
+60 "" ellipse ic Red bc Black
+*edges
+3 11 1 c Blue
+3 13 1 c Blue
+4 6 1 c Blue
+4 7 1 c Blue
+4 11 1 c Blue
+7 11 1 c Blue
+11 13 1 c Blue
+17 18 1 c Red
+18 32 1 c Red

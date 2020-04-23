@@ -15,7 +15,7 @@ Net_A
 0
 0
 0
-
+C:\Users\davie\Desktop\Masters\Dissertation\Code\DissertationCode\Eigg\MetaNetAnalysis\collaborations.txt
 0
 
 0
@@ -26,33 +26,33 @@ Net_B
 0
 0
 0
-
+C:\Users\davie\Desktop\Masters\Dissertation\Code\DissertationCode\Eigg\MetaNetAnalysis\enrichedFoodWeb.txt
 0
 
 0
 
 Net_X
-1
 0
 0
 0
 0
-
+0
+C:\Users\davie\Desktop\Masters\Dissertation\Code\DissertationCode\Eigg\MetaNetAnalysis\middleNet.txt
 0
 
 0
 
 Net_AX
-1
+0
 Net_BX
 0
 Net_AXB
 0
 EdgeA
 1
-0
+1
 2
--3.5777
+0
 Star2A
 0
 0
@@ -120,9 +120,9 @@ AETA
 0
 EdgeB
 1
-0
+1
 2
--6.2734
+0
 Star2B
 0
 0
@@ -190,7 +190,7 @@ AETB
 0
 XEdge
 1
-0
+1
 2
 -1.1353
 XStar2A
@@ -469,14 +469,17 @@ Snowball_Options
 0
 
 Model_Options
+2
+Num_Subphases
+5
+Gaining_Factor
+0.01
+Multiplication_Factor
+10
+Phase3
+500
+Max_estimation_run
 1
-Pick_Sample
-1
-Sample_degree
+Convergence_GOF
 0
-Burnin
-100000
-Iteration
-1000000
-Sample
-1000
+500
