@@ -382,3 +382,40 @@ if __name__=="__main__":
     data = uninferredNamesGraph()
     print(data)
     
+def incorporationDates():
+    relationships = {}
+
+    relationships["Galmisdale Cafe"] = 2010 #https://smallseotools.com/domain-age-checker/ => use www.galmisdale-bay.com
+    relationships["Eddie's Eigg Croft"] = 2010 #https://www.bbc.co.uk/news/uk-scotland-highlands-islands-11668830, https://www.scotsman.com/news/eigg-and-spoon-man-fight-save-bluebells-1698075
+    relationships["Sandavore Farm"] = 2010 #https://www.linkedin.com/in/alex-boden-5a65b855/?originalSubdomain=uk
+    relationships["Eigg Yurts"] = 2012 #https://www.airbnb.co.uk/rooms/438562?source_impression_id=p3_1587838651_OBY%2BVPTwy5T87Xh2&guests=1&adults=1
+
+    relationships["Heritage Trust"] = 1996 #https://beta.companieshouse.gov.uk/company/SC170339
+    relationships["Eigg Crafts"] = 1998 #https://beta.companieshouse.gov.uk/company/SC188634
+    relationships["Clean Planet Now"] = 2016 #https://beta.companieshouse.gov.uk/company/SC544049
+    relationships["Eigg Electric"] = 2005 #https://beta.companieshouse.gov.uk/company/SC293992
+    relationships["Eigg Trading"] = 1997 #https://beta.companieshouse.gov.uk/company/SC177386
+    relationships["Eigg Construction"] = 1999 #https://beta.companieshouse.gov.uk/company/SC202238
+    relationships["Eigg Eco Centre"] = 2002 #http://www.earthconnections.co.uk/eco-courses/residential-eco-courses ## APPROXIMATION
+    relationships["Eigg Huts"] = 2017 #https://beta.companieshouse.gov.uk/company/SC554221
+    relationships["Hebnet Cic"] = 2011 #https://beta.companieshouse.gov.uk/company/SC399079
+    relationships["Eiggy Bread"] = 2012 #https://www.facebook.com/pg/EiggyBread/about/?ref=page_internal
+    relationships["Eigg Adventures"] = 2009 #https://twitter.com/eiggadventures
+    relationships["Eigg Camping Pods"] = 2016 #http://www.eiggadventures.co.uk/camping-pods/
+    relationships["Eigg History"] = 1999 #http://www.spanglefish.com/eigghistorysociety/
+    relationships["Kildonnan Bay Oysters"] = 2018 #https://twitter.com/eiggoysters?lang=en
+    relationships["Equilibrium Eigg Massage Therapy"] = 2007 #https://eiggmassagetherapy.wordpress.com/about/
+    relationships["A Nead Knitwear"] = 2009 #https://anneadhandknitwear.co.uk/about/
+    relationships["Laig Bay Brewing"] = 2014 #https://books.google.co.uk/books?id=Nk1yDwAAQBAJ&pg=PT2790&lpg=PT2790&dq=laig+bay+brewing+%222014%22&source=bl&ots=YA4nBAN5eQ&sig=ACfU3U0vkkz9-tI5CeSgKKkY8aVIhcqcQg&hl=en&sa=X&ved=2ahUKEwiRvIO3lITpAhX8QRUIHW-HAKMQ6AEwBHoECAoQAQ#v=onepage&q=laig%20bay%20brewing%20%222014%22&f=false
+    relationships["Sweeney's Bothy"] = 2011 #http://www.thebothyproject.org/about/
+    relationships["Eigg Shed"] = 2017 #https://www.visitscotland.com/info/accommodation/eigg-huts-amazing-eigg-shed-p1520831 => Part of Eigg Huts so by extension is 2017
+ 
+    relationships["Lagerona"] = ["Kildonnan House"]
+    relationships["Eigg Shop"] = ["Galmisdale Cafe", "Lagerona"] #send nonlocal supplies to the restaurants [INCLUDE EVERYONE?]
+    relationships["Glebe Barn"] = [] #no special interactions documented
+    relationships["Eigg Organics"] = ["Eigg Eco Centre", "Eigg Shop", "Lagerona"]
+    relationships["Kildonnan House"] = [] #nothing out of the ordinary documenteds
+    relationships["Craigard Teas"] = ["Eigg Shop"]
+    relationships["The Bothy Cuagach"] = []
+    
+    return relationships
