@@ -292,6 +292,7 @@ def customByBusiness():
     relationships["Eigg Yurts"] = []
     relationships["Eigg History"] = []
     relationships["Craigard Teas"] = ["Eigg Shop"]
+    relationships["Small Isles Medical Centre"] = []
     
     return relationships
 
@@ -378,18 +379,23 @@ def prettyPrintDict(dict_):
     for k in kz:
         print(str(dict_[k]) + " " + "---" + " " + str(k))
 
-if __name__=="__main__":
-    data = uninferredNamesGraph()
-    print(data)
+# if __name__=="__main__":
+#     data = uninferredNamesGraph()
+#     print(data)
     
 def incorporationDates():
     relationships = {}
 
+    # PRETTY SURE BUT NOT 100% SURE
     relationships["Galmisdale Cafe"] = 2010 #https://smallseotools.com/domain-age-checker/ => use www.galmisdale-bay.com
     relationships["Eddie's Eigg Croft"] = 2010 #https://www.bbc.co.uk/news/uk-scotland-highlands-islands-11668830, https://www.scotsman.com/news/eigg-and-spoon-man-fight-save-bluebells-1698075
     relationships["Sandavore Farm"] = 2010 #https://www.linkedin.com/in/alex-boden-5a65b855/?originalSubdomain=uk
     relationships["Eigg Yurts"] = 2012 #https://www.airbnb.co.uk/rooms/438562?source_impression_id=p3_1587838651_OBY%2BVPTwy5T87Xh2&guests=1&adults=1
+    relationships["Craigard Teas"] = 2013 #https://www.facebook.com/CraigardTeas/?ref=page_internal
+    relationships["Glebe Barn"] = 1999 # POST BUYOUT I THINK (??)http://www.spanglefish.com/eigghistorysociety/index.asp?pageid=666853
+    relationships["Kildonnan House"] = 1996 #WAS RUN PRE-BUYOUT #http://www.spanglefish.com/eigghistorysociety/index.asp?pageid=666853
 
+    # CONFIRMED
     relationships["Heritage Trust"] = 1996 #https://beta.companieshouse.gov.uk/company/SC170339
     relationships["Eigg Crafts"] = 1998 #https://beta.companieshouse.gov.uk/company/SC188634
     relationships["Clean Planet Now"] = 2016 #https://beta.companieshouse.gov.uk/company/SC544049
@@ -409,13 +415,126 @@ def incorporationDates():
     relationships["Laig Bay Brewing"] = 2014 #https://books.google.co.uk/books?id=Nk1yDwAAQBAJ&pg=PT2790&lpg=PT2790&dq=laig+bay+brewing+%222014%22&source=bl&ots=YA4nBAN5eQ&sig=ACfU3U0vkkz9-tI5CeSgKKkY8aVIhcqcQg&hl=en&sa=X&ved=2ahUKEwiRvIO3lITpAhX8QRUIHW-HAKMQ6AEwBHoECAoQAQ#v=onepage&q=laig%20bay%20brewing%20%222014%22&f=false
     relationships["Sweeney's Bothy"] = 2011 #http://www.thebothyproject.org/about/
     relationships["Eigg Shed"] = 2017 #https://www.visitscotland.com/info/accommodation/eigg-huts-amazing-eigg-shed-p1520831 => Part of Eigg Huts so by extension is 2017
- 
-    relationships["Lagerona"] = ["Kildonnan House"]
-    relationships["Eigg Shop"] = ["Galmisdale Cafe", "Lagerona"] #send nonlocal supplies to the restaurants [INCLUDE EVERYONE?]
-    relationships["Glebe Barn"] = [] #no special interactions documented
-    relationships["Eigg Organics"] = ["Eigg Eco Centre", "Eigg Shop", "Lagerona"]
-    relationships["Kildonnan House"] = [] #nothing out of the ordinary documenteds
-    relationships["Craigard Teas"] = ["Eigg Shop"]
-    relationships["The Bothy Cuagach"] = []
+    relationships["Eigg Shop"] = 1997 #https://isleofeiggshop.com/
+
+    # TOTALLY GUESSED
+    relationships["Lagerona"] = 2008 #suppose it opened as a guest house after the pier opened, due to attracted tourists
+    relationships["The Bothy Cuagach"] = 1997      #https://homeandspirit.wordpress.com/tag/bothy/ => It's 19th century but i presume only available to stay in post-buyout
+    relationships["Eigg Organics"] = 1996 # Neil worked as a handyman for schellenberg so let's say they opened before https://greenadventurestravel.com/Features/eigg.html
+    relationships["Small Isles Medical Centre"] = 2016
     
+    return relationships
+
+def grantsByYear():
+    # Does NOT include bank loans
+    # Also just an unknown amount from online or cheque donations
+
+    relationships = {}
+
+    #https://www.tnlcommunityfund.org.uk/funding/grants/recipients/GB-SC-SC025609
+    #https://www.tnlcommunityfund.org.uk/funding/grants/recipients/GB-SC-SC026876
+    #http://isleofeigg.org/ieht/community-buyout/
+    #http://gotlottery.uk/scotland/highland/isle-of-eigg
+
+    ## GRANT JUNKIES XD XD XD 
+    #https://www.theguardian.com/uk-news/2017/sep/26/this-island-is-not-for-sale-how-eigg-fought-back
+
+    #2019
+    #https://www.calmac.co.uk/2000-boost-for-Eigg-Gaelic-youth-project
+    #https://www.highland.gov.uk/news/article/11862/council_welcomes_14m_funding_from_the_rural_tourism_infrastructure_fund_rtif
+
+    #20000 in 2010 for power grid
+    #https://www.bbc.co.uk/news/10449367
+
+    #Most recent (2020+)
+    #https://www.highland.gov.uk/news/article/12355/highland_welcomes_rcgf_funds_for_local_communities
+
+    #https://www.tnlcommunityfund.org.uk/funding/grants?q=Eigg&westminsterConstituency=S14000039
+
+    #the 23760 grant
+    #https://www.creativescotland.com/what-we-do/latest-news/archive/2019/05/create-inclusion
+
+    #EU funding
+    #https://ec.europa.eu/regional_policy/en/projects/united-kingdom/eigg-goes-green
+
+    # Big Green Challenge
+    #http://news.bbc.co.uk/1/hi/scotland/highlands_and_islands/8457768.stm
+
+    #https://www.pressreader.com/uk/scottish-daily-mail/20170516/281848643529519
+
+    #Nursery Fund
+    #http://www.gebfoundation.com/local-organisations-are-invited-to-consider-applying-for-funding-from-the-gordon-and-ena-baxter-foundation
+
+    #Pier fund
+    #https://www.heraldscotland.com/opinion/13089560.the-highland-line-why-five-island-communities-are-hacked-off-over-ferries/
+    #https://www.theguardian.com/uk/2003/aug/04/kirstyscott
+
+    relationships[2021] = [1100000]
+    relationships[2020] = [100000]
+    relationships[2019] = [2000,273632,23760] 
+    relationships[2018] = [10000,3000]
+    relationships[2017] = [4792,10000,34311,130000]
+    relationships[2016] = [5771]
+    relationships[2015] = [11803]
+    relationships[2014] = [9100,6500,6784,17000,3550]
+    relationships[2013] = [7000,8000,1768]
+    relationships[2012] = []
+    relationships[2011] = [5185,2000]
+    relationships[2010] = [4150,20000,300000]
+    relationships[2009] = [4300]
+    relationships[2008] = [8434,3900,9290]
+    relationships[2007] = [3500, 8671, 4995]
+    relationships[2006] = []
+    relationships[2005] = [250000,3850,2865,667770]
+    relationships[2004] = [5000]
+    relationships[2003] = [101378, 2000,7800000]
+    relationships[2002] = [2820, 4867]
+    relationships[2001] = []
+    relationships[2000] = [4342]
+    relationships[1999] = [91985]
+    relationships[1998] = [3453]
+    relationships[1997] = [1505,1500000,17000]
+    relationships[1996] = []
+
+    return relationships
+
+if __name__=="__main__":
+    x = grantsByYear()
+
+    total = 0
+    for item in x:
+        total += sum(x[item])
+    
+    print(total)
+
+def populationStats():
+    relationships = {}
+
+    relationships[2021] = 105
+    relationships[2020] = 105
+    relationships[2019] = 105 
+    relationships[2018] = 105
+    relationships[2017] = 105
+    relationships[2016] = 83
+    relationships[2015] = 83
+    relationships[2014] = 83
+    relationships[2013] = 83
+    relationships[2012] = 83
+    relationships[2011] = 83
+    relationships[2010] = 87
+    relationships[2009] = 87
+    relationships[2008] = 87
+    relationships[2007] = 87
+    relationships[2006] = 87
+    relationships[2005] = 87
+    relationships[2004] = 67
+    relationships[2003] = 67
+    relationships[2002] = 67
+    relationships[2001] = 67
+    relationships[2000] = 64
+    relationships[1999] = 64
+    relationships[1998] = 64
+    relationships[1997] = 64
+    relationships[1996] = 64
+
     return relationships
