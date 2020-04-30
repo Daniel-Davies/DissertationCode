@@ -48,9 +48,3 @@ def coOwnerNetwork():
 
 def salesTagsCoOwners():
     return accessAnonymisedDataDict('salesTagsCoOwnersRaw')
-
-def tourismTags():
-    pass 
-
-def locationTags():
-    pass
