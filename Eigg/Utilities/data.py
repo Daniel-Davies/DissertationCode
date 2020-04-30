@@ -3,35 +3,34 @@ import numpy as np
 import pickle
 from anonymisationTools import anonymiseDataDict, accessAnonymisedDataDict
 # CONTAINS DICTIONARIES OF DOUBLE CHECKED LAT/LON POINTS PER OBS
-import sensitiveData
 
 basedir = "C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/Utilities/"
 islandDatasets = "C:/Users/davie/Desktop/Masters/Dissertation/Code/DissertationCode/Eigg/IslandDatasets/"
 
 def listedEiggHotels():
-    return sensitiveData.listedEiggHotels()
+    return accessAnonymisedDataDict('listedEiggHotels')
 
 def inferredBusinessLocations():
-    return sensitiveData.inferredBusinessLocations()
+    return accessAnonymisedDataDict('inferredBusinessLocations')
 
 def electricGrid():
-    return sensitiveData.electricGrid()
+    return accessAnonymisedDataDict('electricGrid')
 
-## Residences locations
 def pointsOfInterest():
-    return sensitiveData.pointsOfInterest()
+    return accessAnonymisedDataDict('pointsOfInterest')
 
 def residentialEntry():
-    return sensitiveData.residentialEntry()
+    return accessAnonymisedDataDict('residentialEntry')
 
 def uninferredNamesGraph():
     return accessAnonymisedDataDict('uninferredNamesGraphRaw')
 
 def allBusinessNames():
-    return sensitiveData.allBusinessNames()
+    baseBusinessNameDict = accessAnonymisedDataDict('electricGrid')
+    return list(set(baseBusinessNameDict.keys()))
 
 def customByBusiness():
-    return sensitiveData.customByBusiness()
+    return accessAnonymisedDataDict('customByBusiness')
 
 def inferredNamesGraph():
     return accessAnonymisedDataDict('inferredNamesGraphRaw')
@@ -113,10 +112,10 @@ def prettyPrintDict(dict_):
         print(str(dict_[k]) + " " + "---" + " " + str(k))
 
 def incorporationDates():
-    return sensitiveData.incorporationDates()
+    return accessAnonymisedDataDict('incorporationDates')
 
 def grantsByYear():
-    return sensitiveData.grantsByYear()
+    return accessAnonymisedDataDict('grantsByYear')
 
 def populationStats():
-    return sensitiveData.populationStats()
+    return accessAnonymisedDataDict('populationStats')

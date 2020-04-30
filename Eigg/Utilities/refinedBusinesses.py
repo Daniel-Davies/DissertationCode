@@ -48,3 +48,6 @@ def coOwnerNetwork():
 
 def salesTagsCoOwners():
     return accessAnonymisedDataDict('salesTagsCoOwnersRaw')
+
+def exportTags():
+    return accessAnonymisedDataDict('exportTags')

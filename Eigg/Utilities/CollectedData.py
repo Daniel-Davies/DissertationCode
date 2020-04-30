@@ -1133,7 +1133,7 @@ def allBusinessNames():
     relationships["Eigg History"] = []
     relationships["Craigard Teas"] = []
 
-    return list(set(relationships.keys()))
+    return relationships
 
 # A LIST OF ALL POSSIBLE INTERACTIONS BY BUSINESSES
 # AKA MANUALLY INPUT, NOT INFERRED BY THE EMPLOYEES
